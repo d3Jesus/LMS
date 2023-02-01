@@ -1,12 +1,4 @@
-﻿
-
-
-
-using FluentAssertions;
-using LMS.Application.ViewModels.Author;
-using LMS.UnitTest.Fixtures;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.UnitTest.Systems.Controllers
 {
