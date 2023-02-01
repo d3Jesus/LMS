@@ -1,1 +1,9 @@
 global using NUnit.Framework;
+global using LMS.API.Controllers;
+global using LMS.Application.Interfaces;
+global using LMS.Application.Services;
+global using FluentAssertions;
+global using Moq;
+global using LMS.UnitTest.Fixtures;
+global using LMS.Application.ViewModels;
+global using LMS.Application.ViewModels.Author;
