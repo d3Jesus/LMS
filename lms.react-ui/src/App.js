@@ -1,10 +1,15 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavigationBar from './shared/navbar';
+import NavigationBar from './shared/NavbarComponent';
+import BreadCrumb from './shared/BreadcrumbComponent';
+import { Container } from 'react-bootstrap';
 
 function App() {
   return (
-    <NavigationBar/>
+    <Container>
+      <NavigationBar />
+      <BreadCrumb />
+    </Container>
   );
 }
 

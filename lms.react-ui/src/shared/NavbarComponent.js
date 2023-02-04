@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 const NavigationBar = () => {
     return (
-        <Navbar expand="lg" sticky="top">
+        <Navbar expand="lg" sticky="top" className='mb-3'>
             <Container>
                 <Navbar.Brand href='#'>LMS</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
