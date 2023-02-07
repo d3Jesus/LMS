@@ -1,24 +1,21 @@
 import { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import CardButton from '../../shared/card/ButtonComponent'
 
 import ModalRoot from '../../shared/modal/components/ModalRoot';
-import ModalService from '../../shared/modal/services/ModalService';
-import TestModal from './AddModal';
 
 import getAuthors from '../author/Services';
+import { Container } from "react-bootstrap";
 
 const Authors = () => {
 
     const [listOfAuthors, setListOfAuthors] = useState([]);
     useEffect(() => {
-        getAuthors().then((result) => setListOfAuthors(result.responseData))
+        setTimeout(() => {
+            getAuthors().then((result) => setListOfAuthors(result.responseData))
+        }, 2000)
     }, []);
-
-    const addModal = () => {
-        ModalService.open(TestModal);
-    };
 
     return (
         <>
@@ -26,19 +23,17 @@ const Authors = () => {
             <Card>
                 <Card.Header>
                     List of Authors
-                    <Button variant="outline-success" onClick={addModal}
-                        className="btn-sm btn-radius btn-card-add">
-                        <i className='bi bi-plus-lg'></i>Add
-                    </Button>
+                    <CardButton />
                 </Card.Header>
                 <Card.Body>
-                    <div className="table-responsive">
-                        <Table striped id='example'>
+                    <Container>
+                        <Table responsive id='example'>
                             <thead>
                                 <tr>
-                                    <th>FirstName</th>
-                                    <th>LastName</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
                                     <th>Nationality</th>
+                                    <th>Options</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,7 +62,7 @@ const Authors = () => {
                                 }
                             </tbody>
                         </Table>
-                    </div>
+                    </Container>
                 </Card.Body>
             </Card>
 
