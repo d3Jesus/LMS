@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Card from "react-bootstrap/Card";
-import CardButton from '../../shared/card/ButtonComponent'
+import CardHeader from "../../shared/card/HeaderComponent";
 
 import ModalRoot from '../../shared/modal/components/ModalRoot';
 
@@ -21,10 +21,7 @@ const Authors = () => {
         <>
             <ModalRoot />
             <Card>
-                <Card.Header>
-                    List of Authors
-                    <CardButton />
-                </Card.Header>
+                <CardHeader title="List of Authors" />
                 <Card.Body>
                     <Container>
                         <Table responsive id='example'>
@@ -65,7 +62,6 @@ const Authors = () => {
                     </Container>
                 </Card.Body>
             </Card>
-
         </>
     );
 }
