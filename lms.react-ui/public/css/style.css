@@ -95,3 +95,7 @@ a {
 .modal .right .fading .in .modal-dialog {
     right: 0;
 }
+
+.dropdown-menu-dark {
+    z-index: inherit;
+}
