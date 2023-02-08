@@ -7,6 +7,21 @@ import ModalRoot from '../../shared/modal/components/ModalRoot';
 
 import getAuthors from '../author/Services';
 import { Container } from "react-bootstrap";
+import TableHeader from "../../shared/table-components/TableHeaderComponent";
+import TableOption from "../../shared/table-components/TableOptionsComponent";
+import BreadCrumb from "../../shared/layout/BreadcrumbComponent";
+
+const tableHeaders = ["First Name", "Last Name", "Nationality", "Options"];
+const breadcrumbs = [
+    {
+        text: "Home",
+        isActive: true
+    },
+    {
+        text: "Authors",
+        isActive: true
+    }
+];
 
 const Authors = () => {
 
@@ -20,19 +35,13 @@ const Authors = () => {
     return (
         <>
             <ModalRoot />
+            <BreadCrumb breadcrumbs={breadcrumbs} />
             <Card>
                 <CardHeader title="List of Authors" />
                 <Card.Body>
                     <Container>
                         <Table responsive id='example'>
-                            <thead>
-                                <tr>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Nationality</th>
-                                    <th>Options</th>
-                                </tr>
-                            </thead>
+                            <TableHeader headers={tableHeaders} />
                             <tbody>
                                 {
                                     listOfAuthors?.map(author =>
@@ -40,20 +49,7 @@ const Authors = () => {
                                             <td>{author.firstName}</td>
                                             <td>{author.lastName}</td>
                                             <td>{author.nationality}</td>
-                                            <td>
-                                                <div className="dropdown">
-                                                    <button className="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i className='bi bi-three-dots-vertical'></i>
-                                                    </button>
-                                                    <ul className="dropdown-menu dropdown-menu-dark bg-dark">
-                                                        <li><a className="dropdown-item" href="/">Edit</a></li>
-                                                        <li>
-                                                            <hr className="dropdown-divider border-top border-secondary" />
-                                                        </li>
-                                                        <li><a className="dropdown-item text-danger" href="/">Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
+                                            <TableOption editUrl={"/authors/" + author.id} deleteUrl={"/authors/" + + author.id} />
                                         </tr>
                                     )
                                 }
