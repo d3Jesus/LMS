@@ -4,8 +4,6 @@ import Card from "react-bootstrap/Card";
 import CardHeader from "../../shared/card/HeaderComponent";
 
 import ModalRoot from '../../shared/modal/components/ModalRoot';
-
-import getAuthors from '../author/Services';
 import { Container } from "react-bootstrap";
 import TableHeader from "../../shared/table-components/TableHeaderComponent";
 import TableOption from "../../shared/table-components/TableOptionsComponent";
@@ -27,9 +25,19 @@ const Authors = () => {
 
     const [listOfAuthors, setListOfAuthors] = useState([]);
     useEffect(() => {
-        setTimeout(() => {
-            getAuthors().then((result) => setListOfAuthors(result.responseData))
-        }, 2000)
+        const getAuthors = async () => {
+            await fetch('https://localhost:7078/api/authors')
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json()
+                    } else {
+                        throw new Error("Sorry something went wrong")
+                    }
+                })
+                .then((result) => setListOfAuthors(result.responseData))
+        }
+
+        getAuthors()
     }, []);
 
     return (
@@ -49,7 +57,7 @@ const Authors = () => {
                                             <td>{author.firstName}</td>
                                             <td>{author.lastName}</td>
                                             <td>{author.nationality}</td>
-                                            <TableOption editUrl={"/authors/" + author.id} deleteUrl={"/authors/" + + author.id} />
+                                            <TableOption id={author.id} />
                                         </tr>
                                     )
                                 }

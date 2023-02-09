@@ -1,4 +1,14 @@
-const TableOption = ({ editUrl, deleteUrl }) => {
+
+import { Button } from 'react-bootstrap';
+import Edit from '../../pages/author/Edit';
+import ModalService from '../modal/services/ModalService';
+
+const TableOption = ({ id }) => {
+
+    const editModal = () => {
+        ModalService.open(Edit, id);
+    };
+
     return (
         <td>
             <div className="dropdown">
@@ -6,22 +16,24 @@ const TableOption = ({ editUrl, deleteUrl }) => {
                     <i className='bi bi-three-dots-vertical'></i>
                 </button>
                 <ul className="dropdown-menu dropdown-menu-dark bg-dark">
-                    <li><a className="dropdown-item" href={editUrl}  >Edit</a></li>
+                    <li>
+                        <Button variant="outline-success" onClick={editModal}
+                            className="dropdown-item">
+                            <i className='bi bi-pencil'></i>Edit
+                        </Button>
+                    </li>
                     <li>
                         <hr className="dropdown-divider border-top border-secondary" />
                     </li>
-                    <li><a className="dropdown-item text-danger" href={deleteUrl}>Delete</a></li>
+                    <li>
+                        <Button variant="outline-danger"
+                            className="dropdown-item">
+                            <i className='bi bi-trash-o'></i>Delete
+                        </Button>
+                    </li>
                 </ul>
             </div>
         </td>
-        // <thead>
-        //     <tr>
-        //         {
-        //             headers.map(header =>
-        //                 <th key={header}>{header}</th>)
-        //         }
-        //     </tr>
-        // </thead>
     );
 }
 
