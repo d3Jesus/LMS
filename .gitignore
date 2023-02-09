@@ -29,3 +29,15 @@
 *.testlog
 /.vs/LMS/v17/TestStore/0/000.testlog
 /.vs/LMS/v17/.suo
+/.vs/LMS/FileContentIndex/f7d75f86-0e58-47fa-b7f4-3ccfcdd9e662.vsidx
+/LMS/bin/Debug/net6.0/LMS.Application.dll
+/LMS/bin/Debug/net6.0/LMS.Application.pdb
+/LMS.Application/bin/Debug/net6.0/LMS.Application.dll
+/LMS.Application/bin/Debug/net6.0/LMS.Application.pdb
+/LMS.Application/obj/Debug/net6.0/LMS.Application.pdb
+/LMS.Application/obj/Debug/net6.0/LMS.Application.dll
+/LMS.Infrastructure/bin/Debug/net6.0/LMS.Application.dll
+/LMS.Infrastructure/bin/Debug/net6.0/LMS.Application.pdb
+/LMS.Infrastructure/obj/Debug/net6.0/LMS.Infrastructure.csproj.AssemblyReference.cache
+/LMS.UnitTest/bin/Debug/net6.0/LMS.Application.dll
+/LMS.UnitTest/bin/Debug/net6.0/LMS.Application.pdb

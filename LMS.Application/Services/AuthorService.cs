@@ -74,10 +74,14 @@ namespace LMS.Application.Services
         {
             var result = await _repository.GetByIdAsync(id);
 
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>()
+            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            if (result is null)
             {
-                ResponseData = _mapper.Map<GetAuthorViewModel>(result)
-            };
+                serviceResponse.Message = $"Author with ID {id} not found!";
+                serviceResponse.Succeeded = false;
+            }
+
+            serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
 
             return serviceResponse;
         }
@@ -86,10 +90,14 @@ namespace LMS.Application.Services
         {
             var result = await _repository.GetByNameAsync(name);
 
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>()
+            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            if (result is null)
             {
-                ResponseData = _mapper.Map<GetAuthorViewModel>(result)
-            };
+                serviceResponse.Message = $"Author with name {name} not found!";
+                serviceResponse.Succeeded = false;
+            }
+
+            serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
 
             return serviceResponse;
         }
@@ -98,10 +106,14 @@ namespace LMS.Application.Services
         {
             var result = await _repository.GetByNationalityAsync(nationality);
 
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>()
+            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            if (result is null)
             {
-                ResponseData = _mapper.Map<GetAuthorViewModel>(result)
-            };
+                serviceResponse.Message = $"Author with nationality {nationality} not found!";
+                serviceResponse.Succeeded = false;
+            }
+
+            serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
 
             return serviceResponse;
         }
