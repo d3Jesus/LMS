@@ -25,6 +25,11 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(Author author)
         {
+		var existingAuthor = _context.Authors.Where(auth => auth.Id == author.Id).FirstOrDefault();
+		if (existingAuthor is null)
+			throw new Exception($"Author with id {author.Id} not found.");
+
+		_context.Entry(existingAuthor).State = EntityState.Detached;
             _context.Authors.Remove(author);
             await _context.SaveChangesAsync();
 
