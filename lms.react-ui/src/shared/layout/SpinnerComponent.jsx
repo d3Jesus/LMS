@@ -1,7 +1,11 @@
 import Spinner from 'react-bootstrap/Spinner';
 
 const SpinnerComponent = () => {
-  return <Spinner animation="border" />;
+  return (
+    <div className='text-center'>
+      <Spinner animation="border" />
+    </div>
+  );
 }
 
 export default SpinnerComponent;
