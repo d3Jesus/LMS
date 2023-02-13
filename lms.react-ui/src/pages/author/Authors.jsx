@@ -47,7 +47,6 @@ const Authors = () => {
         <>
             <ModalRoot />
             <BreadCrumb breadcrumbs={breadcrumbs} />
-            {/* <button onClick={window['alertHello']}>alert</button> */}
             <Card>
                 <CardHeader title="List of Authors" />
                 <Card.Body>

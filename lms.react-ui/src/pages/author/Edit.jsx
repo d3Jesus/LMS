@@ -6,8 +6,9 @@ import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from "react";
 
+import EditService from '../author/Services/EditService'
+
 export default function EditAuthor(props) {
-    // const id = props.id;
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [nationality, setNationality] = useState("");
@@ -41,30 +42,14 @@ export default function EditAuthor(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        try {
-            let res = await fetch("https://localhost:7078/api/authors", {
-                method: "PUT",
-                body: JSON.stringify({
-                    id: props.id,
-                    firstName: firstName,
-                    lastName: lastName,
-                    nationality: nationality
-                }),
-                mode: 'cors', cache: 'no-cache',
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
-            let resJson = await res.json();
-
-            if (resJson.succeeded) {
-                alert(resJson.message);
-            } else {
-                alert(resJson.message);
-            }
-        } catch (err) {
-            console.log(err);
+        const existingAuthor = {
+            id: props.id,
+            firstName: firstName,
+            lastName: lastName,
+            nationality: nationality
         }
+
+        EditService(existingAuthor)
     }
 
     return (

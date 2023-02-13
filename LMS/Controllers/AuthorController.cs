@@ -54,10 +54,18 @@ namespace LMS.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(GetAuthorViewModel model)
-        {   
-            var response = await _service.DeleteAsync(model);
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+		if (id == 0)
+			return BadRequest(id);
+
+		var author = await _service.GetByIdAsync(id);
+
+		if (author.ResponseData is null)
+			return NotFound();
+
+            var response = await _service.DeleteAsync(author.ResponseData);
 
             return Ok(response);
         }

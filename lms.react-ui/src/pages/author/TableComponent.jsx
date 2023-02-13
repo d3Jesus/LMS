@@ -1,6 +1,6 @@
 
 import TableHeader from "../../shared/table-components/TableHeaderComponent";
-import TableOption from "../../shared/table-components/TableOptionsComponent";
+import TableOption from "./TableOptions";
 
 import { Table } from "react-bootstrap";
 import { useEffect } from "react";
@@ -8,15 +8,14 @@ import { useEffect } from "react";
 const TableComponent = ({ headers, authors }) => {
 
     useEffect(() => {
-        const sayHello = () => {
-            return window.DataTablesAdd('#example')
+        const setDataTable = () => {
+            return window.DataTablesAdd('#author')
         }
-        sayHello()
+        setDataTable()
     }, []);
     return (
         <>
-            {/* <button onClick={window['alertHello']}>alert</button> */}
-            <Table responsive id='example'>
+            <Table responsive id='author'>
                 <TableHeader headers={headers} />
                 <tbody>
                     {

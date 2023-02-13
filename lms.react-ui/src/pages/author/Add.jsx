@@ -1,7 +1,9 @@
 import Modal from "../../shared/modal/components/Modal";
 import ModalBody from "../../shared/modal/components/ModalBody";
 import ModalHeader from "../../shared/modal/components/ModalHeader";
-// import ModalFooter from "../../shared/modal/components/ModalFooter";
+
+import AddService from './Services/AddService'
+
 import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button';
 import { useState } from "react";
@@ -14,29 +16,13 @@ export default function AddAuthor(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        try {
-            let res = await fetch("https://localhost:7078/api/authors", {
-                method: "POST",
-                body: JSON.stringify({
-                    firstName: firstName,
-                    lastName: lastName,
-                    nationality: nationality,
-                }),
-                mode: 'cors', cache: 'no-cache',
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
-            let resJson = await res.json();
-
-            if (resJson.succeeded) {
-                alert(resJson);
-            } else {
-                alert(resJson.message);
-            }
-        } catch (err) {
-            console.log(err);
+        const newAuthor = {
+            firstName: firstName,
+            lastName: lastName,
+            nationality: nationality
         }
+
+        AddService(newAuthor);
     }
 
     return (
