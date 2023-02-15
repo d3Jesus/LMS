@@ -4,7 +4,6 @@ using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Author;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
-using System.Xml.Linq;
 
 namespace LMS.Application.Services
 {
