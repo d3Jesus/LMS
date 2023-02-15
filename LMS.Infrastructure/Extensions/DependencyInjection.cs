@@ -19,6 +19,33 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IAuthorService, AuthorService>();
 
+            services.AddScoped<IAuthorshipRepository, AuthorshipRepository>();
+            services.AddScoped<IAuthorshipService, AuthorshipService>();
+
+            services.AddScoped<IBookcaseRepository, BookcaseRepository>();
+            services.AddScoped<IBookcaseService, BookcaseService>();
+
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBookService, BookService>();
+
+            services.AddScoped<ILibrarianRepository, LibrarianRepository>();
+            services.AddScoped<ILibrarianService, LibrarianService>();
+
+            services.AddScoped<IPublishingCompanyRepository, PublishingCompanyRepository>();
+            services.AddScoped<IPublishingCompanyService, PublishingCompanyService>();
+
+            services.AddScoped<IReaderRepository, ReaderRepository>();
+            services.AddScoped<IReaderService, ReaderService>();
+
+            services.AddScoped<IRequestRepository, RequestRepository>();
+            services.AddScoped<IRequestService, RequestService>();
+
+            services.AddScoped<IReservationRepository, ReservationRepository>();
+            services.AddScoped<IReservationService, ReservationService>();
+
+            services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<IStockService, StockService>();
+
             return services;
         }
     }
