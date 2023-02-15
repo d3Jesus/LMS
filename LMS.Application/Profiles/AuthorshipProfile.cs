@@ -4,9 +4,9 @@ using LMS.CoreBusiness.Entities;
 
 namespace LMS.Application.Profiles
 {
-    public class AutorshipProfile : Profile
+    public class AuthorshipProfile : Profile
     {
-        public AutorshipProfile()
+        public AuthorshipProfile()
         {
             CreateMap<Authorship, GetAuthorshipViewModel>();
             CreateMap<GetAuthorshipViewModel, Authorship>();
