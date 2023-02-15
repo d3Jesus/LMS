@@ -42,3 +42,10 @@
 /LMS.UnitTest/bin/Debug/net6.0/LMS.Application.dll
 /LMS.UnitTest/bin/Debug/net6.0/LMS.Application.pdb
 /LMS/bin/Debug/net6.0/LMS.CoreBusiness.dll
+/LMS.Application/obj/Debug/net6.0/LMS.Application.csproj.CoreCompileInputs.cache
+/LMS.Application/obj/Debug/net6.0/refint/LMS.Application.dll
+/LMS.Application/obj/Debug/net6.0/ref/LMS.Application.dll
+/LMS/obj/Debug/net6.0/refint/LMS.API.dll
+/LMS/obj/Debug/net6.0/LMS.API.csproj.CoreCompileInputs.cache
+/LMS/obj/Debug/net6.0/ref/LMS.API.dll
+/LMS/bin/Debug/net6.0/LMS.CoreBusiness.pdb
