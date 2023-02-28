@@ -49,3 +49,10 @@
 /LMS/obj/Debug/net6.0/LMS.API.csproj.CoreCompileInputs.cache
 /LMS/obj/Debug/net6.0/ref/LMS.API.dll
 /LMS/bin/Debug/net6.0/LMS.CoreBusiness.pdb
+/LMS.CoreBusiness/obj/Debug/net6.0/LMS.CoreBusiness.GeneratedMSBuildEditorConfig.editorconfig
+/LMS.Application/obj/Debug/net6.0/LMS.Application.assets.cache
+/LMS.Application/obj/Debug/net6.0/LMS.Application.GeneratedMSBuildEditorConfig.editorconfig
+/LMS.UnitTest/bin/Debug/net6.0/CoverletSourceRootsMapping
+/LMS.CoreBusiness/obj/Debug/net6.0/LMS.CoreBusiness.assets.cache
+/LMS.UnitTest/obj/Debug/net6.0/LMS.UnitTest.assets.cache
+/LMS.UnitTest/obj/Debug/net6.0/LMS.UnitTest.GeneratedMSBuildEditorConfig.editorconfig
