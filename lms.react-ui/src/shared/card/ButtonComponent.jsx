@@ -1,7 +1,7 @@
 
 import Button from "react-bootstrap/Button";
 import ModalService from '../modal/services/ModalService';
-import Add from '../../pages/author/Add';
+import Add from '../../components/author/Add';
 
 
 const CardButton = () => {

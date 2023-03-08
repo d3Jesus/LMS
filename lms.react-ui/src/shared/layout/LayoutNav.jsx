@@ -20,7 +20,7 @@ const LayoutComponent = () => {
                         <Nav className="navbar-nav mx-auto mb-2 mb-lg-0">
                             <Nav.Link href="/" className='nav-item'>Home</Nav.Link>
                             <Nav.Link href="/authors" className='nav-item'>Authors</Nav.Link>
-                            <Nav.Link to="#" className='nav-item'>Shelfs</Nav.Link>
+                            <Nav.Link href="/bookcases" className='nav-item'>Bookcases</Nav.Link>
                             <Nav.Link to="#" className='nav-item'>Books</Nav.Link>
                             <Nav.Link to="#" className='nav-item'>Librarian</Nav.Link>
                             <Nav.Link to="#" className='nav-item'>Booking</Nav.Link>

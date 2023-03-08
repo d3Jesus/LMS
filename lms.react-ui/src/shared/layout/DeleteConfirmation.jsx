@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2'
-import Delete from '../../pages/author/Services/DeleteService';
+import Delete from '../../components/author/Services/DeleteService';
 
 function DeleteConfirmation(id, actionOn) {
     Swal.fire({
