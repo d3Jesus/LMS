@@ -4,6 +4,7 @@ using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Bookcase;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
+using System.Reflection;
 
 namespace LMS.Application.Services
 {
@@ -38,14 +39,23 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetBookcaseViewModel bookcase)
+        public async Task<ServiceResponse<bool>> DeleteAsync(int id)
         {
             var serviceResponse = new ServiceResponse<bool>();
 
             try
             {
-                var mapper = _mapper.Map<Bookcase>(bookcase);
-                await _repository.DeleteAsync(mapper);
+                var response = await GetByIdAsync(id);
+
+                var bookcase = _mapper.Map<Bookcase>(response.ResponseData);
+                if (bookcase is null)
+                {
+                    serviceResponse.Succeeded = false;
+                    serviceResponse.Message = $"Bookcase with id {id} not found.";
+                    return serviceResponse;
+                }
+
+                await _repository.DeleteAsync(bookcase);
 
                 serviceResponse.Message = "Bookcase deleted successfuly!";
             }

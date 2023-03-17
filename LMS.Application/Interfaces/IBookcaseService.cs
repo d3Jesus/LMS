@@ -9,6 +9,6 @@ namespace LMS.Application.Interfaces
         Task<ServiceResponse<GetBookcaseViewModel>> GetByIdAsync(int id);
         Task<ServiceResponse<GetBookcaseViewModel>> AddAsync(AddBookcaseViewModel model);
         Task<ServiceResponse<GetBookcaseViewModel>> UpdateAsync(GetBookcaseViewModel model);
-        Task<ServiceResponse<bool>> DeleteAsync(GetBookcaseViewModel model);
+        Task<ServiceResponse<bool>> DeleteAsync(int id);
     }
 }

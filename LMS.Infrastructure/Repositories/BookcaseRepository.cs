@@ -22,10 +22,9 @@ namespace LMS.Infrastructure.Repositories
             return bookcase;
         }
 
-        public async Task<bool> DeleteAsync(Bookcase bookcase)
+        public async Task<bool> DeleteAsync(Bookcase model)
         {
-            _context.Entry(bookcase).State = EntityState.Detached;
-            _context.Bookcases.Remove(bookcase);
+            _context.Bookcases.Remove(model);
             await _context.SaveChangesAsync();
 
             return true;
@@ -38,12 +37,11 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<Bookcase> GetByIdAsync(int id)
         {
-            return await _context.Bookcases.FindAsync(id);
+            return await _context.Bookcases.Where(bc => bc.Id == id).AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync();
         }
 
         public async Task<Bookcase> UpdateAsync(Bookcase bookcase)
         {
-            _context.Entry(bookcase).State = EntityState.Detached;
             _context.Bookcases.Update(bookcase);
             await _context.SaveChangesAsync();
 

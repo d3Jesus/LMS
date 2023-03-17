@@ -46,15 +46,10 @@ namespace LMS.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == 0)
+            if (id <= 0)
                 return BadRequest(id);
 
-            var author = await _service.GetByIdAsync(id);
-
-            if (author.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(author.ResponseData);
+            var response = await _service.DeleteAsync(id);
 
             return Ok(response);
         }
