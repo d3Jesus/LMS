@@ -4,8 +4,7 @@ import Home from "./Home";
 import Authors from "../../components/author/Authors";
 import Edit from "../../components/author/Edit";
 import Bookcases from "../../components/bookcase/Bookcases";
-// import EditBookcases from "../../components/shelf/EditShelfs";
-// import DeleteAuthor from "../../pages/author/Delete";
+import EditBookcase from "../../components/bookcase/EditBookcase";
 
 const Routing = () => {
     return (
@@ -18,7 +17,7 @@ const Routing = () => {
                 </Route>
                 <Route path='/bookcases'>
                     <Route index element={<Bookcases />} />
-                    {/* <Route path=":id" element={<EditBookcase />} /> */}
+                    <Route path=":id" element={<EditBookcase />} />
                 </Route>
             </Routes>
         </Router>

@@ -1,18 +1,18 @@
 
 import { Button } from 'react-bootstrap';
-// import Edit from './Edit';
-// import ModalService from '../../shared/modal/services/ModalService';
-// import DeleteConfirmation from '../../shared/layout/DeleteConfirmation';
+import ModalService from '../../shared/modal/services/ModalService';
+import DeleteConfirmation from '../../shared/layout/DeleteConfirmation';
+import EditBookcase from './EditBookcase';
 
 const TableOption = ({ id }) => {
 
-    // const editModal = () => {
-    //     ModalService.open(Edit, id);
-    // };
-    // const deleteModal = () => {
-    //     // ModalService.open(Delete, id);
-    //     DeleteConfirmation(id, 'AUTHOR')
-    // };
+    const editModal = () => {
+        ModalService.open(EditBookcase, id);
+    };
+    const deleteModal = () => {
+        // ModalService.open(Delete, id);
+        DeleteConfirmation(id, 'AUTHOR')
+    };
 
     return (
         <td>
@@ -23,6 +23,7 @@ const TableOption = ({ id }) => {
                 <ul className="dropdown-menu dropdown-menu-dark bg-dark">
                     <li>
                         <Button variant="outline-success"
+                            onClick={editModal}
                             className="dropdown-item">
                             <i className='bi bi-pencil'></i>Edit
                         </Button>
@@ -32,6 +33,7 @@ const TableOption = ({ id }) => {
                     </li>
                     <li>
                         <Button variant="outline-danger" 
+                            onClick={deleteModal}
                             className="dropdown-item">
                             <i className='bi bi-trash-o'></i>Delete
                         </Button>
