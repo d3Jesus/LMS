@@ -1,7 +1,6 @@
 
 import { Button } from 'react-bootstrap';
 import Edit from './Edit';
-// import Delete from './Delete';
 import ModalService from '../../shared/modal/services/ModalService';
 import DeleteConfirmation from '../../shared/layout/DeleteConfirmation';
 
@@ -11,7 +10,6 @@ const TableOption = ({ id }) => {
         ModalService.open(Edit, id);
     };
     const deleteModal = () => {
-        // ModalService.open(Delete, id);
         DeleteConfirmation(id, 'AUTHOR')
     };
 

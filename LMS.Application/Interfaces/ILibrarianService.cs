@@ -10,6 +10,6 @@ namespace LMS.Application.Interfaces
         Task<ServiceResponse<GetLibrarianViewModel>> GetByNameAsync(string name);
         Task<ServiceResponse<GetLibrarianViewModel>> AddAsync(AddLibrarianViewModel author);
         Task<ServiceResponse<GetLibrarianViewModel>> UpdateAsync(GetLibrarianViewModel author);
-        Task<ServiceResponse<bool>> DeleteAsync(GetLibrarianViewModel author);
+        Task<ServiceResponse<bool>> DeleteAsync(int id);
     }
 }

@@ -38,7 +38,7 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<Librarian> GetByIdAsync(int id)
         {
-            return await _context.Librarians.FindAsync(id);
+            return await _context.Librarians.Where(lb => lb.Id == id).AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync();
         }
 
         public async Task<Librarian> GetByNameAsync(string name)

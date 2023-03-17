@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
-import CardHeader from "../../shared/card/HeaderComponent";
 
 import ModalRoot from '../../shared/modal/components/ModalRoot';
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import BreadCrumb from "../../shared/layout/BreadcrumbComponent";
 import TableComponent from "./TableComponent";
 import SpinnerComponent from "../../shared/layout/SpinnerComponent";
+import AddAuthor from "./Add";
+import ModalService from "../../shared/modal/services/ModalService";
 
 const tableHeaders = ["First Name", "Last Name", "Nationality", "Options"];
 const breadcrumbs = [
@@ -21,6 +22,10 @@ const breadcrumbs = [
 ];
 
 const Authors = () => {
+
+    const addModal = () => {
+        ModalService.open(AddAuthor);
+    };
 
     const [listOfAuthors, setListOfAuthors] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -48,7 +53,13 @@ const Authors = () => {
             <ModalRoot />
             <BreadCrumb breadcrumbs={breadcrumbs} />
             <Card>
-                <CardHeader title="List of Authors" />
+                <Card.Header>
+                    List of Authors
+                    <Button variant="outline-primary" onClick={addModal}
+                        className="btn-sm btn-radius btn-card-add">
+                        <i className='bi bi-plus-lg'></i>Add
+                    </Button>
+                </Card.Header>
                 <Card.Body>
                     <Container>
                         {dataLoaded ?

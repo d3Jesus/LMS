@@ -48,12 +48,7 @@ namespace LMS.API.Controllers
             if (id == 0)
                 return BadRequest(id);
 
-            var librarian = await _service.GetByIdAsync(id);
-
-            if (librarian.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(librarian.ResponseData);
+            var response = await _service.DeleteAsync(id);
 
             return Ok(response);
         }

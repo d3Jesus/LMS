@@ -27,7 +27,7 @@ namespace LMS.Application.Services
                 var response = await _repository.AddAsync(mapper);
 
                 serviceResponse.ResponseData = _mapper.Map<GetLibrarianViewModel>(response);
-                serviceResponse.Message = $"Librarian with name {string.Concat(librarian.FirstName, librarian.LastName)} added successfully!";
+                serviceResponse.Message = $"Librarian with name {string.Concat(librarian.FirstName, " ", librarian.LastName)} added successfully!";
             }
             catch (Exception ex)
             {
@@ -38,14 +38,16 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetLibrarianViewModel librarian)
+        public async Task<ServiceResponse<bool>> DeleteAsync(int id)
         {
             var serviceResponse = new ServiceResponse<bool>();
 
             try
             {
-                var mapper = _mapper.Map<Librarian>(librarian);
-                await _repository.DeleteAsync(mapper);
+                var response = await GetByIdAsync(id);
+
+                var librarian = _mapper.Map<Librarian>(response.ResponseData);
+                await _repository.DeleteAsync(librarian);
 
                 serviceResponse.Message = "Librarian deleted successfuly!";
             }
