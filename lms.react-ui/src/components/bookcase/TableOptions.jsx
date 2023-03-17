@@ -10,8 +10,7 @@ const TableOption = ({ id }) => {
         ModalService.open(EditBookcase, id);
     };
     const deleteModal = () => {
-        // ModalService.open(Delete, id);
-        DeleteConfirmation(id, 'AUTHOR')
+        DeleteConfirmation(id, 'BOOKCASE')
     };
 
     return (
