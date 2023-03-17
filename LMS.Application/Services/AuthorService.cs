@@ -27,7 +27,7 @@ namespace LMS.Application.Services
                 var response = await _repository.AddAsync(mapper);
                 
                 serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(response);
-                serviceResponse.Message = $"Author with name {string.Concat(author.FirstName, author.LastName)} added successfully!";
+                serviceResponse.Message = $"Author with name {string.Concat(author.FirstName, " ", author.LastName)} added successfully!";
             }
             catch(Exception ex) 
             {
