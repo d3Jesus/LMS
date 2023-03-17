@@ -21,10 +21,10 @@ const LayoutComponent = () => {
                             <Nav.Link href="/" className='nav-item'>Home</Nav.Link>
                             <Nav.Link href="/authors" className='nav-item'>Authors</Nav.Link>
                             <Nav.Link href="/bookcases" className='nav-item'>Bookcases</Nav.Link>
-                            <Nav.Link to="#" className='nav-item'>Books</Nav.Link>
-                            <Nav.Link to="#" className='nav-item'>Librarian</Nav.Link>
-                            <Nav.Link to="#" className='nav-item'>Booking</Nav.Link>
-                            <Nav.Link to="#" className='nav-item'>Requisition</Nav.Link>
+                            <Nav.Link href="/books" className='nav-item'>Books</Nav.Link>
+                            <Nav.Link href="/librarians" className='nav-item'>Librarian</Nav.Link>
+                            <Nav.Link href="/booking" className='nav-item'>Booking</Nav.Link>
+                            <Nav.Link href="/requisitions" className='nav-item'>Requisition</Nav.Link>
                         </Nav>
                         <Button variant="outline-danger" className='btn-sm'>Log out</Button>
                     </Navbar.Collapse>

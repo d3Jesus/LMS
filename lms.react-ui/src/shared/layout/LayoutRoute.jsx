@@ -5,6 +5,8 @@ import Authors from "../../components/author/Authors";
 import Edit from "../../components/author/Edit";
 import Bookcases from "../../components/bookcase/Bookcases";
 import EditBookcase from "../../components/bookcase/EditBookcase";
+import EditLibrarian from "../../components/librarian/EditLibrarian";
+import Librarians from "../../components/librarian/Librarians";
 
 const Routing = () => {
     return (
@@ -18,6 +20,10 @@ const Routing = () => {
                 <Route path='/bookcases'>
                     <Route index element={<Bookcases />} />
                     <Route path=":id" element={<EditBookcase />} />
+                </Route>
+                <Route path='/librarians'>
+                    <Route index element={<Librarians />} />
+                    <Route path=":id" element={<EditLibrarian />} />
                 </Route>
             </Routes>
         </Router>

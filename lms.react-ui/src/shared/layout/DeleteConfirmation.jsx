@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 import Delete from '../../components/author/Services/DeleteService';
 import DeleteBookcase from '../../components/bookcase/services/DeleteBookcaseService'
+import DeleteLibrarian from '../../components/librarian/services/DeleteLibrarianService'
 
 function DeleteConfirmation(id, actionOn) {
     Swal.fire({
@@ -22,6 +23,9 @@ function DeleteConfirmation(id, actionOn) {
                     break;
                 case 'BOOKCASE':
                     DeleteBookcase(id);
+                    break;
+                case 'LIBRARIAN':
+                    DeleteLibrarian(id);
                     break;
                 default:
                     break;
