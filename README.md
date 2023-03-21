@@ -6,7 +6,6 @@ LMS or Library Management System was designed to study the React.js technology.
 
 - [Overview](#overview)
   - [Built With](#built-with)
-- [Setting Up Database](#setting-up-database)
 - [Setting Up Connection String](#setting-up-connection)
 - [Contributing](#contributing)
 - [How to use](#how-to-use)
