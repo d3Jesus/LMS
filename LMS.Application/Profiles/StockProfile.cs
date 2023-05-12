@@ -8,11 +8,11 @@ namespace LMS.Application.Profiles
     {
         public StockProfile()
         {
-            CreateMap<Stock, GetStockViewModel>();
-            CreateMap<GetStockViewModel, Stock>();
+            CreateMap<Stock, GetStockDto>();
+            CreateMap<GetStockDto, Stock>();
 
-            CreateMap<Stock, AddStockViewModel>();
-            CreateMap<AddStockViewModel, Stock>();
+            CreateMap<Stock, AddStockDto>();
+            CreateMap<AddStockDto, Stock>();
         }
     }
 }

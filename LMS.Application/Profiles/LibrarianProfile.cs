@@ -8,11 +8,11 @@ namespace LMS.Application.Profiles
     {
         public LibrarianProfile()
         {
-            CreateMap<Librarian, GetLibrarianViewModel>();
-            CreateMap<GetLibrarianViewModel, Librarian>();
+            CreateMap<Librarian, GetLibrarianDto>();
+            CreateMap<GetLibrarianDto, Librarian>();
 
-            CreateMap<Librarian, AddLibrarianViewModel>();
-            CreateMap<AddLibrarianViewModel, Librarian>();
+            CreateMap<Librarian, AddLibrarianDto>();
+            CreateMap<AddLibrarianDto, Librarian>();
         }
     }
 }

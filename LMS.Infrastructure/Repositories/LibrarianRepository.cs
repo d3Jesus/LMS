@@ -14,7 +14,7 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Librarian> AddAsync(Librarian librarian)
+        public async Task<Librarian> CreateAsync(Librarian librarian)
         {
             _context.Librarians.Add(librarian);
             await _context.SaveChangesAsync();
@@ -22,9 +22,9 @@ namespace LMS.Infrastructure.Repositories
             return librarian;
         }
 
-        public async Task<bool> DeleteAsync(Librarian librarian)
+        public async Task<bool> DeleteAsync(int id)
         {
-            _context.Entry(librarian).State = EntityState.Detached;
+            var librarian = _context.Librarians.Find(id);
             _context.Librarians.Remove(librarian);
             await _context.SaveChangesAsync();
 
@@ -36,17 +36,22 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Librarians.ToListAsync();
         }
 
-        public async Task<Librarian> GetByIdAsync(int id)
+        public async Task<IEnumerable<Librarian>> GetAsync(bool wasDeleted)
         {
-            return await _context.Librarians.Where(lb => lb.Id == id).AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync();
+            return await _context.Librarians.Where(lb => lb.WasDeleted == wasDeleted).ToListAsync();
         }
 
-        public async Task<Librarian> GetByNameAsync(string name)
+        public async Task<Librarian> GetByAsync(int id)
+        {
+            return await _context.Librarians.Where(lb => lb.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Librarian>> GetByAsync(string name)
         {
             return await _context.Librarians
                 .Where(l => l.FirstName.Contains(name) ||
                         l.LastName.Contains(name))
-                .FirstOrDefaultAsync();
+                .ToListAsync();
         }
 
         public async Task<Librarian> UpdateAsync(Librarian librarian)

@@ -2,7 +2,6 @@
 using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace LMS.Infrastructure.Repositories
 {
@@ -15,7 +14,7 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Author> AddAsync(Author author)
+        public async Task<Author> CreateAsync(Author author)
         {
             _context.Authors.Add(author);
             await _context.SaveChangesAsync();
@@ -23,14 +22,11 @@ namespace LMS.Infrastructure.Repositories
             return author;
         }
 
-        public async Task<bool> DeleteAsync(Author author)
+        public async Task<bool> DeleteAsync(int id)
         {
-		var existingAuthor = _context.Authors.Where(auth => auth.Id == author.Id).FirstOrDefault();
-		if (existingAuthor is null)
-			throw new Exception($"Author with id {author.Id} not found.");
+            var existingAuthor = _context.Authors.Where(auth => auth.Id == id).FirstOrDefault();
 
-		_context.Entry(existingAuthor).State = EntityState.Detached;
-            _context.Authors.Remove(author);
+            _context.Authors.Remove(existingAuthor);
             await _context.SaveChangesAsync();
 
             return true;
@@ -41,27 +37,23 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Authors.ToListAsync();
         }
 
-        public async Task<Author> GetByIdAsync(int id)
+        public async Task<IEnumerable<Author>> GetAsync(bool wasDeleted)
         {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
-            return id is < 1 ? throw new ArgumentNullException("Author Id can't be 0") : await _context.Authors.FindAsync(id);
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+            return await _context.Authors.Where(auth => auth.WasDeleted).ToListAsync();
         }
 
-        public async Task<Author> GetByNameAsync(string name)
+        public async Task<Author> GetByAsync(int id)
         {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
-            if (name is null) throw new ArgumentNullException("Author name can't be null");
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+            return await _context.Authors.FindAsync(id);
+        }
 
-            return await _context.Authors.Where(c => c.FirstName == name || c.LastName == name).FirstOrDefaultAsync();
+        public async Task<IEnumerable<Author>> GetByAsync(string name)
+        {
+            return await _context.Authors.Where(c => c.FirstName == name || c.LastName == name).ToListAsync();
         }
 
         public async Task<Author> GetByNationalityAsync(string nationality)
         {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
-            if (nationality is null) throw new ArgumentNullException("Author nationality can't be null");
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
             return await _context.Authors.Where(c => c.Nationality == nationality).FirstOrDefaultAsync();
         }
 

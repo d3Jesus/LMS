@@ -11,8 +11,9 @@ namespace LMS.Infrastructure.Configuration
             builder.ToTable(nameof(Reservation));
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.BookId).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.ReaderId).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.MemberId).IsRequired().HasMaxLength(50);
             builder.Property(p => p.ReservationStatus).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.ReservationDate).IsRequired().HasMaxLength(50);
         }
     }
 }

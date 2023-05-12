@@ -9,7 +9,7 @@ namespace LMS.Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<Authorship> builder)
         {
             builder.ToTable(nameof(Authorship));
-            builder.Property(p => p.Id).IsRequired();
+            builder.HasKey(p => new { p.AuthorId, p.BookId});
             builder.Property(p => p.AuthorId).IsRequired().HasMaxLength(50);
             builder.Property(p => p.BookId).IsRequired().HasMaxLength(50);
         }

@@ -8,11 +8,11 @@ namespace LMS.Application.Profiles
     {
         public AuthorshipProfile()
         {
-            CreateMap<Authorship, GetAuthorshipViewModel>();
-            CreateMap<GetAuthorshipViewModel, Authorship>();
+            CreateMap<Authorship, GetAuthorshipDto>();
+            CreateMap<GetAuthorshipDto, Authorship>();
 
-            CreateMap<Authorship, AddAuthorshipViewModel>();
-            CreateMap<AddAuthorshipViewModel, Authorship>();
+            CreateMap<Authorship, AddAuthorshipDto>();
+            CreateMap<AddAuthorshipDto, Authorship>();
         }
     }
 }

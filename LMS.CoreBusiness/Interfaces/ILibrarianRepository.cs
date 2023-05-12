@@ -2,9 +2,7 @@
 
 namespace LMS.CoreBusiness.Interfaces
 {
-    public interface ILibrarianRepository : IBaseRepository<Librarian>
+    public interface ILibrarianRepository : IPerson<Librarian>
     {
-        Task<IEnumerable<Librarian>> GetAsync();
-        Task<Librarian> GetByNameAsync(string name);
     }
 }

@@ -8,11 +8,11 @@ namespace LMS.Application.Profiles
     {
         public ReservationProfile()
         {
-            CreateMap<Reservation, GetReservationViewModel>();
-            CreateMap<GetReservationViewModel, Reservation>();
+            CreateMap<Reservation, GetReservationDto>();
+            CreateMap<GetReservationDto, Reservation>();
 
-            CreateMap<Reservation, AddReservationViewModel>();
-            CreateMap<AddReservationViewModel, Reservation>();
+            CreateMap<Reservation, AddReservationDto>();
+            CreateMap<AddReservationDto, Reservation>();
         }
     }
 }

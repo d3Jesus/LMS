@@ -9,8 +9,8 @@ namespace LMS.API.Controllers
     [ApiController]
     public class ReaderController : ControllerBase
     {
-        private readonly IReaderService _service;
-        public ReaderController(IReaderService service)
+        private readonly IMemberService _service;
+        public ReaderController(IMemberService service)
         {
             _service = service;
         }
@@ -18,25 +18,25 @@ namespace LMS.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAsync());
+            return Ok(await _service.GetAsync(false));
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _service.GetByIdAsync(id));
+            return Ok(await _service.GetByAsync(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddReaderViewModel model)
+        public async Task<IActionResult> Add(AddMemberDto model)
         {
-            var response = await _service.AddAsync(model);
+            var response = await _service.CreateAsync(model);
 
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetReaderViewModel model)
+        public async Task<IActionResult> Update(GetMemberDto model)
         {
             var response = await _service.UpdateAsync(model);
 
@@ -49,12 +49,7 @@ namespace LMS.API.Controllers
             if (id == 0)
                 return BadRequest(id);
 
-            var reader = await _service.GetByIdAsync(id);
-
-            if (reader.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(reader.ResponseData);
+            var response = await _service.DeleteAsync(id);
 
             return Ok(response);
         }

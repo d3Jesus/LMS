@@ -18,15 +18,15 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetAuthorshipViewModel>> AddAsync(AddAuthorshipViewModel authorship)
+        public async Task<ServiceResponse<GetAuthorshipDto>> AddAsync(AddAuthorshipDto authorship)
         {
-            var serviceResponse = new ServiceResponse<GetAuthorshipViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorshipDto>();
             try
             {
                 var mapper = _mapper.Map<Authorship>(authorship);
-                var response = await _repository.AddAsync(mapper);
+                var response = await _repository.CreateAsync(mapper);
 
-                serviceResponse.ResponseData = _mapper.Map<GetAuthorshipViewModel>(response);
+                serviceResponse.ResponseData = _mapper.Map<GetAuthorshipDto>(response);
                 serviceResponse.Message = $"Authorship added successfully!";
             }
             catch (Exception ex)
@@ -38,36 +38,16 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetAuthorshipViewModel authorship)
+        public async Task<ServiceResponse<GetAuthorshipDto>> UpdateAsync(GetAuthorshipDto authorship)
         {
-            var serviceResponse = new ServiceResponse<bool>();
-
-            try
-            {
-                var mapper = _mapper.Map<Authorship>(authorship);
-                await _repository.DeleteAsync(mapper);
-
-                serviceResponse.Message = "Authorship deleted successfuly!";
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Succeeded = false;
-                serviceResponse.Message = ex.Message;
-            }
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetAuthorshipViewModel>> UpdateAsync(GetAuthorshipViewModel authorship)
-        {
-            var serviceResponse = new ServiceResponse<GetAuthorshipViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorshipDto>();
 
             try
             {
                 var mappedAuthorship = _mapper.Map<Authorship>(authorship);
                 var result = await _repository.UpdateAsync(mappedAuthorship);
 
-                serviceResponse.ResponseData = _mapper.Map<GetAuthorshipViewModel>(result);
+                serviceResponse.ResponseData = _mapper.Map<GetAuthorshipDto>(result);
                 serviceResponse.Message = "Authorship updated!";
             }
             catch (Exception ex)

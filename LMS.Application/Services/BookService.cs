@@ -18,15 +18,15 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetBookViewModel>> AddAsync(AddBookViewModel book)
+        public async Task<ServiceResponse<GetBookDto>> CreateAsync(AddBookDto model)
         {
-            var serviceResponse = new ServiceResponse<GetBookViewModel>();
+            var serviceResponse = new ServiceResponse<GetBookDto>();
             try
             {
-                var mapper = _mapper.Map<Book>(book);
-                var response = await _repository.AddAsync(mapper);
+                var mapper = _mapper.Map<Book>(model);
+                var response = await _repository.CreateAsync(mapper);
 
-                serviceResponse.ResponseData = _mapper.Map<GetBookViewModel>(response);
+                serviceResponse.ResponseData = _mapper.Map<GetBookDto>(response);
                 serviceResponse.Message = $"Book added successfully!";
             }
             catch (Exception ex)
@@ -38,14 +38,13 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetBookViewModel book)
+        public async Task<ServiceResponse<bool>> DeleteAsync(int id)
         {
             var serviceResponse = new ServiceResponse<bool>();
 
             try
             {
-                var mapper = _mapper.Map<Book>(book);
-                await _repository.DeleteAsync(mapper);
+                await _repository.DeleteAsync(id);
 
                 serviceResponse.Message = "Book deleted successfuly!";
             }
@@ -58,60 +57,76 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetBookViewModel>>> GetAsync()
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllAsync()
         {
-            var result = await _repository.GetAsync();
+            var result = await _repository.GetAllAsync();
 
-            var serviceResponse = new ServiceResponse<IEnumerable<GetBookViewModel>>()
+            var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetBookViewModel>>(result)
+                ResponseData = _mapper.Map<IEnumerable<GetBookDto>>(result)
             };
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetBookViewModel>> GetByIdAsync(int id)
+        public async Task<ServiceResponse<GetBookDto>> GetAllByAsync(string title)
         {
-            var result = await _repository.GetByIdAsync(id);
+            var result = await _repository.GetAllByAsync(title);
 
-            var serviceResponse = new ServiceResponse<GetBookViewModel>();
-            if (result is null)
-            {
-                serviceResponse.Message = $"Book with ID {id} not found!";
-                serviceResponse.Succeeded = false;
-            }
-
-            serviceResponse.ResponseData = _mapper.Map<GetBookViewModel>(result);
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetBookViewModel>> GetByTitleAsync(string title)
-        {
-            var result = await _repository.GetByTitleAsync(title);
-
-            var serviceResponse = new ServiceResponse<GetBookViewModel>();
+            var serviceResponse = new ServiceResponse<GetBookDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Book with title {title} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetBookViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetBookDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetBookViewModel>> UpdateAsync(GetBookViewModel book)
+        public async Task<ServiceResponse<GetBookDto>> GetAllByAsync(int category)
         {
-            var serviceResponse = new ServiceResponse<GetBookViewModel>();
+            var result = await _repository.GetByAsync(category);
+
+            var serviceResponse = new ServiceResponse<GetBookDto>();
+            if (result is null)
+            {
+                serviceResponse.Message = $"Book with category {category} not found!";
+                serviceResponse.Succeeded = false;
+            }
+
+            serviceResponse.ResponseData = _mapper.Map<GetBookDto>(result);
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetBookDto>> GetByIdAsync(int id)
+        {
+            var result = await _repository.GetByAsync(id);
+
+            var serviceResponse = new ServiceResponse<GetBookDto>();
+            if (result is null)
+            {
+                serviceResponse.Message = $"Book with ID {id} not found!";
+                serviceResponse.Succeeded = false;
+            }
+
+            serviceResponse.ResponseData = _mapper.Map<GetBookDto>(result);
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetBookDto>> UpdateAsync(GetBookDto model)
+        {
+            var serviceResponse = new ServiceResponse<GetBookDto>();
 
             try
             {
-                var mappedBook = _mapper.Map<Book>(book);
+                var mappedBook = _mapper.Map<Book>(model);
                 var result = await _repository.UpdateAsync(mappedBook);
 
-                serviceResponse.ResponseData = _mapper.Map<GetBookViewModel>(result);
+                serviceResponse.ResponseData = _mapper.Map<GetBookDto>(result);
                 serviceResponse.Message = "Book updated!";
             }
             catch (Exception ex)

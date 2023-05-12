@@ -17,25 +17,25 @@ namespace LMS.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAsync());
+            return Ok(await _service.GetAsync(false));
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _service.GetByIdAsync(id));
+            return Ok(await _service.GetByAsync(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddLibrarianViewModel model)
+        public async Task<IActionResult> Add(AddLibrarianDto model)
         {
-            var response = await _service.AddAsync(model);
+            var response = await _service.CreateAsync(model);
 
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetLibrarianViewModel model)
+        public async Task<IActionResult> Update(GetLibrarianDto model)
         {
             var response = await _service.UpdateAsync(model);
 

@@ -13,6 +13,7 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.FirstName).IsRequired().HasMaxLength(50);
             builder.Property(p => p.LastName).IsRequired().HasMaxLength(50);
             builder.Property(p => p.Nationality).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.WasDeleted).HasDefaultValue(false);
         }
     }
 }

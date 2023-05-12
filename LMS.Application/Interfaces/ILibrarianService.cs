@@ -5,11 +5,11 @@ namespace LMS.Application.Interfaces
 {
     public interface ILibrarianService
     {
-        Task<ServiceResponse<IEnumerable<GetLibrarianViewModel>>> GetAsync();
-        Task<ServiceResponse<GetLibrarianViewModel>> GetByIdAsync(int id);
-        Task<ServiceResponse<GetLibrarianViewModel>> GetByNameAsync(string name);
-        Task<ServiceResponse<GetLibrarianViewModel>> AddAsync(AddLibrarianViewModel author);
-        Task<ServiceResponse<GetLibrarianViewModel>> UpdateAsync(GetLibrarianViewModel author);
+        Task<ServiceResponse<GetLibrarianDto>> CreateAsync(AddLibrarianDto librarian);
+        Task<ServiceResponse<GetLibrarianDto>> UpdateAsync(GetLibrarianDto librarian);
         Task<ServiceResponse<bool>> DeleteAsync(int id);
+        Task<ServiceResponse<IEnumerable<GetLibrarianDto>>> GetAsync(bool wasDeleted);
+        Task<ServiceResponse<GetLibrarianDto>> GetByAsync(int id);
+        Task<ServiceResponse<GetLibrarianDto>> GetByAsync(string name);
     }
 }

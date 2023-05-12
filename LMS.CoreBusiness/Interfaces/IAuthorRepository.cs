@@ -2,10 +2,8 @@
 
 namespace LMS.CoreBusiness.Interfaces
 {
-    public interface IAuthorRepository : IBaseRepository<Author>
+    public interface IAuthorRepository : IPerson<Author>
     {
-        Task<IEnumerable<Author>> GetAsync();
-        Task<Author> GetByNameAsync(string name);
         Task<Author> GetByNationalityAsync(string nationality);
     }
 }

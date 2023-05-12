@@ -19,11 +19,11 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IAuthorService, AuthorService>();
 
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
             services.AddScoped<IAuthorshipRepository, AuthorshipRepository>();
             services.AddScoped<IAuthorshipService, AuthorshipService>();
-
-            services.AddScoped<IBookcaseRepository, BookcaseRepository>();
-            services.AddScoped<IBookcaseService, BookcaseService>();
 
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookService, BookService>();
@@ -31,14 +31,11 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<ILibrarianRepository, LibrarianRepository>();
             services.AddScoped<ILibrarianService, LibrarianService>();
 
-            services.AddScoped<IPublishingCompanyRepository, PublishingCompanyRepository>();
-            services.AddScoped<IPublishingCompanyService, PublishingCompanyService>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberService, MemberService>();
 
-            services.AddScoped<IReaderRepository, ReaderRepository>();
-            services.AddScoped<IReaderService, ReaderService>();
-
-            services.AddScoped<IRequestRepository, RequestRepository>();
-            services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
+            services.AddScoped<ILoanService, LoanService>();
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IReservationService, ReservationService>();

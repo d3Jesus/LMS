@@ -14,6 +14,8 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.LastName).IsRequired().HasMaxLength(50);
             builder.Property(p => p.Address).IsRequired().HasMaxLength(50);
             builder.Property(p => p.Email).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.PhoneNumber).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.WasDeleted).HasDefaultValue(false);
         }
     }
 }

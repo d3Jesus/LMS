@@ -7,10 +7,10 @@ namespace LMS.Application.Profiles;
     {
         public BookProfile()
         {
-            CreateMap<Book, GetBookViewModel>();
-            CreateMap<GetBookViewModel, Book>();
+            CreateMap<Book, GetBookDto>();
+            CreateMap<GetBookDto, Book>();
 
-            CreateMap<Book, AddBookViewModel>();
-            CreateMap<AddBookViewModel, Book>();
+            CreateMap<Book, AddBookDto>();
+            CreateMap<AddBookDto, Book>();
         }
     }

@@ -1,11 +1,68 @@
-﻿namespace LMS.CoreBusiness.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LMS.CoreBusiness.Entities
 {
-    public class Book : BaseEntity
+    public class Book
     {
-        public string Title { get; set; }
-        public int PublicationYear { get; set; }
-        public string ISBN { get; set; }
-        public int Edition { get; set; }
-        public int PublishingCompanyId { get; set; }
+        private int _id;
+        private string _title;
+        private string _description;
+        private int _edition;
+        private string _isbn;
+        private int _categoryId;
+        private string _imageUrl;
+        private DateTime _createdDate;
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        [Required]
+        public string Title 
+        { 
+            get { return _title; } 
+            set { _title = value; } 
+        }
+
+        [Required]
+        public string Description 
+        { 
+            get { return _description; } 
+            set { _description = value; } 
+        }
+        [Required]
+        public int Edition 
+        {
+            get { return _edition; } 
+            set { _edition = value; } 
+        }
+        [Required]
+        public string ISBN 
+        {
+            get { return _isbn; }
+            set { _isbn = value; }
+        }
+        [Required]
+        public int CategoryId 
+        {
+            get { return _categoryId; }
+            set { _categoryId = value; }
+        }
+
+        public string ImageUrl
+        {
+            get { return _imageUrl; }
+            set { _imageUrl = value; }
+        }
+
+        public DateTime CreatedDate
+        {
+            get { return _createdDate; }
+            private set { _createdDate = DateTime.Now; }
+        }
     }
 }

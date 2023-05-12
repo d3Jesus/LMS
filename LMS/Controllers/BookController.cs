@@ -18,7 +18,7 @@ namespace LMS.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAsync());
+            return Ok(await _service.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
@@ -28,15 +28,15 @@ namespace LMS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddBookViewModel model)
+        public async Task<IActionResult> Add(AddBookDto model)
         {
-            var response = await _service.AddAsync(model);
+            var response = await _service.CreateAsync(model);
 
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetBookViewModel model)
+        public async Task<IActionResult> Update(GetBookDto model)
         {
             var response = await _service.UpdateAsync(model);
 
@@ -49,12 +49,7 @@ namespace LMS.API.Controllers
             if (id == 0)
                 return BadRequest(id);
 
-            var author = await _service.GetByIdAsync(id);
-
-            if (author.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(author.ResponseData);
+            var response = await _service.DeleteAsync(id);
 
             return Ok(response);
         }

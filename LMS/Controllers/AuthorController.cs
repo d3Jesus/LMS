@@ -17,19 +17,19 @@ namespace LMS.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAsync());
+            return Ok(await _service.GetAsync(false));
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _service.GetByIdAsync(id));
+            return Ok(await _service.GetByAsync(id));
         }
 
         [HttpGet("{name:alpha}")]
         public async Task<IActionResult> GetByName(string name)
         {
-            return Ok(await _service.GetByNameAsync(name));
+            return Ok(await _service.GetByAsync(name));
         }
 
         [HttpGet("{nationality}")]
@@ -39,15 +39,15 @@ namespace LMS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddAuthorViewModel model)
+        public async Task<IActionResult> Add(AddAuthorDto model)
         {   
-            var response = await _service.AddAsync(model);
+            var response = await _service.CreateAsync(model);
 
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetAuthorViewModel model)
+        public async Task<IActionResult> Update(GetAuthorDto model)
         {   
             var response = await _service.UpdateAsync(model);
 
@@ -60,12 +60,7 @@ namespace LMS.API.Controllers
             if (id == 0)
                 return BadRequest(id);
 
-            var author = await _service.GetByIdAsync(id);
-
-            if (author.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(author.ResponseData);
+            var response = await _service.DeleteAsync(id);
 
             return Ok(response);
         }

@@ -18,18 +18,18 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetAuthorViewModel>> AddAsync(AddAuthorViewModel author)
+        public async Task<ServiceResponse<GetAuthorDto>> CreateAsync(AddAuthorDto author)
         {
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorDto>();
             try
             {
                 var mapper = _mapper.Map<Author>(author);
-                var response = await _repository.AddAsync(mapper);
-                
-                serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(response);
+                var response = await _repository.CreateAsync(mapper);
+
+                serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(response);
                 serviceResponse.Message = $"Author with name {string.Concat(author.FirstName, " ", author.LastName)} added successfully!";
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 serviceResponse.Succeeded = false;
                 serviceResponse.Message = ex.Message;
@@ -38,14 +38,13 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetAuthorViewModel author)
+        public async Task<ServiceResponse<bool>> DeleteAsync(int id)
         {
             var serviceResponse = new ServiceResponse<bool>();
 
             try
             {
-                var mapper = _mapper.Map<Author>(author);
-                await _repository.DeleteAsync(mapper);
+                await _repository.DeleteAsync(id);
 
                 serviceResponse.Message = "Author deleted successfuly!";
             }
@@ -58,76 +57,76 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetAuthorViewModel>>> GetAsync()
+        public async Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted)
         {
-            var result = await _repository.GetAsync();
+            var result = await _repository.GetAsync(wasDeleted);
 
-            var serviceResponse = new ServiceResponse<IEnumerable<GetAuthorViewModel>>()
+            var serviceResponse = new ServiceResponse<IEnumerable<GetAuthorDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetAuthorViewModel>>(result)
+                ResponseData = _mapper.Map<IEnumerable<GetAuthorDto>>(result)
             };
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorViewModel>> GetByIdAsync(int id)
+        public async Task<ServiceResponse<GetAuthorDto>> GetByAsync(int id)
         {
-            var result = await _repository.GetByIdAsync(id);
+            var result = await _repository.GetByAsync(id);
 
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Author with ID {id} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorViewModel>> GetByNameAsync(string name)
+        public async Task<ServiceResponse<GetAuthorDto>> GetByAsync(string name)
         {
-            var result = await _repository.GetByNameAsync(name);
+            var result = await _repository.GetByAsync(name);
 
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Author with name {name} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorViewModel>> GetByNationalityAsync(string nationality)
+        public async Task<ServiceResponse<GetAuthorDto>> GetByNationalityAsync(string nationality)
         {
-            var result = await _repository.GetByNationalityAsync(nationality);
+            var result = await _repository.GetByAsync(nationality);
 
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorDto>();
             if (result is null)
             {
-                serviceResponse.Message = $"Author with nationality {nationality} not found!";
+                serviceResponse.Message = $"Authors with nationality {nationality} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorViewModel>> UpdateAsync(GetAuthorViewModel author)
+        public async Task<ServiceResponse<GetAuthorDto>> UpdateAsync(GetAuthorDto author)
         {
-            var serviceResponse = new ServiceResponse<GetAuthorViewModel>();
+            var serviceResponse = new ServiceResponse<GetAuthorDto>();
 
             try
             {
                 var mappedAuthor = _mapper.Map<Author>(author);
                 var result = await _repository.UpdateAsync(mappedAuthor);
 
-                serviceResponse.ResponseData = _mapper.Map<GetAuthorViewModel>(result);
+                serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
                 serviceResponse.Message = "Author updated!";
             }
             catch (Exception ex)

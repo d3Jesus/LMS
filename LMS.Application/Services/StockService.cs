@@ -18,15 +18,15 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetStockViewModel>> AddAsync(AddStockViewModel stock)
+        public async Task<ServiceResponse<GetStockDto>> CreateAsync(AddStockDto stock)
         {
-            var serviceResponse = new ServiceResponse<GetStockViewModel>();
+            var serviceResponse = new ServiceResponse<GetStockDto>();
             try
             {
                 var mapper = _mapper.Map<Stock>(stock);
-                var response = await _repository.AddAsync(mapper);
+                var response = await _repository.CreateAsync(mapper);
 
-                serviceResponse.ResponseData = _mapper.Map<GetStockViewModel>(response);
+                serviceResponse.ResponseData = _mapper.Map<GetStockDto>(response);
                 serviceResponse.Message = $"Book added in stock successfully!";
             }
             catch (Exception ex)
@@ -38,52 +38,32 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetStockViewModel stock)
+        public async Task<ServiceResponse<GetStockDto>> GetByAsync(int id)
         {
-            var serviceResponse = new ServiceResponse<bool>();
+            var result = await _repository.GetByAsync(id);
 
-            try
-            {
-                var mapper = _mapper.Map<Stock>(stock);
-                await _repository.DeleteAsync(mapper);
-
-                serviceResponse.Message = "Book deleted from stock successfuly!";
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Succeeded = false;
-                serviceResponse.Message = ex.Message;
-            }
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetStockViewModel>> GetByIdAsync(int id)
-        {
-            var result = await _repository.GetByIdAsync(id);
-
-            var serviceResponse = new ServiceResponse<GetStockViewModel>();
+            var serviceResponse = new ServiceResponse<GetStockDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Stock with ID {id} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetStockViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetStockDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStockViewModel>> UpdateAsync(GetStockViewModel stock)
+        public async Task<ServiceResponse<GetStockDto>> UpdateAsync(GetStockDto stock)
         {
-            var serviceResponse = new ServiceResponse<GetStockViewModel>();
+            var serviceResponse = new ServiceResponse<GetStockDto>();
 
             try
             {
                 var mappedStock = _mapper.Map<Stock>(stock);
                 var result = await _repository.UpdateAsync(mappedStock);
 
-                serviceResponse.ResponseData = _mapper.Map<GetStockViewModel>(result);
+                serviceResponse.ResponseData = _mapper.Map<GetStockDto>(result);
                 serviceResponse.Message = "Stock updated!";
             }
             catch (Exception ex)

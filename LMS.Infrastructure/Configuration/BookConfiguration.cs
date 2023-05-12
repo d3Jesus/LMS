@@ -11,10 +11,12 @@ namespace LMS.Infrastructure.Configuration
             builder.ToTable(nameof(Book));
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.Title).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.PublicationYear).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.Title).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.Edition).IsRequired();
             builder.Property(p => p.ISBN).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.PublishingCompanyId).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.Edition).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.CategoryId).IsRequired();
+            builder.Property(p => p.ImageUrl).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.CreatedDate).IsRequired().HasMaxLength(50);
         }
     }
 }

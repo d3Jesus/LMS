@@ -5,14 +5,13 @@ namespace LMS.Application.Interfaces
 {
     public interface IAuthorService
     {
-        Task<ServiceResponse<IEnumerable<GetAuthorViewModel>>> GetAsync();
-        Task<ServiceResponse<GetAuthorViewModel>> GetByIdAsync(int id);
-        Task<ServiceResponse<GetAuthorViewModel>> GetByNameAsync(string name);
-        Task<ServiceResponse<GetAuthorViewModel>> GetByNationalityAsync(string nationality);
-
-        Task<ServiceResponse<GetAuthorViewModel>> AddAsync(AddAuthorViewModel author);
-        Task<ServiceResponse<GetAuthorViewModel>> UpdateAsync(GetAuthorViewModel author);
-        Task<ServiceResponse<bool>> DeleteAsync(GetAuthorViewModel author);
-        
+        Task<ServiceResponse<GetAuthorDto>> CreateAsync(AddAuthorDto author);
+        Task<ServiceResponse<GetAuthorDto>> UpdateAsync(GetAuthorDto author);
+        Task<ServiceResponse<bool>> DeleteAsync(int id);
+        Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted);
+        Task<ServiceResponse<GetAuthorDto>> GetByAsync(int id);
+        Task<ServiceResponse<GetAuthorDto>> GetByAsync(string name);
+        Task<ServiceResponse<GetAuthorDto>> GetByNationalityAsync(string nationality);
+                
     }
 }

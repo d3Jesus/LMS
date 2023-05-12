@@ -14,7 +14,7 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Stock> AddAsync(Stock stock)
+        public async Task<Stock> CreateAsync(Stock stock)
         {
             _context.Stocks.Add(stock);
             await _context.SaveChangesAsync();
@@ -36,7 +36,7 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Stocks.ToListAsync();
         }
 
-        public async Task<Stock> GetByIdAsync(int id)
+        public async Task<Stock> GetByAsync(int id)
         {
             return await _context.Stocks.FindAsync(id);
         }

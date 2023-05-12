@@ -15,7 +15,7 @@ namespace LMS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddAuthorshipViewModel model)
+        public async Task<IActionResult> Add(AddAuthorshipDto model)
         {
             var response = await _service.AddAsync(model);
 
@@ -23,7 +23,7 @@ namespace LMS.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetAuthorshipViewModel model)
+        public async Task<IActionResult> Update(GetAuthorshipDto model)
         {
             var response = await _service.UpdateAsync(model);
 

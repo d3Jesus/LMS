@@ -15,46 +15,18 @@ namespace LMS.API.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _service.GetAsync());
-        }
-
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            return Ok(await _service.GetByIdAsync(id));
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Add(AddReservationViewModel model)
+        public async Task<IActionResult> Add(AddReservationDto model)
         {
-            var response = await _service.AddAsync(model);
+            var response = await _service.CreateAsync(model);
 
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetReservationViewModel model)
+        public async Task<IActionResult> Update(GetReservationDto model)
         {
             var response = await _service.UpdateAsync(model);
-
-            return Ok(response);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            if (id == 0)
-                return BadRequest(id);
-
-            var reservation = await _service.GetByIdAsync(id);
-
-            if (reservation.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(reservation.ResponseData);
 
             return Ok(response);
         }

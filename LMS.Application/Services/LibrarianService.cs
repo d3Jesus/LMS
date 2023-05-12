@@ -18,15 +18,15 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetLibrarianViewModel>> AddAsync(AddLibrarianViewModel librarian)
+        public async Task<ServiceResponse<GetLibrarianDto>> CreateAsync(AddLibrarianDto librarian)
         {
-            var serviceResponse = new ServiceResponse<GetLibrarianViewModel>();
+            var serviceResponse = new ServiceResponse<GetLibrarianDto>();
             try
             {
                 var mapper = _mapper.Map<Librarian>(librarian);
-                var response = await _repository.AddAsync(mapper);
+                var response = await _repository.CreateAsync(mapper);
 
-                serviceResponse.ResponseData = _mapper.Map<GetLibrarianViewModel>(response);
+                serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(response);
                 serviceResponse.Message = $"Librarian with name {string.Concat(librarian.FirstName, " ", librarian.LastName)} added successfully!";
             }
             catch (Exception ex)
@@ -44,10 +44,7 @@ namespace LMS.Application.Services
 
             try
             {
-                var response = await GetByIdAsync(id);
-
-                var librarian = _mapper.Map<Librarian>(response.ResponseData);
-                await _repository.DeleteAsync(librarian);
+                await _repository.DeleteAsync(id);
 
                 serviceResponse.Message = "Librarian deleted successfuly!";
             }
@@ -60,60 +57,60 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetLibrarianViewModel>>> GetAsync()
+        public async Task<ServiceResponse<IEnumerable<GetLibrarianDto>>> GetAsync(bool wasDeleted)
         {
-            var result = await _repository.GetAsync();
+            var result = await _repository.GetAsync(wasDeleted);
 
-            var serviceResponse = new ServiceResponse<IEnumerable<GetLibrarianViewModel>>()
+            var serviceResponse = new ServiceResponse<IEnumerable<GetLibrarianDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetLibrarianViewModel>>(result)
+                ResponseData = _mapper.Map<IEnumerable<GetLibrarianDto>>(result)
             };
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetLibrarianViewModel>> GetByIdAsync(int id)
+        public async Task<ServiceResponse<GetLibrarianDto>> GetByAsync(int id)
         {
-            var result = await _repository.GetByIdAsync(id);
+            var result = await _repository.GetByAsync(id);
 
-            var serviceResponse = new ServiceResponse<GetLibrarianViewModel>();
+            var serviceResponse = new ServiceResponse<GetLibrarianDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Librarian with ID {id} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetLibrarianViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetLibrarianViewModel>> GetByNameAsync(string name)
+        public async Task<ServiceResponse<GetLibrarianDto>> GetByAsync(string name)
         {
-            var result = await _repository.GetByNameAsync(name);
+            var result = await _repository.GetByAsync(name);
 
-            var serviceResponse = new ServiceResponse<GetLibrarianViewModel>();
+            var serviceResponse = new ServiceResponse<GetLibrarianDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Librarian with name {name} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetLibrarianViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetLibrarianViewModel>> UpdateAsync(GetLibrarianViewModel librarian)
+        public async Task<ServiceResponse<GetLibrarianDto>> UpdateAsync(GetLibrarianDto librarian)
         {
-            var serviceResponse = new ServiceResponse<GetLibrarianViewModel>();
+            var serviceResponse = new ServiceResponse<GetLibrarianDto>();
 
             try
             {
                 var mappedLibrarian = _mapper.Map<Librarian>(librarian);
                 var result = await _repository.UpdateAsync(mappedLibrarian);
 
-                serviceResponse.ResponseData = _mapper.Map<GetLibrarianViewModel>(result);
+                serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(result);
                 serviceResponse.Message = "Librarian updated!";
             }
             catch (Exception ex)

@@ -14,7 +14,7 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Reservation> AddAsync(Reservation reservation)
+        public async Task<Reservation> CreateAsync(Reservation reservation)
         {
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
@@ -36,7 +36,7 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Reservations.ToListAsync();
         }
 
-        public async Task<Reservation> GetByIdAsync(int id)
+        public async Task<Reservation> GetByAsync(int id)
         {
             return await _context.Reservations.FindAsync(id);
         }

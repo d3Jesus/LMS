@@ -18,15 +18,15 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetReservationViewModel>> AddAsync(AddReservationViewModel reservation)
+        public async Task<ServiceResponse<GetReservationDto>> CreateAsync(AddReservationDto reservation)
         {
-            var serviceResponse = new ServiceResponse<GetReservationViewModel>();
+            var serviceResponse = new ServiceResponse<GetReservationDto>();
             try
             {
                 var mapper = _mapper.Map<Reservation>(reservation);
-                var response = await _repository.AddAsync(mapper);
+                var response = await _repository.CreateAsync(mapper);
 
-                serviceResponse.ResponseData = _mapper.Map<GetReservationViewModel>(response);
+                serviceResponse.ResponseData = _mapper.Map<GetReservationDto>(response);
                 serviceResponse.Message = $"Reservation added successfully!";
             }
             catch (Exception ex)
@@ -38,64 +38,32 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> DeleteAsync(GetReservationViewModel reservation)
+        public async Task<ServiceResponse<GetReservationDto>> GetByAsync(int id)
         {
-            var serviceResponse = new ServiceResponse<bool>();
+            var result = await _repository.GetByAsync(id);
 
-            try
-            {
-                var mapper = _mapper.Map<Reservation>(reservation);
-                await _repository.DeleteAsync(mapper);
-
-                serviceResponse.Message = "Reservation deleted successfuly!";
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Succeeded = false;
-                serviceResponse.Message = ex.Message;
-            }
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<IEnumerable<GetReservationViewModel>>> GetAsync()
-        {
-            var result = await _repository.GetAsync();
-
-            var serviceResponse = new ServiceResponse<IEnumerable<GetReservationViewModel>>()
-            {
-                ResponseData = _mapper.Map<IEnumerable<GetReservationViewModel>>(result)
-            };
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetReservationViewModel>> GetByIdAsync(int id)
-        {
-            var result = await _repository.GetByIdAsync(id);
-
-            var serviceResponse = new ServiceResponse<GetReservationViewModel>();
+            var serviceResponse = new ServiceResponse<GetReservationDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Reservation with ID {id} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetReservationViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetReservationDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetReservationViewModel>> UpdateAsync(GetReservationViewModel reservation)
+        public async Task<ServiceResponse<GetReservationDto>> UpdateAsync(GetReservationDto reservation)
         {
-            var serviceResponse = new ServiceResponse<GetReservationViewModel>();
+            var serviceResponse = new ServiceResponse<GetReservationDto>();
 
             try
             {
                 var mappedReservation = _mapper.Map<Reservation>(reservation);
                 var result = await _repository.UpdateAsync(mappedReservation);
 
-                serviceResponse.ResponseData = _mapper.Map<GetReservationViewModel>(result);
+                serviceResponse.ResponseData = _mapper.Map<GetReservationDto>(result);
                 serviceResponse.Message = "Reservation updated!";
             }
             catch (Exception ex)

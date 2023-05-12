@@ -5,8 +5,7 @@ namespace LMS.Application.Interfaces
 {
     public interface IAuthorshipService
     {
-        Task<ServiceResponse<GetAuthorshipViewModel>> AddAsync(AddAuthorshipViewModel model);
-        Task<ServiceResponse<GetAuthorshipViewModel>> UpdateAsync(GetAuthorshipViewModel model);
-        Task<ServiceResponse<bool>> DeleteAsync(GetAuthorshipViewModel model);
+        Task<ServiceResponse<GetAuthorshipDto>> AddAsync(AddAuthorshipDto model);
+        Task<ServiceResponse<GetAuthorshipDto>> UpdateAsync(GetAuthorshipDto model);
     }
 }

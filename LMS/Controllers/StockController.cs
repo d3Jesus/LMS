@@ -17,37 +17,21 @@ namespace LMS.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _service.GetByIdAsync(id));
+            return Ok(await _service.GetByAsync(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddStockViewModel model)
+        public async Task<IActionResult> Add(AddStockDto model)
         {
-            var response = await _service.AddAsync(model);
+            var response = await _service.CreateAsync(model);
 
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(GetStockViewModel model)
+        public async Task<IActionResult> Update(GetStockDto model)
         {
             var response = await _service.UpdateAsync(model);
-
-            return Ok(response);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            if (id == 0)
-                return BadRequest(id);
-
-            var stock = await _service.GetByIdAsync(id);
-
-            if (stock.ResponseData is null)
-                return NotFound();
-
-            var response = await _service.DeleteAsync(stock.ResponseData);
 
             return Ok(response);
         }

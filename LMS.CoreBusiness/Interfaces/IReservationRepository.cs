@@ -2,8 +2,10 @@
 
 namespace LMS.CoreBusiness.Interfaces
 {
-    public interface IReservationRepository : IBaseRepository<Reservation>
+    public interface IReservationRepository
     {
-        Task<IEnumerable<Reservation>> GetAsync();
+        Task<Reservation> CreateAsync(Reservation reservation);
+        Task<Reservation> UpdateAsync(Reservation reservation);
+        Task<Reservation> GetByAsync(int id);
     }
 }

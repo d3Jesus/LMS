@@ -14,7 +14,7 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Authorship> AddAsync(Authorship authorship)
+        public async Task<Authorship> CreateAsync(Authorship authorship)
         {
             _context.Authorships.Add(authorship);
             await _context.SaveChangesAsync();
