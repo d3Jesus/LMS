@@ -22,20 +22,6 @@ namespace LMS.Infrastructure.Repositories
             return stock;
         }
 
-        public async Task<bool> DeleteAsync(Stock stock)
-        {
-            _context.Entry(stock).State = EntityState.Detached;
-            _context.Stocks.Remove(stock);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<IEnumerable<Stock>> GetAsync()
-        {
-            return await _context.Stocks.ToListAsync();
-        }
-
         public async Task<Stock> GetByAsync(int id)
         {
             return await _context.Stocks.FindAsync(id);
