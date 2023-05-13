@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LMS.CoreBusiness.Entities
+﻿namespace LMS.BlazorUI.Data.Models
 {
     public class Category
     {
         private int _id;
         private string _name;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id
         {
             get { return _id; }
@@ -16,8 +13,8 @@ namespace LMS.CoreBusiness.Entities
 
         public string CategoryName
         {
-            get { return this._name; }
-            set { this._name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
     }
 }
