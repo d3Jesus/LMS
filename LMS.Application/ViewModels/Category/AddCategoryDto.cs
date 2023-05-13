@@ -1,4 +1,4 @@
 ﻿namespace LMS.Application.ViewModels.Category
 {
-    public record AddCategoryDto (string name);
+    public record AddCategoryDto (string categoryName);
 }

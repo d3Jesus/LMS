@@ -27,7 +27,7 @@ namespace LMS.Application.Services
                 var response = await _repository.CreateAsync(mapper);
 
                 serviceResponse.ResponseData = _mapper.Map<GetCategoryDto>(response);
-                serviceResponse.Message = $"Author with name {category.name} added successfully!";
+                serviceResponse.Message = $"Category {category.categoryName} added successfully!";
             }
             catch (Exception ex)
             {
