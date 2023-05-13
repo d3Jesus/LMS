@@ -21,32 +21,30 @@ namespace LMS.CoreBusiness.Entities
             set { _id = value; }
         }
 
-        [Required]
         public string Title 
         { 
             get { return _title; } 
             set { _title = value; } 
         }
 
-        [Required]
         public string Description 
         { 
             get { return _description; } 
             set { _description = value; } 
         }
-        [Required]
+
         public int Edition 
         {
             get { return _edition; } 
             set { _edition = value; } 
         }
-        [Required]
+
         public string ISBN 
         {
             get { return _isbn; }
             set { _isbn = value; }
         }
-        [Required]
+        
         public int CategoryId 
         {
             get { return _categoryId; }

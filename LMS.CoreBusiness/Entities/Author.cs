@@ -6,8 +6,6 @@ namespace LMS.CoreBusiness.Entities
     {
         private string _nationality;
 
-        [Required]
-        [StringLength(30, ErrorMessage = "This field can have only {0} characters long.")]
         public string Nationality
         {
             get { return _nationality; }
