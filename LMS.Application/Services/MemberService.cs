@@ -28,7 +28,7 @@ namespace LMS.Application.Services
                 var response = await _repository.CreateAsync(mapper);
 
                 serviceResponse.ResponseData = _mapper.Map<GetMemberDto>(response);
-                serviceResponse.Message = $"Member with name {string.Concat(member.FirstName, " ", member.LastName)} added successfully!";
+                serviceResponse.Message = $"Member with name {string.Concat(member.firstName, " ", member.lastName)} added successfully!";
             }
             catch (Exception ex)
             {

@@ -1,9 +1,4 @@
 ﻿namespace LMS.Application.ViewModels.Stock
 {
-    public class GetStockDto
-    {
-        public int Id { get; set; }
-        public int NumberOfCopies { get; set; }
-        public int BookId { get; set; }
-    }
+    public record GetStockDto (int book, int copiesOwned, int copiesAvailable);
 }

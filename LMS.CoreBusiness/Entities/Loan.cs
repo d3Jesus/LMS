@@ -40,7 +40,7 @@ namespace LMS.CoreBusiness.Entities
         public DateTime LoanDate
         {
             get { return _loanDate; }
-            set { _loanDate = value; }
+            private set { _loanDate = DateTime.Now; }
         }
         public DateTime DateReturned
         {

@@ -1,14 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace LMS.Application.ViewModels.Reservation
+﻿namespace LMS.Application.ViewModels.Reservation
 {
-    public class AddReservationDto
-    {
-        [Required]
-        public int BookId { get; set; }
-        [Required]
-        public int ReaderId { get; set; }
-        [Required]
-        public string ReservationStatus { get; set; }
-    }
+    public record AddReservationDto(int bookId, int memberId, DateTime reservationDate, string reservationStatus);
 }

@@ -27,7 +27,7 @@ namespace LMS.Application.Services
                 var response = await _repository.CreateAsync(mapper);
 
                 serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(response);
-                serviceResponse.Message = $"Librarian with name {string.Concat(librarian.FirstName, " ", librarian.LastName)} added successfully!";
+                serviceResponse.Message = $"Librarian with name {string.Concat(librarian.firstName, " ", librarian.lastName)} added successfully!";
             }
             catch (Exception ex)
             {
