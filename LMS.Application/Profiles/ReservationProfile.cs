@@ -9,10 +9,10 @@ namespace LMS.Application.Profiles
         public ReservationProfile()
         {
             CreateMap<Reservation, GetReservationDto>();
-            CreateMap<GetReservationDto, Reservation>();
+            CreateMap<GetReservationDto, VwReservation>();
 
             CreateMap<Reservation, AddReservationDto>();
-            CreateMap<AddReservationDto, Reservation>();
+            CreateMap<AddReservationDto, VwReservation>();
         }
     }
 }

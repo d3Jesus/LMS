@@ -1,5 +1,5 @@
-﻿using LMS.Application.ViewModels.Reservation;
-using LMS.Application.ViewModels;
+﻿using LMS.Application.ViewModels;
+using LMS.Application.ViewModels.Reservation;
 
 namespace LMS.Application.Interfaces
 {
@@ -7,5 +7,7 @@ namespace LMS.Application.Interfaces
     {
         Task<ServiceResponse<GetReservationDto>> CreateAsync(AddReservationDto reservation);
         Task<ServiceResponse<GetReservationDto>> UpdateAsync(GetReservationDto reservation);
+        Task<ServiceResponse<IEnumerable<GetReservationDto>>> GetAllAsync();
+        Task<ServiceResponse<GetReservationDto>> GetByAsync(int id);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
-using LMS.Application.ViewModels.Request;
+using LMS.Application.ViewModels.Loan;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 

@@ -1,5 +1,5 @@
 ﻿using LMS.Application.Interfaces;
-using LMS.Application.ViewModels.Request;
+using LMS.Application.ViewModels.Loan;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.API.Controllers

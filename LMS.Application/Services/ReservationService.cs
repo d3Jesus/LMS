@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
+using LMS.Application.ViewModels.Author;
 using LMS.Application.ViewModels.Reservation;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
@@ -34,6 +35,18 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
                 serviceResponse.Message = ex.Message;
             }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<IEnumerable<GetReservationDto>>> GetAllAsync()
+        {
+            var result = await _repository.GetAllAsync();
+
+            var serviceResponse = new ServiceResponse<IEnumerable<GetReservationDto>>()
+            {
+                ResponseData = _mapper.Map<IEnumerable<GetReservationDto>>(result)
+            };
 
             return serviceResponse;
         }

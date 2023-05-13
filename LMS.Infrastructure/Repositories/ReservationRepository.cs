@@ -22,23 +22,15 @@ namespace LMS.Infrastructure.Repositories
             return reservation;
         }
 
-        public async Task<bool> DeleteAsync(Reservation reservation)
-        {
-            _context.Entry(reservation).State = EntityState.Detached;
-            _context.Reservations.Remove(reservation);
-            await _context.SaveChangesAsync();
 
-            return true;
+        public async Task<IEnumerable<VwReservation>> GetAllAsync()
+        {
+            return await _context.VwReservations.ToListAsync();
         }
 
-        public async Task<IEnumerable<Reservation>> GetAsync()
+        public async Task<VwReservation> GetByAsync(int id)
         {
-            return await _context.Reservations.ToListAsync();
-        }
-
-        public async Task<Reservation> GetByAsync(int id)
-        {
-            return await _context.Reservations.FindAsync(id);
+            return await _context.VwReservations.FindAsync(id);
         }
 
         public async Task<Reservation> UpdateAsync(Reservation reservation)

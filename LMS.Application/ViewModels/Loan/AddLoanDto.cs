@@ -1,4 +1,4 @@
-﻿namespace LMS.Application.ViewModels.Request
+﻿namespace LMS.Application.ViewModels.Loan
 {
     public record AddLoanDto(int bookId, int memberId, int numberOfCopies);
 }

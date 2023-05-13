@@ -6,6 +6,7 @@ namespace LMS.CoreBusiness.Interfaces
     {
         Task<Reservation> CreateAsync(Reservation reservation);
         Task<Reservation> UpdateAsync(Reservation reservation);
-        Task<Reservation> GetByAsync(int id);
+        Task<IEnumerable<VwReservation>> GetAllAsync();
+        Task<VwReservation> GetByAsync(int id);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using LMS.Application.ViewModels;
-using LMS.Application.ViewModels.Request;
+using LMS.Application.ViewModels.Loan;
 
 namespace LMS.Application.Interfaces
 {

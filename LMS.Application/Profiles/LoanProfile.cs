@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LMS.Application.ViewModels.Request;
+using LMS.Application.ViewModels.Loan;
 using LMS.CoreBusiness.Entities;
 
 namespace LMS.Application.Profiles
