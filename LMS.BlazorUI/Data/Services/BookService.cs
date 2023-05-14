@@ -6,16 +6,23 @@ namespace LMS.BlazorUI.Data.Services
     public class BookService : IBookService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
 
         public BookService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
+            _httpClient = _httpClientFactory.CreateClient("local");
         }
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
-            var client = _httpClientFactory.CreateClient("local");
-            var response = await client.GetFromJsonAsync<ServiceResponse<IEnumerable<Book>>>("books");
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Book>>>("books");
 
+            return response.ResponseData;
+        }
+
+        public async Task<Book> GetByAsync(int id)
+        {
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<Book>>($"books/{id}");
             return response.ResponseData;
         }
     }
