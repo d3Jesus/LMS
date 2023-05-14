@@ -123,4 +123,8 @@
 /LMS.UnitTest/bin/Debug/net6.0/LMS.API.deps.json
 /LMS.CoreBusiness/obj/Debug/net6.0/ref/LMS.CoreBusiness.dll
 /LMS.CoreBusiness/obj/Debug/net6.0/refint/LMS.CoreBusiness.dll
-*.dll
+/LMS.BlazorUI/bin/Debug/net6.0/LMS.BlazorUI.dll
+/LMS.BlazorUI/obj/Debug/net6.0/ref/LMS.BlazorUI.dll
+/LMS.BlazorUI/obj/Debug/net6.0/refint/LMS.BlazorUI.dll
+/LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.dll
+

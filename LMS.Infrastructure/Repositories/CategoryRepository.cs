@@ -32,7 +32,12 @@ namespace LMS.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<Category> GetAsync(int id)
+        public async Task<IEnumerable<Category>> GetAsync()
+        {
+            return await _context.Categories.ToListAsync();
+        }
+
+        public async Task<Category> GetByAsync(int id)
         {
             return await _context.Categories.FindAsync(id);
         }

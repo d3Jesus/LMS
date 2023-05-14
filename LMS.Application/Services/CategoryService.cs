@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
-using LMS.Application.ViewModels.Author;
 using LMS.Application.ViewModels.Category;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
@@ -28,7 +27,7 @@ namespace LMS.Application.Services
                 var response = await _repository.CreateAsync(mapper);
 
                 serviceResponse.ResponseData = _mapper.Map<GetCategoryDto>(response);
-                serviceResponse.Message = $"Author with name {category.name} added successfully!";
+                serviceResponse.Message = $"Category {category.categoryName} added successfully!";
             }
             catch (Exception ex)
             {
@@ -58,9 +57,21 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetCategoryDto>> GetAsync(int id)
+        public async Task<ServiceResponse<IEnumerable<GetCategoryDto>>> GetAsync()
         {
-            var result = await _repository.GetAsync(id);
+            var result = await _repository.GetAsync();
+
+            var serviceResponse = new ServiceResponse<IEnumerable<GetCategoryDto>>()
+            {
+                ResponseData = _mapper.Map<IEnumerable<GetCategoryDto>>(result)
+            };
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCategoryDto>> GetByAsync(int id)
+        {
+            var result = await _repository.GetByAsync(id);
 
             var serviceResponse = new ServiceResponse<GetCategoryDto>();
             if (result is null)

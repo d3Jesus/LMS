@@ -11,7 +11,7 @@ namespace LMS.CoreBusiness.Entities
         private string _isbn;
         private int _categoryId;
         private string _imageUrl;
-        private DateTime _createdDate;
+        private DateTime _dateCreated;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id
@@ -56,10 +56,10 @@ namespace LMS.CoreBusiness.Entities
             set { _imageUrl = value; }
         }
 
-        public DateTime CreatedDate
+        public DateTime DateCreated
         {
-            get { return _createdDate; }
-            private set { _createdDate = DateTime.Now; }
+            get { return _dateCreated; }
+            private set { _dateCreated = DateTime.Now; }
         }
     }
 }
