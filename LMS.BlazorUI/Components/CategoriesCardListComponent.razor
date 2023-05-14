@@ -1,0 +1,28 @@
+﻿
+@inject ICategoryService Service
+
+<div class="col-lg-3">
+    <h1 class="h2 pb-4">Categories</h1>
+    @if (categories is not null)
+    {
+        <ul class="list-unstyled templatemo-accordion">
+            <li><a class="text-decoration-none" href="#">All</a></li>
+            @foreach(var category in categories)
+            {
+                <li><a class="text-decoration-none" href="#">@category.CategoryName</a></li>
+            }
+        </ul>
+    }
+</div>
+
+
+@code {
+    
+    private IEnumerable<Category> categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await Service.GetAsync();
+    }
+
+}

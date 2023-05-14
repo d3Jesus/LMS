@@ -1,4 +1,3 @@
-using LMS.BlazorUI.Data;
 using LMS.BlazorUI.Data.Interfaces;
 using LMS.BlazorUI.Data.Services;
 using Microsoft.Net.Http.Headers;
@@ -8,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddHttpClient("local", httpClient =>
 {

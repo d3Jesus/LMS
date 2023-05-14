@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LMS.CoreBusiness.Entities
+﻿namespace LMS.BlazorUI.Data.Models
 {
     public class Book
     {
@@ -13,38 +11,37 @@ namespace LMS.CoreBusiness.Entities
         private string _imageUrl;
         private DateTime _dateCreated;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id
         {
             get { return _id; }
             set { _id = value; }
         }
 
-        public string Title 
-        { 
-            get { return _title; } 
-            set { _title = value; } 
-        }
-
-        public string Description 
-        { 
-            get { return _description; } 
-            set { _description = value; } 
-        }
-
-        public int Edition 
+        public string Title
         {
-            get { return _edition; } 
-            set { _edition = value; } 
+            get { return _title; }
+            set { _title = value; }
         }
 
-        public string ISBN 
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
+
+        public int Edition
+        {
+            get { return _edition; }
+            set { _edition = value; }
+        }
+
+        public string ISBN
         {
             get { return _isbn; }
             set { _isbn = value; }
         }
-        
-        public int CategoryId 
+
+        public int CategoryId
         {
             get { return _categoryId; }
             set { _categoryId = value; }

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Application", "LMS.Appl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.UnitTest", "LMS.UnitTest\LMS.UnitTest.csproj", "{125D6C49-AD71-49C3-AC95-17F5A326BB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.BlazorUI", "LMS.BlazorUI\LMS.BlazorUI.csproj", "{70E80CAF-1CE3-4E8D-B43E-E141CFD37E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.BlazorUI", "LMS.BlazorUI\LMS.BlazorUI.csproj", "{70E80CAF-1CE3-4E8D-B43E-E141CFD37E65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
