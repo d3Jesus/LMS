@@ -123,3 +123,4 @@
 /LMS.UnitTest/bin/Debug/net6.0/LMS.API.deps.json
 /LMS.CoreBusiness/obj/Debug/net6.0/ref/LMS.CoreBusiness.dll
 /LMS.CoreBusiness/obj/Debug/net6.0/refint/LMS.CoreBusiness.dll
+*.dll
