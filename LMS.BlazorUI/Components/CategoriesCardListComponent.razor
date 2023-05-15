@@ -6,7 +6,7 @@
     @if (categories is not null)
     {
         <ul class="list-unstyled templatemo-accordion">
-            <li><a class="text-decoration-none" href="#">All</a></li>
+            <li><a class="text-decoration-none" href="#" @onclick:preventDefault @onclick="() => OnCategorySelect(0)">All</a></li>
             @foreach(var category in categories)
             {
                 <li><a class="text-decoration-none" href="#" @onclick:preventDefault @onclick="() => OnCategorySelect(category.Id)">@category.CategoryName</a></li>

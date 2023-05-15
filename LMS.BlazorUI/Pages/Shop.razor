@@ -27,7 +27,6 @@
             <div class="row">
                 @if (books is not null)
                 {
-                    @books.Count()
                     foreach (var book in books)
                     {
                         <ItemCardComponent book="book" />
@@ -64,9 +63,10 @@
 
     private async Task DisplayBooksById(int categoryId)
     {
-        books = null;
-        books = await BookService.GetAllByAsync(categoryId);
-        
+        if (categoryId == 0)
+            books = await BookService.GetAllAsync();
+        else
+            books = await BookService.GetAllByAsync(categoryId);        
     }
 
 }
