@@ -59,12 +59,7 @@ namespace LMS.Infrastructure.Repositories
         public async Task<IEnumerable<Book>> GetAllByAsync(int category)
         {
             return await _context.Books.Where(b => b.CategoryId == category).ToListAsync();
-        }
-
-        public async Task<Book> GetByIdAsync(int id)
-        {
-            return await _context.Books.FindAsync(id);
-        }        
+        }    
         
     }
 }

@@ -27,6 +27,12 @@ namespace LMS.API.Controllers
             return Ok(await _service.GetByIdAsync(id));
         }
 
+        [HttpGet("getByCategory/{categoryId:int}")]
+        public async Task<IActionResult> GetAll(int categoryId)
+        {
+            return Ok(await _service.GetAllByAsync(categoryId));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddBookDto model)
         {

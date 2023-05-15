@@ -20,6 +20,12 @@ namespace LMS.BlazorUI.Data.Services
             return response.ResponseData;
         }
 
+        public async Task<IEnumerable<Book>> GetAllByAsync(int categoryId)
+        {
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Book>>>($"books/getByCategory/{categoryId}");
+            return response.ResponseData;
+        }
+
         public async Task<Book> GetByAsync(int id)
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<Book>>($"books/{id}");

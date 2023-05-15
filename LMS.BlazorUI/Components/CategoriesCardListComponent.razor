@@ -9,7 +9,7 @@
             <li><a class="text-decoration-none" href="#">All</a></li>
             @foreach(var category in categories)
             {
-                <li><a class="text-decoration-none" href="#">@category.CategoryName</a></li>
+                <li><a class="text-decoration-none" href="#" @onclick:preventDefault @onclick="() => OnCategorySelect(category.Id)">@category.CategoryName</a></li>
             }
         </ul>
     }
@@ -17,12 +17,19 @@
 
 
 @code {
-    
-    private IEnumerable<Category> categories;
+    [Parameter]
+    public EventCallback<int> CategorySelected { get; set; }
+
+    private IEnumerable<Category> categories;    
 
     protected override async Task OnInitializedAsync()
     {
         categories = await Service.GetAsync();
+    }
+
+    private void OnCategorySelect(int categoryId)
+    {
+        CategorySelected.InvokeAsync(categoryId);
     }
 
 }

@@ -85,18 +85,14 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetBookDto>> GetAllByAsync(int category)
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(int category)
         {
-            var result = await _repository.GetByAsync(category);
+            var result = await _repository.GetAllByAsync(category);
 
-            var serviceResponse = new ServiceResponse<GetBookDto>();
-            if (result is null)
+            var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>()
             {
-                serviceResponse.Message = $"Book with category {category} not found!";
-                serviceResponse.Succeeded = false;
-            }
-
-            serviceResponse.ResponseData = _mapper.Map<GetBookDto>(result);
+                ResponseData = _mapper.Map<IEnumerable<GetBookDto>>(result)
+            };
 
             return serviceResponse;
         }

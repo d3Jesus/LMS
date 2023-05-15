@@ -11,6 +11,6 @@ namespace LMS.Application.Interfaces
         Task<ServiceResponse<GetBookDto>> GetByIdAsync(int id);
         Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllAsync();
         Task<ServiceResponse<GetBookDto>> GetAllByAsync(string title);
-        Task<ServiceResponse<GetBookDto>> GetAllByAsync(int category);
+        Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(int category);
     }
 }

@@ -6,5 +6,6 @@ namespace LMS.BlazorUI.Data.Interfaces
     {
         Task<IEnumerable<Book>> GetAllAsync();
         Task<Book> GetByAsync(int id);
+        Task<IEnumerable<Book>> GetAllByAsync(int categoryId);
     }
 }

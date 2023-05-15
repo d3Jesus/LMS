@@ -7,7 +7,7 @@
     <div class="row">
 
         <div class="col-lg-3">
-            <CategoriesCardListComponent />
+            <CategoriesCardListComponent CategorySelected="DisplayBooksById" />
         </div>
 
         <div class="col-lg-9">
@@ -27,6 +27,7 @@
             <div class="row">
                 @if (books is not null)
                 {
+                    @books.Count()
                     foreach (var book in books)
                     {
                         <ItemCardComponent book="book" />
@@ -51,12 +52,21 @@
     </div>
 </div>
 
+
+
 @code {
     private IEnumerable<Book> books;
 
     protected override async Task OnInitializedAsync()
     {
         books = await BookService.GetAllAsync();
+    }
+
+    private async Task DisplayBooksById(int categoryId)
+    {
+        books = null;
+        books = await BookService.GetAllByAsync(categoryId);
+        
     }
 
 }
