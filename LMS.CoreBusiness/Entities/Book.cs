@@ -12,6 +12,7 @@ namespace LMS.CoreBusiness.Entities
         private int _categoryId;
         private string _imageUrl;
         private DateTime _dateCreated;
+        private decimal _price;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id
@@ -60,6 +61,12 @@ namespace LMS.CoreBusiness.Entities
         {
             get { return _dateCreated; }
             private set { _dateCreated = DateTime.Now; }
+        }
+
+        public decimal Price
+        {
+            get { return _price; }
+            private set { _price = value; }
         }
     }
 }

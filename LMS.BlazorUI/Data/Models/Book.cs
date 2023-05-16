@@ -10,6 +10,7 @@
         private int _categoryId;
         private string _imageUrl;
         private DateTime _dateCreated;
+        private decimal _price;
 
         public int Id
         {
@@ -57,6 +58,12 @@
         {
             get { return _dateCreated; }
             private set { _dateCreated = DateTime.Now; }
+        }
+
+        public decimal Price
+        {
+            get { return _price; }
+            set { _price = value; }
         }
     }
 }

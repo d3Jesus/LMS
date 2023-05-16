@@ -24,21 +24,37 @@
 
                             <form action="" method="GET">
                                 <div class="row">
+
+                                    <div class="col-auto">
+                                        <ul class="list-inline pb-3">
+                                            <li class="list-inline-item text-right">
+                                                Price : 
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <span class="badge bg-secondary" id="var-value">
+                                                    <input type="number" min="1" @bind-value="@totalPrice" disabled />
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item text-right">
                                                 Quantity
-                                                <input type="hidden" name="product-quanity" id="product-quanity" value="1">
                                             </li>
                                             <li class="list-inline-item"><span class="btn btn-success" id="btn-minus" @onclick="() => DecreaseQuantity()">-</span></li>
-                                            <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@_quantity</span></li>
+                                            <li class="list-inline-item">
+                                                <span class="badge bg-secondary" id="var-value">
+                                                    <input type="number" min="1" @bind-value="@_quantity" disabled />
+                                                </span>
+                                            </li>
                                             <li class="list-inline-item"><span class="btn btn-success" id="btn-plus" @onclick="() => IncreaseQuantity()">+</span></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="request">Request</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="request">Buy</button>
                                     </div>
                                 </div>
                             </form>
@@ -56,21 +72,33 @@
     [Parameter]
     public string id { get; set; }
     private int _quantity { get; set; } = 1;
+    private decimal totalPrice { get; set; }
 
     private Book book;
 
     protected override async Task OnInitializedAsync()
     {
         book = await BookService.GetByAsync(int.Parse(id));
+        totalPrice = book.Price;
     }
 
     public void DecreaseQuantity()
     {
-        _quantity--;
+        if (_quantity > 1)
+        {
+            _quantity--;
+            CalculateTotalPrice();
+        }
     }
 
     public void IncreaseQuantity()
     {
         _quantity++;
+        CalculateTotalPrice();
+    }
+
+    private void CalculateTotalPrice()
+    {
+        totalPrice = book.Price * _quantity;
     }
 }

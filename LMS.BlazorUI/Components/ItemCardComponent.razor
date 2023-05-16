@@ -1,24 +1,4 @@
-﻿@*<div class="col-12 col-md-4 mb-4">
-    <div class="card h-100">
-        <a href="shop-single.html">
-            <img src="@book.ImageUrl" class="card-img-top rounded-0" alt="@book.Title" width="500" height="280">
-
-            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                <ul class="list-unstyled">
-                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                </ul>
-            </div>
-        </a>
-        <div class="card-body">
-            <a href="shop-single.html" class="h2 text-decoration-none text-dark">@book.Title</a>
-            <p class="card-text">
-                @book.Description
-            </p>
-            <p class="text-muted">250</p>
-        </div>
-    </div>
-</div>*@
+﻿
 <div class="@cssClass">
     <div class="card mb-4 product-wap rounded-0">
         <div class="card rounded-0">
@@ -32,7 +12,7 @@
         </div>
         <div class="card-body">
             <a href="shop-single.html" class="h3 text-decoration-none">@book.Title</a>
-            <p class="text-center mb-0">$250.00</p>
+            <p class="text-center mb-0">@book.Price</p>
         </div>
     </div>
 </div>
