@@ -38,6 +38,17 @@
     <script src="~/js/custom.js"></script>
     <!-- End Script -->
 
+    <script>
+        function toggleSidebar(action) {
+            var cssClass = "toggle-sidebar";
+            var body = document.getElementsByTagName("body")[0];
+            if (action == "open")
+                body.classList.add(cssClass);
+            else
+                body.classList.remove(cssClass);
+        }
+    </script>
+
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

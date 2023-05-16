@@ -7,7 +7,7 @@
 			<img src="assets/img/logo.png" alt="">
 			<span class="d-none d-lg-block">Yuran Shop</span>
 		</a>
-		<i class="bi bi-list toggle-sidebar-btn"></i>
+		<i class="bi bi-list toggle-sidebar-btn" @onclick="() => ToggleSidebar()"></i>
 	</div><!-- End Logo -->
 
 	<nav class="header-nav ms-auto">
@@ -73,3 +73,12 @@
 	</nav><!-- End Icons Navigation -->
 
 </header>
+@collapse
+@code{
+	private string collapse { get; set; } = string.Empty;
+	private void ToggleSidebar()
+	{
+		collapse = collapse.Equals("open") ? "close" : "open";
+		JS.InvokeVoidAsync("toggleSidebar", collapse);
+	}
+}
