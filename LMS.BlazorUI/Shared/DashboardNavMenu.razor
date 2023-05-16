@@ -1,0 +1,67 @@
+﻿<aside id="sidebar" class="sidebar @collapseState">
+
+	<ul class="sidebar-nav" id="sidebar-nav">
+
+		<li class="nav-item">
+			<a class="nav-link " href="index.html">
+				<i class="bi bi-grid"></i>
+				<span>Dashboard</span>
+			</a>
+		</li><!-- End Dashboard Nav -->
+
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-bar-chart"></i>
+				<span>Management</span>
+			</a>
+		</li><!-- End Management Nav -->
+
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-folder"></i>
+				<span>Categories</span>
+			</a>
+		</li><!-- End Categories Nav -->
+
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-journal-text"></i>
+				<span>Authors</span>
+			</a>
+		</li><!-- End Authors Nav -->
+
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-book"></i>
+				<span>Books</span>
+			</a>
+		</li><!-- End Books Nav -->
+			
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-list-check"></i>
+				<span>Loans</span>
+			</a>
+		</li><!-- End Loans Nav -->
+			
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-menu-button-wide"></i>
+				<span>Reservations</span>
+			</a>
+		</li><!-- End Reservations Nav -->
+			
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="index.html">
+				<i class="bi bi-person"></i>
+				<span>Users</span>
+			</a>
+		</li><!-- End Users Nav -->
+
+	</ul>
+
+</aside>
+@code{
+	[Parameter]
+	public string collapseState { get; set; }
+}

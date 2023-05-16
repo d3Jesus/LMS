@@ -1,6 +1,8 @@
 ﻿@page "/login"
 
-@layout DashboardLayout
+@layout LoginRegisterLayout
+
+@inject NavigationManager NavigationManager
 
 <div class="container">
 
@@ -42,7 +44,7 @@
                     </div>
 
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <button class="btn btn-primary w-100" type="submit" @onclick="() => LoggingIn()">Login</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">
@@ -64,5 +66,8 @@
     </div>
 
 @code {
-
+    private void LoggingIn()
+    {
+        NavigationManager.NavigateTo("/dashboard", true);
+    }
 }
