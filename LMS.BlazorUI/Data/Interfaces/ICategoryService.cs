@@ -4,7 +4,7 @@ namespace LMS.BlazorUI.Data.Interfaces
 {
     public interface ICategoryService
     {
-        //Task<ServiceResponse<Category>> CreateAsync(Category category);
+        Task<ServiceResponse<Category>> CreateAsync(Category category);
         //Task<ServiceResponse<Category>> UpdateAsync(Category category);
         //Task<ServiceResponse<bool>> DeleteAsync(int id);
         Task<IEnumerable<Category>> GetAsync();

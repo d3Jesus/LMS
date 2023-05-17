@@ -34,6 +34,13 @@
             </table>
         </div>
 
+        <div class="card-footer">
+            <NavLink class="btn btn-link text-success" href="category-add" data-bs-toggle="tooltip"
+                     data-bs-placement="top" title="Add Category">
+                <i class="bi bi-plus"></i> New
+            </NavLink>
+        </div>
+
     </div>
 </div>
 
@@ -43,6 +50,7 @@
     protected override async Task OnInitializedAsync()
     {
         categories = await Service.GetAsync();
+        StateHasChanged();
     }
 
     protected override void OnAfterRender(bool firstRender)
