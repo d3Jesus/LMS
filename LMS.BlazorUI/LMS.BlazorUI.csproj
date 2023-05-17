@@ -6,4 +6,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Pages\Dashboard\ListCategories.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Dashboard\ListCategories.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Dashboard\ListCategories.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Dashboard\Categories\ListCategories.razor" />
+  </ItemGroup>
+
 </Project>

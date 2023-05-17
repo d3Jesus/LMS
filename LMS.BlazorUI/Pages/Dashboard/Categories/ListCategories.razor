@@ -1,0 +1,53 @@
+﻿
+@page "/categories"
+@layout DashboardLayout
+
+@inject IJSRuntime JS
+@inject ICategoryService Service
+
+<Breadcrumb title="Categories"/>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">List of Categories</h5>
+
+        <div class="table-responsive">
+            <table class="table table-sm table-hover" id="categoryTable" style="width: 100%;" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (categories is not null)
+                    {
+                        foreach (var category in categories)
+                        {
+                            <tr>
+                                <td scope="row">@category.Id</td>
+                                <td>@category.CategoryName</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private IEnumerable<Category> categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await Service.GetAsync();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+            JS.InvokeVoidAsync("addDatatable", "#categoryTable");
+    }
+}

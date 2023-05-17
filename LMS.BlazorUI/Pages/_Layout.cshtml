@@ -21,7 +21,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="css/fontawesome.min.css">
 
+    @*Datatable*@
+    <link href="~/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
     <script src="~/js/jquery-3.5.1.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.bootstrap5.min.js"></script>
     @*<script src="~/js/jquery-1.11.0.min.js"></script>*@
 </head>
 <body>
@@ -46,6 +51,19 @@
                 body.classList.add(cssClass);
             else
                 body.classList.remove(cssClass);
+        } 
+        
+        function addDatatable(table) {
+            $(function () {
+                $(table).DataTable().destroy();
+                $(table).DataTable();
+            });
+        }
+
+        function removeDatatable(table) {
+            $(function () {
+                $(table).DataTable().destroy();
+            });
         }
     </script>
 
