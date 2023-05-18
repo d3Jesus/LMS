@@ -7,10 +7,9 @@
 
 <Breadcrumb title="Categories"/>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">List of Categories</h5>
+<CardComponent title="List of Categories">
 
+    <bodyFragment>
         <div class="table-responsive">
             <table class="table table-sm table-hover" id="categoryTable" style="width: 100%;" cellspacing="0">
                 <thead>
@@ -33,16 +32,16 @@
                 </tbody>
             </table>
         </div>
+    </bodyFragment>
 
-        <div class="card-footer">
-            <NavLink class="btn btn-link text-success" href="category-add" data-bs-toggle="tooltip"
-                     data-bs-placement="top" title="Add Category">
-                <i class="bi bi-plus"></i> New
-            </NavLink>
-        </div>
+    <footerFragment>
+        <NavLink class="btn btn-link text-success" href="category-add" data-bs-toggle="tooltip"
+                 data-bs-placement="top" title="Add Category">
+            <i class="bi bi-plus"></i> New
+        </NavLink>
+    </footerFragment>
 
-    </div>
-</div>
+</CardComponent>
 
 @code {
     private IEnumerable<Category> categories;
