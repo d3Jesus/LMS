@@ -1,11 +1,8 @@
 ﻿
-@page "/category-add"
 @layout DashboardLayout
 
 @inject ICategoryService Service
 @inject NavigationManager NavigationManager
-
-<Breadcrumb title="New Category" />
 
 <EditForm Model="@category" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
@@ -17,16 +14,12 @@
                @bind-value="category.CategoryName">
     </div>
 
-    <button type="submit" class="btn btn-outline-success mt-3">
-        <i class="bi bi-save"></i> Save
-    </button>
-
 </EditForm>
 
 @code {
     private Category category = new Category();
 
-    private void OnValidSubmit()
+    public void OnValidSubmit()
     {
         var result = Service.CreateAsync(category);
 

@@ -1,0 +1,35 @@
+﻿
+<div class="modal" id="verticalycentered" tabindex="-1" style="@cssStyle">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="@DismissModal"></button>
+            </div>
+            <div class="modal-body">
+                @bodyFragment
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" @onclick="@DismissModal">Close</button>
+                @footerFragment
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string title { get; set; }
+    [Parameter]
+    public string cssStyle { get; set; } = "display: none;";
+
+    [Parameter]
+    public RenderFragment bodyFragment { get; set; }
+    [Parameter]
+    public RenderFragment footerFragment { get; set; }
+
+    public void DismissModal()
+    {
+        cssStyle = "display: none;";
+    }
+}

@@ -35,26 +35,45 @@
     </bodyFragment>
 
     <footerFragment>
-        <NavLink class="btn btn-link text-success" href="category-add" data-bs-toggle="tooltip"
-                 data-bs-placement="top" title="Add Category">
+        <button type="button" class="btn btn-outline-success" @onclick="@DisplayModal">
             <i class="bi bi-plus"></i> New
-        </NavLink>
+        </button>
     </footerFragment>
 
 </CardComponent>
 
+<ModalComponent title="Add Category" cssStyle="@style">
+
+    <bodyFragment>
+        <AddCategory @ref="child" />
+    </bodyFragment>
+
+    <footerFragment>
+        <button type="submit" class="btn btn-outline-success" @onclick="@(() => child.OnValidSubmit())">
+            <i class="bi bi-save"></i> Save
+        </button>
+    </footerFragment>
+
+</ModalComponent>
+
 @code {
     private IEnumerable<Category> categories;
+    private string style { get; set; }
+    private AddCategory child;
 
     protected override async Task OnInitializedAsync()
     {
         categories = await Service.GetAsync();
-        StateHasChanged();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
-            JS.InvokeVoidAsync("addDatatable", "#categoryTable");
+        if (firstRender)
+            await JS.InvokeVoidAsync("addDatatable", "#categoryTable");
+    }
+
+    private void DisplayModal()
+    {
+        style = "display: block;";
     }
 }
