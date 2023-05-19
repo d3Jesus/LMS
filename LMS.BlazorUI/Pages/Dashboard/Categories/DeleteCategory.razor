@@ -1,0 +1,28 @@
+﻿@layout DashboardLayout
+
+@inject ICategoryService Service
+@inject NavigationManager NavigationManager
+
+<h6>Category @category.CategoryName is about to be deleted!</h6>
+<h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+
+@code {
+
+    private Category category = new Category();
+
+    [Parameter]
+    public int categoryId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var response = await Service.GetByAsync(categoryId);
+        category = response.ResponseData;
+    }
+
+    public void OnValidSubmit()
+    {
+        var result = Service.DeleteAsync(categoryId);
+
+        NavigationManager.NavigateTo("categories", true);
+    }
+}

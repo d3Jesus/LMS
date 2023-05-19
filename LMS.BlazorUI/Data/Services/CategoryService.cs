@@ -20,6 +20,12 @@ namespace LMS.BlazorUI.Data.Services
             return await result.Content.ReadFromJsonAsync<ServiceResponse<Category>>();
         }
 
+        public async Task<ServiceResponse<bool>> DeleteAsync(int id)
+        {
+            var result = await _httpClient.DeleteAsync($"categories/{id}");
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+        }
+
         public async Task<IEnumerable<Category>> GetAsync()
         {
             var categories = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Category>>>("categories");
