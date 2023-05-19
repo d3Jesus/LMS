@@ -69,9 +69,9 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetCategoryDto>> GetByAsync(int id)
+        public ServiceResponse<GetCategoryDto> GetBy(int id)
         {
-            var result = await _repository.GetByAsync(id);
+            var result = _repository.GetBy(id);
 
             var serviceResponse = new ServiceResponse<GetCategoryDto>();
             if (result is null)

@@ -8,7 +8,7 @@ namespace LMS.CoreBusiness.Interfaces
         Task<Category> UpdateAsync(Category category);
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<Category>> GetAsync();
-        Task<Category> GetByAsync(int id);
+        Category GetBy(int id);
         Task<IEnumerable<Category>> GetAsync(string categoryName);
     }
 }

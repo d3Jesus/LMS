@@ -1,0 +1,17 @@
+﻿
+@layout DashboardLayout
+
+@inject ICategoryService Service
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@category" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="name"
+               placeholder="Category Name" autocomplete="off"
+               @bind-value="category.CategoryName">
+    </div>
+
+</EditForm>

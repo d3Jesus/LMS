@@ -16,6 +16,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,6 +27,11 @@
                             <tr>
                                 <td scope="row">@category.Id</td>
                                 <td>@category.CategoryName</td>
+                                <td>
+                                    <button type="button" class="btn btn-link" @onclick="@(() => DisplayModal("UPDATE", category.Id))">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </td>
                             </tr>
                         }
                     }
@@ -35,23 +41,42 @@
     </bodyFragment>
 
     <footerFragment>
-        <button type="button" class="btn btn-outline-success" @onclick="@DisplayModal">
+        <button type="button" class="btn btn-outline-success" @onclick="@(() => DisplayModal("ADD"))">
             <i class="bi bi-plus"></i> New
         </button>
+        
     </footerFragment>
 
 </CardComponent>
 
-<ModalComponent title="Add Category" cssStyle="@style">
+<ModalComponent title="@_title" cssStyle="@style">
 
     <bodyFragment>
-        <AddCategory @ref="child" />
+        @switch(_operation)
+        {
+            case "ADD":
+                <AddCategory @ref="AddForm" />
+                break;
+            case "UPDATE": 
+                <UpdateCategory @ref="UpdateForm" categoryId="@_id" />
+                break;
+        }
     </bodyFragment>
 
     <footerFragment>
-        <button type="submit" class="btn btn-outline-success" @onclick="@(() => child.OnValidSubmit())">
-            <i class="bi bi-save"></i> Save
-        </button>
+        @switch (_operation)
+        {
+            case "ADD":
+                <button type="submit" class="btn btn-outline-success" @onclick="@(() => AddForm.OnValidSubmit())">
+                    <i class="bi bi-save"></i> Save
+                </button>
+                break;
+            case "UPDATE":
+                <button type="submit" class="btn btn-outline-success" @onclick="@(() => UpdateForm.OnValidSubmit())">
+                    <i class="bi bi-save"></i> Update
+                </button>
+                break;
+        }
     </footerFragment>
 
 </ModalComponent>
@@ -59,7 +84,11 @@
 @code {
     private IEnumerable<Category> categories;
     private string style { get; set; }
-    private AddCategory child;
+    private AddCategory AddForm;
+    private UpdateCategory UpdateForm;
+    private string _operation;
+    private string _title;
+    private int _id;
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,8 +101,19 @@
             await JS.InvokeVoidAsync("addDatatable", "#categoryTable");
     }
 
-    private void DisplayModal()
+    private void DisplayModal(string operation, int id = 0)
     {
+        _operation = operation;
+        switch (_operation)
+        {
+            case "ADD":
+                _title = "Add Category";
+                break;
+            case "UPDATE":
+                _title = "Update Category";
+                _id = id;
+                break;
+        }
         style = "display: block;";
     }
 }

@@ -31,9 +31,9 @@ namespace LMS.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public IActionResult Get(int id)
         {
-            return Ok(await _service.GetByAsync(id));
+            return Ok(_service.GetBy(id));
         }
 
         [HttpPut]

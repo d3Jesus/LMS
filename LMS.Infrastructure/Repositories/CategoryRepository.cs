@@ -37,9 +37,9 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Categories.ToListAsync();
         }
 
-        public async Task<Category> GetByAsync(int id)
+        public Category GetBy(int id)
         {
-            return await _context.Categories.FindAsync(id);
+            return _context.Categories.Find(id);
         }
 
         public async Task<IEnumerable<Category>> GetAsync(string categoryName)

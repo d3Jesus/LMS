@@ -9,7 +9,7 @@ namespace LMS.Application.Interfaces
         Task<ServiceResponse<GetCategoryDto>> UpdateAsync(GetCategoryDto category);
         Task<ServiceResponse<bool>> DeleteAsync(int id);
         Task<ServiceResponse<IEnumerable<GetCategoryDto>>> GetAsync();
-        Task<ServiceResponse<GetCategoryDto>> GetByAsync(int id); 
+        ServiceResponse<GetCategoryDto> GetBy(int id); 
         Task<ServiceResponse<IEnumerable<GetCategoryDto>>> GetAsync(string categoryName);
     }
 }

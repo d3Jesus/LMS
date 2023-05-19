@@ -26,5 +26,18 @@ namespace LMS.BlazorUI.Data.Services
 
             return categories.ResponseData;
         }
+
+        public async Task<ServiceResponse<Category>> GetByAsync(int id)
+        {
+            var categories = await _httpClient.GetFromJsonAsync<ServiceResponse<Category>>($"categories/{id}");
+
+            return categories;
+        }
+
+        public async Task<ServiceResponse<Category>> UpdateAsync(Category category)
+        {
+            var result = await _httpClient.PutAsJsonAsync("categories", category);
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<Category>>();
+        }
     }
 }
