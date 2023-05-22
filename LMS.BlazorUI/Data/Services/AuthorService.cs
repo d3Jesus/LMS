@@ -14,7 +14,14 @@ namespace LMS.BlazorUI.Data.Services
             _httpClient = _httpClientFactory.CreateClient("local");
         }
 
-        public async Task<IEnumerable<Author>> GetAllAsync()
+		public async Task<ServiceResponse<Author>> CreateAsync(Author author)
+        {
+            author.WasDeleted = false;
+            var result = await _httpClient.PostAsJsonAsync("authors", author);
+			return await result.Content.ReadFromJsonAsync<ServiceResponse<Author>>();
+		}
+
+		public async Task<IEnumerable<Author>> GetAllAsync()
         {
             var authors = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Author>>>("authors");
 
