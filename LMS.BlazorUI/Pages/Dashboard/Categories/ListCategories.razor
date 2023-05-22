@@ -108,6 +108,7 @@
     protected override async Task OnInitializedAsync()
     {
         categories = await Service.GetAsync();
+        StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
