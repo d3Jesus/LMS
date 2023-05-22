@@ -1,22 +1,12 @@
-using LMS.BlazorUI.Data.Interfaces;
-using LMS.BlazorUI.Data.Services;
-using Microsoft.Net.Http.Headers;
+using LMS.BlazorUI.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IBookService, BookService>();
 
-builder.Services.AddHttpClient("local", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("https://localhost:7078/api/");
-
-    httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-
-});
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 

@@ -1,0 +1,63 @@
+﻿@page "/authors"
+@layout DashboardLayout
+
+@inject IJSRuntime JS
+@inject IAuthorService Service
+
+<Breadcrumb title="Authors" />
+
+<CardComponent title="List of Authors">
+
+    <bodyFragment>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover" id="authorTable" style="width: 100%;" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Nationality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (authors is not null)
+                    {
+                        foreach (var author in authors)
+                        {
+                            <tr>
+                                <td scope="row">@author.Id</td>
+                                <td>@author.FirstName</td>
+                                <td>@author.LastName</td>
+                                <td>@author.Nationality</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </bodyFragment>
+
+    <footerFragment>
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Author">
+            <i class="bi bi-plus"></i> New
+        </button>
+
+    </footerFragment>
+
+</CardComponent>
+
+@code {
+    private IEnumerable<Author> authors;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authors = await Service.GetAllAsync();
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await JS.InvokeVoidAsync("addDatatable", "#authorTable");
+    }
+}
