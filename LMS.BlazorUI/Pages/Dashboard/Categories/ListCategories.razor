@@ -24,21 +24,21 @@
                         {
                             foreach (var category in categories)
                             {
-                            <tr>
-                                <td scope="row">@category.Id</td>
-                                <td>@category.CategoryName</td>
-                                <td>
-                                    <button type="button" class="btn text-info" @onclick="@(() => DisplayModal("UPDATE", category.Id))"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Update Category">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
+                                <tr>
+                                    <td scope="row">@category.Id</td>
+                                    <td>@category.CategoryName</td>
+                                    <td>
+                                        <button type="button" class="btn text-info" @onclick="@(() => Modal.DisplayModal(ModalOperations.UPDATE, "Update Category", category.Id))"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Update Category">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
 
-                                    <button type="button" class="btn text-danger" @onclick="@(() => DisplayModal("DELETE", category.Id))"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Category">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                        <button type="button" class="btn text-danger" @onclick="@(() => Modal.DisplayModal(ModalOperations.DELETE, "Delete Category", category.Id))"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Category">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                             }
                         }
                 </tbody>
@@ -52,7 +52,7 @@
     </bodyFragment>
 
     <footerFragment>
-        <button type="button" class="btn btn-outline-success" @onclick="@(() => DisplayModal("ADD"))" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Category">
+        <button type="button" class="btn btn-outline-success" @onclick="@(() => Modal.DisplayModal(ModalOperations.ADD, "Add Category"))" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Category">
             <i class="bi bi-plus"></i> New
         </button>
         
@@ -60,39 +60,39 @@
 
 </CardComponent>
 
-<ModalComponent title="@_title" cssStyle="@style">
+<ModalComponent @ref="Modal">
 
     <bodyFragment>
-        @switch(_operation)
+        @switch (Modal._operation)
         {
-            case "ADD":
+            case ModalOperations.ADD:
                 <AddCategory @ref="AddForm" />
                 break;
-            case "UPDATE": 
-                <UpdateCategory @ref="UpdateForm" categoryId="@_id" />
+            case ModalOperations.UPDATE: 
+                <UpdateCategory @ref="UpdateForm" categoryId="@Modal._id" />
                 break;
-            case "DELETE":
-                <DeleteCategory @ref="DeleteForm" categoryId="@_id" />
+            case ModalOperations.DELETE:
+                <DeleteCategory @ref="DeleteForm" categoryId="@Modal._id" />
                 break;
         }
     </bodyFragment>
 
     <footerFragment>
-        @switch (_operation)
+        @switch (Modal._operation)
         {
-            case "ADD":
+            case ModalOperations.ADD:
                 <button type="submit" class="btn btn-outline-success" @onclick="@(() => AddForm.OnValidSubmit())">
                     <i class="bi bi-save"></i> Save
                 </button>
                 break;
-            case "UPDATE":
+            case ModalOperations.UPDATE:
                 <button type="submit" class="btn btn-outline-success" @onclick="@(() => UpdateForm.OnValidSubmit())">
                     <i class="bi bi-save"></i> Update
                 </button>
                 break;
-            case "DELETE":
+            case ModalOperations.DELETE:
                 <button type="submit" class="btn btn-outline-danger" @onclick="@(() => DeleteForm.OnValidSubmit())">
-                    <i class="bi bi-save"></i> Update
+                    <i class="bi bi-save"></i> Delete
                 </button>
                 break;
         }
@@ -100,39 +100,16 @@
 
 </ModalComponent>
 
-@code {
+@code{
     private IEnumerable<Category> categories;
-    private string style { get; set; }
     private AddCategory AddForm;
     private UpdateCategory UpdateForm;
     private DeleteCategory DeleteForm;
-    private string _operation;
-    private string _title;
-    private int _id;
+    private ModalComponent Modal;
 
     protected override async Task OnInitializedAsync()
     {
         categories = await Service.GetAsync();
         StateHasChanged();
-    }
-
-    private void DisplayModal(string operation, int id = 0)
-    {
-        _operation = operation;
-        switch (_operation)
-        {
-            case "ADD":
-                _title = "Add Category";
-                break;
-            case "UPDATE":
-                _title = "Update Category";
-                _id = id;
-                break;
-            case "DELETE":
-                _title = "Delete Category";
-                _id = id;
-                break;
-        }
-        style = "display: block;";
     }
 }

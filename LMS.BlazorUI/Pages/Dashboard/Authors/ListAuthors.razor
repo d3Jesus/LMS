@@ -17,6 +17,7 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Nationality</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,17 @@
                                 <td>@author.FirstName</td>
                                 <td>@author.LastName</td>
                                 <td>@author.Nationality</td>
+                                <td>
+                                    <button type="button" class="btn text-info" 
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Update Author">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+
+                                <button type="button" class="btn text-danger"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Author">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
                             }
                         }
@@ -38,7 +50,8 @@
     </bodyFragment>
 
     <footerFragment>
-        <button type="button" class="btn btn-outline-success" @onclick="@(() => DisplayModal())" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Author">
+        <button type="button" class="btn btn-outline-success" @onclick="@(() => Modal.DisplayModal(ModalOperations.ADD, "Add Author"))" 
+            data-bs-toggle="tooltip" data-bs-placement="top" title="Add Author">
             <i class="bi bi-plus"></i> New
         </button>
 
@@ -46,13 +59,14 @@
 
 </CardComponent>
 
-<ModalComponent title="@_title" cssStyle="@style">
+<ModalComponent @ref="Modal">
 
     <bodyFragment>
         <AddAuthor @ref="AddForm" />
     </bodyFragment>
 
     <footerFragment>
+        
         <button type="submit" class="btn btn-outline-success" @onclick="@(() => AddForm.OnValidSubmit())">
             <i class="bi bi-save"></i> Save
         </button>
@@ -63,19 +77,12 @@
 
 @code {
     private IEnumerable<Author> authors;
-    private string style { get; set; }
     private AddAuthor AddForm;
-    private string _title;
+    private ModalComponent Modal;
 
     protected override async Task OnInitializedAsync()
     {
         authors = await Service.GetAllAsync();
         StateHasChanged();
-    }
-
-    private void DisplayModal()
-    {
-        _title = "Add Author";
-        style = "display: block;";
     }
 }
