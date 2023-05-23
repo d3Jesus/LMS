@@ -10,8 +10,8 @@
 <CardComponent title="List of Categories">
 
     <bodyFragment>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover" id="categoryTable" style="width: 100%;" cellspacing="0">
+        <Datatable id="categoriesTable">
+            <Content>
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -20,10 +20,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (categories is not null)
-                    {
-                        foreach (var category in categories)
+                        @if (categories is not null)
                         {
+                            foreach (var category in categories)
+                            {
                             <tr>
                                 <td scope="row">@category.Id</td>
                                 <td>@category.CategoryName</td>
@@ -39,9 +39,14 @@
                                     </button>
                                 </td>
                             </tr>
+                            }
                         }
-                    }
                 </tbody>
+            </Content>
+        </Datatable>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover" id="categoryTable" style="width: 100%;" cellspacing="0">
+                
             </table>
         </div>
     </bodyFragment>
@@ -109,12 +114,6 @@
     {
         categories = await Service.GetAsync();
         StateHasChanged();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-            await JS.InvokeVoidAsync("addDatatable", "#categoryTable");
     }
 
     private void DisplayModal(string operation, int id = 0)

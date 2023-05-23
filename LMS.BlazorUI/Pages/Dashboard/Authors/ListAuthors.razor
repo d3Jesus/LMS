@@ -9,8 +9,8 @@
 <CardComponent title="List of Authors">
 
     <bodyFragment>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover" id="authorTable" style="width: 100%;" cellspacing="0">
+        <Datatable id="authorsTable">
+            <Content>
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -20,21 +20,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (authors is not null)
-                    {
-                        foreach (var author in authors)
+                        @if (authors is not null)
                         {
+                            foreach (var author in authors)
+                            {
                             <tr>
                                 <td scope="row">@author.Id</td>
                                 <td>@author.FirstName</td>
                                 <td>@author.LastName</td>
                                 <td>@author.Nationality</td>
                             </tr>
+                            }
                         }
-                    }
                 </tbody>
-            </table>
-        </div>
+            </Content>
+        </Datatable>
     </bodyFragment>
 
     <footerFragment>
@@ -71,12 +71,6 @@
     {
         authors = await Service.GetAllAsync();
         StateHasChanged();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-            await JS.InvokeVoidAsync("addDatatable", "#authorTable");
     }
 
     private void DisplayModal()

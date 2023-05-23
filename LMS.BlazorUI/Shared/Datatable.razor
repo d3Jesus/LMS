@@ -1,0 +1,25 @@
+﻿@inject IJSRuntime JS
+
+<div class="table-responsive">
+    <table class="table table-sm table-hover" id="@id" style="width: 100%;" cellspacing="0">
+        @Content
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    [Parameter]
+    public string id { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeAsync<string>("addDatatable", $"#{id}");
+    }
+}
