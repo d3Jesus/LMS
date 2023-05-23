@@ -31,7 +31,7 @@
                                 <td>@author.LastName</td>
                                 <td>@author.Nationality</td>
                                 <td>
-                                    <button type="button" class="btn text-info" 
+                                <button type="button" class="btn text-info" @onclick="@(() => Modal.DisplayModal(ModalOperations.UPDATE, "Update Author", author.Id))"
                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Update Author">
                                         <i class="bi bi-pencil"></i>
                                     </button>
@@ -62,14 +62,34 @@
 <ModalComponent @ref="Modal">
 
     <bodyFragment>
-        <AddAuthor @ref="AddForm" />
+        
+        @switch (Modal._operation)
+        {
+            case ModalOperations.ADD:
+                <AddAuthor @ref="AddForm" />
+                break;
+            case ModalOperations.UPDATE:
+                <UpdateAuthor @ref="UpdateForm" authorId="@Modal._id" />
+                break;
+        }
     </bodyFragment>
 
     <footerFragment>
         
-        <button type="submit" class="btn btn-outline-success" @onclick="@(() => AddForm.OnValidSubmit())">
-            <i class="bi bi-save"></i> Save
-        </button>
+        
+        @switch (Modal._operation)
+        {
+            case ModalOperations.ADD:
+                <button type="submit" class="btn btn-outline-success" @onclick="@(() => AddForm.OnValidSubmit())">
+                    <i class="bi bi-save"></i> Save
+                </button>
+                break;
+            case ModalOperations.UPDATE:
+                <button type="submit" class="btn btn-outline-success" @onclick="@(() => UpdateForm.OnValidSubmit())">
+                    <i class="bi bi-save"></i> Update
+                </button>
+                break;
+        }
     </footerFragment>
 
 </ModalComponent>
@@ -78,6 +98,7 @@
 @code {
     private IEnumerable<Author> authors;
     private AddAuthor AddForm;
+    private UpdateAuthor UpdateForm;
     private ModalComponent Modal;
 
     protected override async Task OnInitializedAsync()

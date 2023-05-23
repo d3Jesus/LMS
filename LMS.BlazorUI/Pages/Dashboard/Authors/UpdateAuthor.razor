@@ -1,0 +1,49 @@
+﻿@layout DashboardLayout
+
+@inject IAuthorService Service
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@author" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-2">
+        <input type="text" class="form-control" id="name"
+               placeholder="First Name" autocomplete="off"
+               @bind-value="author.FirstName">
+    </div>
+
+    <div class="form-group mb-2">
+        <input type="text" class="form-control" id="name"
+               placeholder="Last Name" autocomplete="off"
+               @bind-value="author.LastName">
+    </div>
+
+    <div class="form-group mb-2">
+        <input type="text" class="form-control" id="name"
+               placeholder="Nationality" autocomplete="off"
+               @bind-value="author.Nationality">
+    </div>
+
+</EditForm>
+
+@code {
+    private Author author = new Author();
+
+    [Parameter]
+    public int authorId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var response = await Service.GetByAsync(authorId);
+        author = response.ResponseData;
+    }
+
+    public void OnValidSubmit()
+    {
+        var result = Service.UpdateAsync(author);
+
+        NavigationManager.NavigateTo("authors", true);
+    }
+
+}

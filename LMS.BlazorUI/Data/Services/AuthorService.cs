@@ -27,5 +27,16 @@ namespace LMS.BlazorUI.Data.Services
 
             return authors.ResponseData;
         }
+
+        public async Task<ServiceResponse<Author>> GetByAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<ServiceResponse<Author>>($"authors/{id}");
+        }
+
+        public async Task<ServiceResponse<Author>> UpdateAsync(Author author)
+        {
+            var result = await _httpClient.PutAsJsonAsync("authors", author);
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<Author>>();
+        }
     }
 }
