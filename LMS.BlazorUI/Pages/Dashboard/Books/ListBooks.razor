@@ -1,0 +1,52 @@
+﻿@page "/books"
+@layout DashboardLayout
+
+<Breadcrumb title="Books" />
+
+<CardComponent title="List of Books">
+
+    <bodyFragment>
+        <Datatable id="booksTable">
+            <Content>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Edition</th>
+                    <th>Category</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">1</td>
+                    <td>Terra Sonambula</td>
+                    <td>1</td>
+                    <td>Novel</td>
+                    <td>
+                        <a class="text-info" href="/ad/${book.Id}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Book">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <span class="text-white"> | </span>
+                        <a class="text-danger" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Book">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            </Content>
+        </Datatable>
+    </bodyFragment>
+
+    <footerFragment>
+        <a class="btn btn-outline-success float-end" href="new-book" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Book">
+            <i class="bi bi-plus"></i> New
+        </a>
+    </footerFragment>
+
+</CardComponent>
+
+
+@code {
+    
+}
