@@ -1,0 +1,21 @@
+﻿@page "/delete-book"
+@layout DashboardLayout
+
+@inject NavigationManager NavigationManager
+
+<h6>The book @book.Title is about to be deleted!</h6>
+<h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+
+@code {
+
+    private Book book = new Book();
+
+    [Parameter]
+    public int bookId { get; set; }
+
+
+    public void OnValidSubmit()
+    {
+        NavigationManager.NavigateTo("books", true);
+    }
+}

@@ -1,0 +1,85 @@
+﻿@page "/update-book"
+@layout DashboardLayout
+
+@inject IAuthorService Service
+@inject NavigationManager NavigationManager
+
+
+<Breadcrumb title="Books" />
+
+<CardComponent title="Update Book">
+    <bodyFragment>
+        <EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control"
+                           placeholder="Book Title" autocomplete="off"
+                           @bind-value="book.Title">
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-control"
+                           placeholder="Book Description" autocomplete="off"
+                           @bind-value="book.Description">
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">ISBN</label>
+                    <input type="text" class="form-control"
+                           placeholder="Book ISBN" autocomplete="off"
+                           @bind-value="book.ISBN">
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Book Category</label>
+                    <select @bind="book.CategoryId" class="form-control" aria-required="true">
+                        @if (categories != null)
+                            @foreach (var category in categories)
+                            {
+                                <option value=@category.Id>@category.CategoryName</option>
+                            }
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Cover</label>
+                    @*<BlazorInputFile.InputFile OnChange="HandleSelectedFile" multiple >
+                    </BlazorInputFile.InputFile> *@
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Price</label>
+                    <input type="text" class="form-control"
+                           placeholder="Book Price" autocomplete="off"
+                           @bind-value="book.Price">
+                </div>
+            </div>
+
+        </EditForm>
+    </bodyFragment>
+    <footerFragment>
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-secondary">
+                <i class="bi bi-save"></i> Cancel
+            </button>
+            <button type="submit" class="btn btn-outline-success">
+                <i class="bi bi-save"></i> Save
+            </button>
+        </div>
+    </footerFragment>
+</CardComponent>
+
+@code {
+    private Book book = new Book();
+    private IEnumerable<Category> categories;
+
+
+
+    private void OnValidSubmit()
+    {}
+}
