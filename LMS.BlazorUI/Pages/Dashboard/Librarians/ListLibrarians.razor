@@ -1,0 +1,61 @@
+﻿@page "/librarians"
+@layout DashboardLayout
+
+<Breadcrumb title="Librarians" />
+
+<CardComponent title="List of Librarians">
+
+    <bodyFragment>
+        <Datatable id="librariansTable">
+            <Content>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">1</td>
+                    <td>Yunice</td>
+                    <td>Evelise</td>
+                    <td>Maputo</td>
+                    <td>
+                        <span class="badge bg-success">Active</span>
+                        <span class="badge bg-danger">Deleted</span>
+                    </td>
+                    <td>
+                        <a class="text-info" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Librarian">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a class="text-danger" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Librarian">
+                            <i class="bi bi-dash-circle"></i>
+                        </a>
+                        <a class="text-primary" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Recover Deleted Librarian">
+                            <i class="bi bi-plus-circle"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            </Content>
+        </Datatable>
+    </bodyFragment>
+
+    <footerFragment>
+        <div class="text-center">
+            <a class="btn btn-outline-success" href="new-librarian" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Librarian">
+                <i class="bi bi-plus"></i> New
+            </a>
+        </div>
+    </footerFragment>
+
+</CardComponent>
+
+
+@code {
+
+}
