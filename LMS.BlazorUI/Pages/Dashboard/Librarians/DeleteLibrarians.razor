@@ -1,0 +1,15 @@
+﻿@page "/delete-librarian"
+@layout DashboardLayout
+
+@inject NavigationManager NavigationManager
+
+<h6>The librarian is about to be deleted!</h6>
+<h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+
+@code {
+
+    public void OnValidSubmit()
+    {
+        NavigationManager.NavigateTo("librarians", true);
+    }
+}
