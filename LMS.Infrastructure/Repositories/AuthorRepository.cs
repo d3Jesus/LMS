@@ -32,11 +32,6 @@ namespace LMS.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<Author>> GetAsync()
-        {
-            return await _context.Authors.ToListAsync();
-        }
-
         public async Task<IEnumerable<Author>> GetAsync(bool wasDeleted)
         {
             return await _context.Authors.Where(auth => auth.WasDeleted == wasDeleted).ToListAsync();
