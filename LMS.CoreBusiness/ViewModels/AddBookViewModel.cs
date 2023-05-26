@@ -1,15 +1,15 @@
-﻿namespace LMS.Application.ViewModels.Book
+﻿namespace LMS.CoreBusiness.ViewModels
 {
-    public record GetBookDto 
+    public record AddBookViewModel
         (
-            int id, 
             string title, 
             string description, 
             int edition, 
             string isbn, 
-            string categoryName, 
+            int categoryId, 
             string imageUrl, 
             DateTime dateCreated, 
-            decimal price
+            decimal price, 
+            List<int> authors
         );
 }

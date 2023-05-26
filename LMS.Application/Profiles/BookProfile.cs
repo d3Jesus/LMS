@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using LMS.Application.ViewModels.Book;
-using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.ViewModels;
 
 namespace LMS.Application.Profiles;
-    public class BookProfile : Profile
+public class BookProfile : Profile
+{
+    public BookProfile()
     {
-        public BookProfile()
-        {
-            CreateMap<Book, GetBookDto>();
-            CreateMap<GetBookDto, Book>();
+        CreateMap<GetBookViewModel, GetBookDto>();
+        CreateMap<GetBookDto, GetBookViewModel>();
 
-            CreateMap<Book, AddBookDto>();
-            CreateMap<AddBookDto, Book>();
-        }
+        CreateMap<AddBookViewModel, AddBookDto>();
+        CreateMap<AddBookDto, AddBookViewModel>();
     }
+}

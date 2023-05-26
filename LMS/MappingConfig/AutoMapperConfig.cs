@@ -10,12 +10,9 @@ namespace LMS.API.MappingConfig
 
             services.AddAutoMapper(typeof(AuthorProfile));
             services.AddAutoMapper(typeof(CategoryProfile));
-            services.AddAutoMapper(typeof(AuthorshipProfile));
             services.AddAutoMapper(typeof(BookProfile));
             services.AddAutoMapper(typeof(LibrarianProfile));
-            services.AddAutoMapper(typeof(MemberProfile));
-            services.AddAutoMapper(typeof(LoanProfile));
-            services.AddAutoMapper(typeof(ReservationProfile));
+            services.AddAutoMapper(typeof(PurchaseProfile));
             services.AddAutoMapper(typeof(StockProfile));
         }
     }

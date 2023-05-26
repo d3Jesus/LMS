@@ -12,10 +12,8 @@ namespace LMS.Infrastructure.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Authorship> Authorships { get; set; }
         public DbSet<Librarian> Librarians { get; set; }
-        public DbSet<Member> Members { get; set; }
-        public DbSet<Loan> Loans { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<VwReservation> VwReservations { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<PurchaseItems> Items { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Category> Categories { get; set; }
 
@@ -27,10 +25,8 @@ namespace LMS.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new BookConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new LibrarianConfiguration());
-            modelBuilder.ApplyConfiguration(new MemberConfiguration());
-            modelBuilder.ApplyConfiguration(new LoanConfiguration());
-            modelBuilder.ApplyConfiguration(new ReservationConfiguration());
-            modelBuilder.ApplyConfiguration(new VwReservationConfiguration());
+            modelBuilder.ApplyConfiguration(new PurchaseConfiguration());
+            modelBuilder.ApplyConfiguration(new PurchaseItemsConfiguration());
             modelBuilder.ApplyConfiguration(new StockConfiguration());
         }
 

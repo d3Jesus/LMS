@@ -22,23 +22,14 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddScoped<IAuthorshipRepository, AuthorshipRepository>();
-            services.AddScoped<IAuthorshipService, AuthorshipService>();
-
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookService, BookService>();
 
             services.AddScoped<ILibrarianRepository, LibrarianRepository>();
             services.AddScoped<ILibrarianService, LibrarianService>();
 
-            services.AddScoped<IMemberRepository, MemberRepository>();
-            services.AddScoped<IMemberService, MemberService>();
-
-            services.AddScoped<ILoanRepository, LoanRepository>();
-            services.AddScoped<ILoanService, LoanService>();
-
-            services.AddScoped<IReservationRepository, ReservationRepository>();
-            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockService, StockService>();

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace LMS.CoreBusiness.Entities
+﻿namespace LMS.CoreBusiness.Entities
 {
     public class Author : Person
     {
