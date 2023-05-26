@@ -54,5 +54,8 @@ namespace LMS.CoreBusiness.Entities
             get { return _status; }
             set { _status = value; }
         }
+
+        public virtual List<Book> Books { get; set; }
+        public virtual List<Purchase> Purchases { get; set; }
     }
 }

@@ -33,5 +33,7 @@ namespace LMS.CoreBusiness.Entities
             get { return _totalpayed; }
             set { _totalpayed = value; }
         }
+
+        public virtual List<Librarian> Librarians { get; set; }
     }
 }

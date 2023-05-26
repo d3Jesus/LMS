@@ -6,7 +6,7 @@
         private int _copiesOwned;
         private int copiesAvailable;
 
-        public int Book
+        public int BookId
         {
             get { return _bookid; }
             set { _bookid = value; }
@@ -21,5 +21,7 @@
             get { return copiesAvailable; }
             set { copiesAvailable = value; }
         }
+
+        public virtual Book Book { get; set; }
     }
 }

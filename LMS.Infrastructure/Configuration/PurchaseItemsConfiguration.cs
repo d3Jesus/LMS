@@ -16,6 +16,8 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.BasePrice).HasPrecision(18, 2).IsRequired();
             builder.Property(p => p.PurchasedPrice).HasPrecision(18, 2).IsRequired();
             builder.Property(p => p.Status).IsRequired();
+            builder.Ignore(p => p.Books);
+            builder.Ignore(p => p.Purchases);
         }
     }
 }

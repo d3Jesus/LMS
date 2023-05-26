@@ -9,10 +9,11 @@ namespace LMS.Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<Stock> builder)
         {
             builder.ToTable(nameof(Stock));
-            builder.HasKey(p => p.Book);
-            builder.Property(p => p.Book).IsRequired();
+            builder.HasKey(p => p.BookId);
+            builder.Property(p => p.BookId).IsRequired();
             builder.Property(p => p.NumberOfCopies).IsRequired().HasMaxLength(50);
             builder.Property(p => p.CopiesAvailable).IsRequired().HasMaxLength(50);
+            builder.Ignore(p => p.Book);
 
         }
     }

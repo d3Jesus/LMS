@@ -68,5 +68,7 @@ namespace LMS.CoreBusiness.Entities
             get { return _price; }
             private set { _price = value; }
         }
+
+        public virtual List<Category> Categories { get; set; }
     }
 }
