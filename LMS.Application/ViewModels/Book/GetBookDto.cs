@@ -7,7 +7,7 @@
             string description, 
             int edition, 
             string isbn, 
-            string categoryName, 
+            int categoryId, 
             string imageUrl, 
             DateTime dateCreated, 
             decimal price

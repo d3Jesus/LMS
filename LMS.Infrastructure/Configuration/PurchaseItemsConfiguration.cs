@@ -13,8 +13,8 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.PurchasedId).IsRequired().HasMaxLength(50);
             builder.Property(p => p.BookId).IsRequired();
             builder.Property(p => p.NumberOfCopies).IsRequired();
-            builder.Property(p => p.BasePrice).HasPrecision(18, 2).IsRequired();
-            builder.Property(p => p.PurchasedPrice).HasPrecision(18, 2).IsRequired();
+            builder.Property(p => p.BasePrice).HasColumnType("numeric").HasPrecision(18, 2).IsRequired();
+            builder.Property(p => p.PurchasedPrice).HasColumnType("numeric").HasPrecision(18, 2).IsRequired();
             builder.Property(p => p.Status).IsRequired();
             builder.Ignore(p => p.Books);
             builder.Ignore(p => p.Purchases);

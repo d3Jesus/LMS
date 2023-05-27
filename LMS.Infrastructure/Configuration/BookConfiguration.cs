@@ -17,7 +17,7 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.CategoryId).IsRequired();
             builder.Property(p => p.ImageUrl).IsRequired().HasMaxLength(50);
             builder.Property(p => p.DateCreated).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.Price).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.Price).IsRequired().HasColumnType("numeric").HasPrecision(18, 2);
             builder.Ignore(p => p.Categories);
         }
     }

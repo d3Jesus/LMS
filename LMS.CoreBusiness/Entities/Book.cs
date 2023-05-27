@@ -66,7 +66,7 @@ namespace LMS.CoreBusiness.Entities
         public decimal Price
         {
             get { return _price; }
-            private set { _price = value; }
+            set { _price = value; }
         }
 
         public virtual List<Category> Categories { get; set; }

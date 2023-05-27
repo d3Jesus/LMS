@@ -8,7 +8,6 @@
             string isbn, 
             int categoryId, 
             string imageUrl, 
-            DateTime dateCreated, 
             decimal price,
             List<int> authors
         );

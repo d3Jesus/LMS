@@ -1,15 +1,16 @@
 ﻿using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.ViewModels;
 
 namespace LMS.CoreBusiness.Interfaces
 {
     public interface IBookRepository
     {
-        Task<Book> CreateAsync(Book book);
-        Task<Book> UpdateAsync(Book book);
-        Task<bool> DeleteAsync(int id);
-        Task<Book> GetByAsync(int id);
-        Task<IEnumerable<Book>> GetAllAsync();
-        Task<IEnumerable<Book>> GetAllByAsync(string title);
-        Task<IEnumerable<Book>> GetAllByAsync(int category);
+        Task<Book> CreateAsync(AddBookViewModel book);
+        //Task<GetBookViewModel> UpdateAsync(GetBookViewModel book);
+        //Task<bool> DeleteAsync(int id);
+        //Task<GetBookViewModel> GetByAsync(int id);
+        //Task<IEnumerable<GetBookViewModel>> GetAllAsync();
+        //Task<IEnumerable<GetBookViewModel>> GetAllByAsync(string title);
+        //Task<IEnumerable<GetBookViewModel>> GetAllByAsync(int category);
     }
 }
