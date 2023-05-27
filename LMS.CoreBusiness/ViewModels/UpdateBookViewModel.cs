@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LMS.Application.ViewModels.Book
+﻿namespace LMS.CoreBusiness.ViewModels
 {
-    public class GetBookDto
+    public class UpdateBookViewModel
     {
         private int _id;
         private string _title;
@@ -13,8 +11,8 @@ namespace LMS.Application.ViewModels.Book
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;
+        private List<int> _authors;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id
         {
             get { return _id; }
@@ -60,7 +58,7 @@ namespace LMS.Application.ViewModels.Book
         public DateTime DateCreated
         {
             get { return _dateCreated; }
-            set { _dateCreated = value; }
+            private set { _dateCreated = DateTime.Now; }
         }
 
         public decimal Price
@@ -68,5 +66,12 @@ namespace LMS.Application.ViewModels.Book
             get { return _price; }
             set { _price = value; }
         }
+
+        public List<int> Authors
+        {
+            get { return _authors; }
+            set { _authors = value; }
+        }
     }
+
 }

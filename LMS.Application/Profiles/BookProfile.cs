@@ -11,5 +11,7 @@ public class BookProfile : Profile
         CreateMap<Book, GetBookDto>();
         CreateMap<AddBookDto, AddBookViewModel>();
         CreateMap<GetBookViewModel, GetAllBooksDto>();
+        CreateMap<UpdateBookDto, UpdateBookViewModel>();
+        CreateMap<GetBookViewModel, GetBookDto>();
     }
 }
