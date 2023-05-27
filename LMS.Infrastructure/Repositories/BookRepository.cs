@@ -1,4 +1,4 @@
-﻿using Azure;
+﻿using LMS.Application.ViewModels.Book;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 using LMS.CoreBusiness.ViewModels;
@@ -22,7 +22,6 @@ namespace LMS.Infrastructure.Repositories
             {
                 try
                 {
-                    DateTime date = DateTime.Now;
                     Book newBook = new()
                     {
                         Title = book.Title,
@@ -31,6 +30,7 @@ namespace LMS.Infrastructure.Repositories
                         ISBN = book.ISBN,
                         CategoryId = book.CategoryId,
                         ImageUrl = book.ImageUrl,
+                        DateCreated = DateTime.Now,
                         Price = book.Price
                     };
                     _context.Books.Add(newBook);
@@ -88,10 +88,10 @@ namespace LMS.Infrastructure.Repositories
         //    return await _context.Books.FindAsync(id);
         //}
 
-        //public async Task<IEnumerable<GetBookViewModel>> GetAllAsync()
-        //{
-        //    return await _context.Books.ToListAsync();
-        //}
+        public async Task<IEnumerable<GetBookViewModel>> GetAllAsync()
+        {
+            return await _context.GetBookViewModels.ToListAsync();
+        }
 
         //public async Task<IEnumerable<GetBookViewModel>> GetAllByAsync(string title)
         //{
@@ -102,6 +102,6 @@ namespace LMS.Infrastructure.Repositories
         //{
         //    return await _context.Books.Where(b => b.CategoryId == category).ToListAsync();
         //}    
-        
+
     }
 }

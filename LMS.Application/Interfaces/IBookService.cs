@@ -10,7 +10,7 @@ namespace LMS.Application.Interfaces
         //Task<ServiceResponse<GetBookDto>> UpdateAsync(GetBookDto model);
         //Task<ServiceResponse<bool>> DeleteAsync(int id);
         //Task<ServiceResponse<GetBookDto>> GetByIdAsync(int id);
-        //Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllAsync();
+        Task<ServiceResponse<IEnumerable<GetAllBooksDto>>> GetAllAsync();
         //Task<ServiceResponse<GetBookDto>> GetAllByAsync(string title);
         //Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(int category);
     }

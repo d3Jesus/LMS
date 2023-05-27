@@ -15,11 +15,11 @@ namespace LMS.API.Controllers
             _service = service;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    return Ok(await _service.GetAllAsync());
-        //}
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _service.GetAllAsync());
+        }
 
         //[HttpGet("{id:int}")]
         //public async Task<IActionResult> Get(int id)

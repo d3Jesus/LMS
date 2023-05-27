@@ -63,17 +63,17 @@ namespace LMS.Application.Services
         //    return serviceResponse;
         //}
 
-        //public async Task<ServiceResponse<IEnumerable<GetBookViewModel>>> GetAllAsync()
-        //{
-        //    var result = await _repository.GetAllAsync();
+        public async Task<ServiceResponse<IEnumerable<GetAllBooksDto>>> GetAllAsync()
+        {
+            var result = await _repository.GetAllAsync();
 
-        //    var serviceResponse = new ServiceResponse<IEnumerable<GetBookViewModel>>()
-        //    {
-        //        ResponseData = _mapper.Map<IEnumerable<GetBookViewModel>>(result)
-        //    };
+            var serviceResponse = new ServiceResponse<IEnumerable<GetAllBooksDto>>()
+            {
+                ResponseData = _mapper.Map<IEnumerable<GetAllBooksDto>>(result)
+            };
 
-        //    return serviceResponse;
-        //}
+            return serviceResponse;
+        }
 
         //public async Task<ServiceResponse<GetBookViewModel>> GetAllByAsync(string title)
         //{

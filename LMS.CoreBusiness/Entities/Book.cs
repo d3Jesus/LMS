@@ -60,7 +60,7 @@ namespace LMS.CoreBusiness.Entities
         public DateTime DateCreated
         {
             get { return _dateCreated; }
-            private set { _dateCreated = DateTime.Now; }
+            set { _dateCreated = value; }
         }
 
         public decimal Price
