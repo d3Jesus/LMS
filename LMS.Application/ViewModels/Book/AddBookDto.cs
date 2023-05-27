@@ -4,7 +4,7 @@
         (
             string title, 
             string description, 
-            int editions, 
+            int edition, 
             string isbn, 
             int categoryId, 
             string imageUrl, 
