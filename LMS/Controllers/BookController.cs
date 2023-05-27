@@ -21,11 +21,11 @@ namespace LMS.API.Controllers
             return Ok(await _service.GetAllAsync());
         }
 
-        //[HttpGet("{id:int}")]
-        //public async Task<IActionResult> Get(int id)
-        //{
-        //    return Ok(await _service.GetByIdAsync(id));
-        //}
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await _service.GetByIdAsync(id));
+        }
 
         //[HttpGet("getByCategory/{categoryId:int}")]
         //public async Task<IActionResult> GetAll(int categoryId)

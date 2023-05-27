@@ -103,21 +103,21 @@ namespace LMS.Application.Services
         //    return serviceResponse;
         //}
 
-        //public async Task<ServiceResponse<GetBookViewModel>> GetByIdAsync(int id)
-        //{
-        //    var result = await _repository.GetByAsync(id);
+        public async Task<ServiceResponse<GetAllBooksDto>> GetByIdAsync(int id)
+        {
+            var result = await _repository.GetByAsync(id);
 
-        //    var serviceResponse = new ServiceResponse<GetBookViewModel>();
-        //    if (result is null)
-        //    {
-        //        serviceResponse.Message = $"Book with ID {id} not found!";
-        //        serviceResponse.Succeeded = false;
-        //    }
+            var serviceResponse = new ServiceResponse<GetAllBooksDto>();
+            if (result is null)
+            {
+                serviceResponse.Message = $"Book with ID {id} not found!";
+                serviceResponse.Succeeded = false;
+            }
 
-        //    serviceResponse.ResponseData = _mapper.Map<GetBookViewModel>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetAllBooksDto>(result);
 
-        //    return serviceResponse;
-        //}
+            return serviceResponse;
+        }
 
         //public async Task<ServiceResponse<GetBookViewModel>> UpdateAsync(GetBookViewModel model)
         //{

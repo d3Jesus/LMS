@@ -83,10 +83,10 @@ namespace LMS.Infrastructure.Repositories
         //    return true;
         //}
 
-        //public async Task<GetBookViewModel> GetByAsync(int id)
-        //{
-        //    return await _context.Books.FindAsync(id);
-        //}
+        public async Task<GetBookViewModel> GetByAsync(int id)
+        {
+            return await _context.GetBookViewModels.FindAsync(id);
+        }
 
         public async Task<IEnumerable<GetBookViewModel>> GetAllAsync()
         {
