@@ -1,6 +1,8 @@
 ﻿@page "/books"
 @layout DashboardLayout
 
+@inject IBookService Service
+
 <Breadcrumb title="Books" />
 
 <CardComponent title="List of Books">
@@ -18,28 +20,34 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td scope="row">1</td>
-                    <td>Terra Sonambula</td>
-                    <td>1</td>
-                    <td>Novel</td>
-                    <td>
-                        <a class="text-info" href="/ad/${book.Id}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Book">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <span class="text-white"> | </span>
-                        <a class="text-danger" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Book">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
+                @if(books is not null)
+                    {
+                        foreach(var book in books)
+                        {
+                        <tr>
+                            <td scope="row">@book.Id</td>
+                            <td>@book.Title</td>
+                            <td>@book.Edition</td>
+                            <td>@book.CategoryName</td>
+                            <td>
+                                <a class="text-info" href="books/update/@book.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Book">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <span class="text-white"> | </span>
+                                <a class="text-danger" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Book">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
             </Content>
         </Datatable>
     </bodyFragment>
 
     <footerFragment>
-        <a class="btn btn-outline-success float-end" href="new-book" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Book">
+        <a class="btn btn-outline-success float-end" href="books/new" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Book">
             <i class="bi bi-plus"></i> New
         </a>
     </footerFragment>
@@ -48,5 +56,10 @@
 
 
 @code {
-    
+    private IEnumerable<GetBookViewModel> books;
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await Service.GetAllAsync();
+    }
 }
