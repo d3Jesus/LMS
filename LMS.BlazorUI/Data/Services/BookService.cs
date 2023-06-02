@@ -1,5 +1,6 @@
 ﻿using LMS.BlazorUI.Data.Interfaces;
 using LMS.BlazorUI.Data.Models;
+using LMS.BlazorUI.Data.Models.ViewModels;
 
 namespace LMS.BlazorUI.Data.Services
 {
@@ -13,16 +14,23 @@ namespace LMS.BlazorUI.Data.Services
             _httpClientFactory = httpClientFactory;
             _httpClient = _httpClientFactory.CreateClient("local");
         }
-        public async Task<IEnumerable<Book>> GetAllAsync()
+
+        public async Task<ServiceResponse<Book>> CreateAsync(Book model)
         {
-            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Book>>>("books");
+            var result = await _httpClient.PostAsJsonAsync("books", model);
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<Book>>();
+        }
+
+        public async Task<IEnumerable<GetBookViewModel>> GetAllAsync()
+        {
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<GetBookViewModel>>>("books");
 
             return response.ResponseData;
         }
 
-        public async Task<IEnumerable<Book>> GetAllByAsync(int categoryId)
+        public async Task<IEnumerable<GetBookViewModel>> GetAllByAsync(int categoryId)
         {
-            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Book>>>($"books/getByCategory/{categoryId}");
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<GetBookViewModel>>>($"books/getByCategory/{categoryId}");
             return response.ResponseData;
         }
 
@@ -30,6 +38,12 @@ namespace LMS.BlazorUI.Data.Services
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<Book>>($"books/{id}");
             return response.ResponseData;
+        }
+
+        public async Task<ServiceResponse<Book>> UpdateAsync(Book model)
+        {
+            var result = await _httpClient.PutAsJsonAsync("books", model);
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<Book>>();
         }
     }
 }

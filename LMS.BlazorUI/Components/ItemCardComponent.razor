@@ -12,13 +12,13 @@
         </div>
         <div class="card-body">
             <a href="shop-single.html" class="h3 text-decoration-none">@book.Title</a>
-            <p class="text-center mb-0">@book.Price Mt</p>
+            <p class="text-center mb-0">@book.Price.ToString("0,0.00") Mt</p>
         </div>
     </div>
 </div>
 @code {
     [Parameter]
-    public Book book { get; set; }
+    public GetBookViewModel book { get; set; }
     [Parameter]
     public string cssClass { get; set; }
 }

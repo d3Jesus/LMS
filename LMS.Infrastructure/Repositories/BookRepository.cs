@@ -1,10 +1,8 @@
-﻿using LMS.Application.ViewModels.Book;
-using LMS.CoreBusiness.Entities;
+﻿using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 using LMS.CoreBusiness.ViewModels;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace LMS.Infrastructure.Repositories
 {
