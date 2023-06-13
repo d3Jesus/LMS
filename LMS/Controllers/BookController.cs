@@ -52,7 +52,7 @@ namespace LMS.API.Controllers
         {
             var response = await _service.UpdateAsync(model);
 
-            return Ok(response);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

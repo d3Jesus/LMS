@@ -8,7 +8,7 @@ namespace LMS.BlazorUI.Data.Interfaces
         Task<IEnumerable<GetBookViewModel>> GetAllAsync();
         Task<Book> GetByAsync(int id);
         Task<IEnumerable<GetBookViewModel>> GetAllByAsync(int categoryId);
-        Task<ServiceResponse<Book>> CreateAsync(Book model);
-        Task<ServiceResponse<Book>> UpdateAsync(Book model);
+        Task<ServiceResponse<Book>> CreateAsync(AddBookViewModel model);
+        Task<ServiceResponse<Book>> UpdateAsync(AddBookViewModel model);
     }
 }

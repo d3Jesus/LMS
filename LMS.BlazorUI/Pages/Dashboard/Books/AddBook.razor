@@ -1,38 +1,46 @@
-﻿@page "/new-book"
+﻿@page "/books/new"
 @layout DashboardLayout
 
-@inject IAuthorService Service
+@inject IBookService BookService
+@inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 
 
 <Breadcrumb title="Books" />
+<EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <CardComponent title="New Book">
 
-<CardComponent title="New Book">
-    <bodyFragment>
-        <EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+        <bodyFragment>
 
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Title</label>
                     <input type="text" class="form-control"
-                           placeholder="Book Title" autocomplete="off"
-                           @bind-value="book.Title">
+                            placeholder="Book Title" autocomplete="off"
+                            @bind-value="book.Title">
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Description</label>
                     <input type="text" class="form-control"
-                           placeholder="Book Description" autocomplete="off"
-                           @bind-value="book.Description">
+                            placeholder="Book Description" autocomplete="off"
+                            @bind-value="book.Description">
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Edition</label>
+                    <input type="text" class="form-control"
+                            placeholder="Book Edition" autocomplete="off"
+                            @bind-value="book.Edition">
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">ISBN</label>
                     <input type="text" class="form-control"
-                           placeholder="XXX-X-XX-XXXXXX-X" autocomplete="off"
-                           @bind-value="book.ISBN">
+                            placeholder="XXX-X-XX-XXXXXX-X" autocomplete="off"
+                            @bind-value="book.ISBN">
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -48,44 +56,97 @@
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Cover</label>
-                    @*<BlazorInputFile.InputFile OnChange="HandleSelectedFile" multiple >
-                    </BlazorInputFile.InputFile> *@
+                        <div class="form-control">
+                        <InputFile OnChange="@LoadFiles" />
+                        </div>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Number of Copies</label>
                     <input type="text" class="form-control"
-                           placeholder="Number of Copies" autocomplete="off">
+                            placeholder="Number of Copies" autocomplete="off">
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Price</label>
                     <input type="text" class="form-control"
-                           placeholder="Book Price" autocomplete="off"
-                           @bind-value="book.Price">
+                            placeholder="Book Price" autocomplete="off"
+                            @bind-value="book.Price">
                 </div>
             </div>
 
-        </EditForm>
-    </bodyFragment>
-    <footerFragment>
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-secondary">
-                Cancel
-            </button>
-            <button type="submit" class="btn btn-outline-success">
-                <i class="bi bi-save"></i> Save
-            </button>
-        </div>
-    </footerFragment>
-</CardComponent>
+            <BookAuthorsTable OnAuthorSelected="SelectedAuthor"></BookAuthorsTable>
+        
+        </bodyFragment>
 
+        <footerFragment>
+            <div class="text-center">
+                <button type="submit" class="btn btn-outline-secondary">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="bi bi-save"></i> Save
+                </button>
+            </div>
+        </footerFragment>
+    </CardComponent>
+</EditForm>
 @code {
-    private Book book = new Book();
+    private AddBookViewModel book = new();
     private IEnumerable<Category> categories;
+    private string FileName = string.Empty;
 
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 15;
+    private int maxAllowedFiles = 3;
+    private bool isLoading;
 
+    private void SelectedAuthor(List<BookAuthorsViewModel> author)
+    {
+        book.BookAuthors = author;
+    }
 
-    private void OnValidSubmit()
-    {}
+    private void LoadFiles(InputFileChangeEventArgs e)
+    {
+        IBrowserFile browserFile = e.GetMultipleFiles(1).FirstOrDefault();
+        book.File = browserFile;
+        //try
+        //{
+        //    loadedFiles.Add(browserFile);
+
+        //    var trustedFileNameForFileStorage = Path.GetRandomFileName();
+        //    var path = Path.Combine(Environment.ContentRootPath,
+        //            Environment.EnvironmentName, "unsafe_uploads",
+        //            trustedFileNameForFileStorage);
+
+        //    await using FileStream fs = new(path, FileMode.Create);
+        //    await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+        //}
+        //catch (Exception ex)
+        //{
+        //    Logger.LogError("File: {Filename} Error: {Error}",
+        //        file.Name, ex.Message);
+        //}
+
+        //isLoading = false;
+    }
+
+    //void HandleSelectedFile(InputFileChangeEventArgs file)
+    //{
+    //    book.File =file.GetMultipleFiles(1).FirstOrDefault();
+    //    //file = files.FirstOrDefault();
+    //    //FileName = files.FirstOrDefault().Name;
+    //    //book.File = file;
+    //}
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await CategoryService.GetAsync();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        await BookService.CreateAsync(book);
+        NavigationManager.NavigateTo("books", true);
+    }
 }

@@ -1,13 +1,13 @@
-﻿@page "/update-book"
+﻿@page "/books/update/{id:int}"
 @layout DashboardLayout
 
-@inject IAuthorService Service
+@inject IBookService Service
 @inject NavigationManager NavigationManager
 
 
 <Breadcrumb title="Books" />
 
-<CardComponent title="Update Book">
+@*<CardComponent title="Update Book">
     <bodyFragment>
         <EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
             <DataAnnotationsValidator />
@@ -49,7 +49,7 @@
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Cover</label>
                     @*<BlazorInputFile.InputFile OnChange="HandleSelectedFile" multiple >
-                    </BlazorInputFile.InputFile> *@
+                    </BlazorInputFile.InputFile> *
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -81,11 +81,20 @@
 </CardComponent>
 
 @code {
-    private Book book = new Book();
+    private AddBookViewModel book = new AddBookViewModel();
     private IEnumerable<Category> categories;
+    //[Parameter]
+    //public int id { get; set; }
 
-
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    book = await Service.GetByAsync(id);
+    //}
 
     private void OnValidSubmit()
-    {}
-}
+    {
+        //Service.UpdateAsync(book);
+
+        NavigationManager.NavigateTo("books", true);
+    }
+}*@

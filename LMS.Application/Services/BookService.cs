@@ -2,7 +2,6 @@
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Book;
-using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 using LMS.CoreBusiness.ViewModels;
 

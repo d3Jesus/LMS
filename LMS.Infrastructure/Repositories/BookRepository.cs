@@ -33,7 +33,7 @@ namespace LMS.Infrastructure.Repositories
                         Price = book.Price
                     };
                     _context.Books.Add(newBook);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
 
                     #region Authorship
                     if (book is not null)

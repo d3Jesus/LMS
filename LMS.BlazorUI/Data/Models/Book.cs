@@ -11,6 +11,8 @@
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;
+        public List<int> AuthorsIds { get; set; } = new();
+        public virtual List<Author> Author { get; set; } = new();
 
         public int Id
         {
@@ -57,7 +59,7 @@
         public DateTime DateCreated
         {
             get { return _dateCreated; }
-            private set { _dateCreated = DateTime.Now; }
+            set { _dateCreated = value; }
         }
 
         public decimal Price
