@@ -10,7 +10,7 @@ namespace LMS.Application.Interfaces
         Task<ServiceResponse<bool>> DeleteAsync(int id);
         Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted);
         Task<ServiceResponse<GetAuthorDto>> GetByAsync(int id);
-        Task<ServiceResponse<GetAuthorDto>> GetByAsync(string name);
+        Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetByAsync(string name);
         Task<ServiceResponse<GetAuthorDto>> GetByNationalityAsync(string nationality);
                 
     }

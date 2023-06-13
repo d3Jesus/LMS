@@ -85,18 +85,18 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorDto>> GetByAsync(string name)
+        public async Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetByAsync(string name)
         {
             var result = await _repository.GetByAsync(name);
 
-            var serviceResponse = new ServiceResponse<GetAuthorDto>();
+            var serviceResponse = new ServiceResponse<IEnumerable<GetAuthorDto>>();
             if (result is null)
             {
                 serviceResponse.Message = $"Author with name {name} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
+            serviceResponse.ResponseData = _mapper.Map<IEnumerable<GetAuthorDto>>(result);
 
             return serviceResponse;
         }

@@ -26,7 +26,7 @@ namespace LMS.API.Controllers
             return Ok(await _service.GetByAsync(id));
         }
 
-        [HttpGet("{name:alpha}")]
+        [HttpGet("getByName/{name:alpha}")]
         public async Task<IActionResult> GetByName(string name)
         {
             return Ok(await _service.GetByAsync(name));
