@@ -14,6 +14,12 @@ namespace LMS.API.Controllers
             _service = service;
         }
 
+        [HttpGet("{initDate}/{endDate}")]
+        public async Task<IActionResult> GetAll(DateTime initDate, DateTime endDate)
+        {
+            return Ok(await _service.GetAsync(initDate, endDate));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddPurchaseDto model)
         {

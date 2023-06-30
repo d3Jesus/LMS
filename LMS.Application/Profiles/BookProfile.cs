@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LMS.Application.ViewModels.Book;
 using LMS.CoreBusiness.Entities;
-using LMS.CoreBusiness.ViewModels;
 
 namespace LMS.Application.Profiles;
 public class BookProfile : Profile

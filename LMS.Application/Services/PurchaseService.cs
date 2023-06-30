@@ -37,5 +37,17 @@ namespace LMS.Application.Services
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<IEnumerable<GetPurchaseDto>>> GetAsync(DateTime initDate, DateTime endDate)
+        {
+            var result = await _repository.GetAsync(initDate, endDate);
+
+            var serviceResponse = new ServiceResponse<IEnumerable<GetPurchaseDto>>()
+            {
+                ResponseData = _mapper.Map<IEnumerable<GetPurchaseDto>>(result)
+            };
+
+            return serviceResponse;
+        }
     }
 }

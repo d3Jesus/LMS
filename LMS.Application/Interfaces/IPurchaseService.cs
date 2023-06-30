@@ -6,5 +6,6 @@ namespace LMS.Application.Interfaces
     public interface IPurchaseService
     {
         Task<ServiceResponse<bool>> AddAsync(AddPurchaseDto purchase);
+        Task<ServiceResponse<IEnumerable<GetPurchaseDto>>> GetAsync(DateTime initDate, DateTime endDate);
     }
 }
