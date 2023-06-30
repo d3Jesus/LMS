@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using LMS.Application.ViewModels.Loan;
-using LMS.CoreBusiness.ViewModels;
+using LMS.Application.ViewModels.Purchase;
+using LMS.CoreBusiness.Entities;
 
 namespace LMS.Application.Profiles
 {
@@ -8,11 +8,8 @@ namespace LMS.Application.Profiles
     {
         public PurchaseProfile()
         {
-            //CreateMap<Purchase, GetLoanDto>();
-            //CreateMap<GetLoanDto, Purchase>();
-
-            CreateMap<AddPurchaseViewModel, AddPurchaseDto>();
-            CreateMap<AddPurchaseDto, AddPurchaseViewModel>();
+            CreateMap<AddPurchaseDto, Purchase>();
+            CreateMap<Purchase, AddPurchaseDto>();
         }
     }
 }

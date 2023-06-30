@@ -1,6 +1,5 @@
 ﻿using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
-using LMS.CoreBusiness.ViewModels;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,41 +8,31 @@ namespace LMS.Infrastructure.Repositories
     public class BookRepository : IBookRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly int _booksToTake = 100;
 
         public BookRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Book> CreateAsync(AddBookViewModel book)
+        public async Task<bool> CreateAsync(Book book, List<int> authors)
         {
             using(var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    Book newBook = new()
-                    {
-                        Title = book.Title,
-                        Description = book.Description,
-                        Edition = book.Edition,
-                        ISBN = book.ISBN,
-                        CategoryId = book.CategoryId,
-                        ImageUrl = book.ImageUrl,
-                        DateCreated = DateTime.Now,
-                        Price = book.Price
-                    };
-                    _context.Books.Add(newBook);
+                    _context.Books.Add(book);
                     _context.SaveChanges();
 
                     #region Authorship
                     if (book is not null)
                     {
-                        foreach (int id in book.Authors)
+                        foreach (int authorId in authors)
                         {
                             Authorship authorship = new()
                             {
-                                BookId = newBook.Id,
-                                AuthorId = id
+                                BookId = book.Id,
+                                AuthorId = authorId
                             };
                             _context.Authorships.Add(authorship);
                             await _context.SaveChangesAsync();
@@ -53,24 +42,24 @@ namespace LMS.Infrastructure.Repositories
 
                     transaction.Commit();
 
-                    return newBook;
+                    return true;
 
                 } catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return null;
+                    return false;
                 }
             }
         }
 
-        public async Task<GetBookViewModel> UpdateAsync(UpdateBookViewModel book)
+        public async Task<bool> UpdateAsync(Book book, List<int> authors)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
 
-                    Book existingBook = await GetBookByAsync(book.Id);
+                    Book existingBook = await GetByAsync(book.Id);
                     if(existingBook is not null)
                     {
                         existingBook.Title = book.Title;
@@ -86,7 +75,7 @@ namespace LMS.Infrastructure.Repositories
 
                         var authorships = await GetAuthorshipByBookIdAsync(book.Id);
                         if(authorships is not null)
-                            foreach (int authorId in book.Authors)
+                            foreach (int authorId in authors)
                             {
                                 var authorship = authorships.Where(auth => auth.BookId == book.Id && auth.AuthorId == authorId).FirstOrDefault();
 
@@ -107,20 +96,15 @@ namespace LMS.Infrastructure.Repositories
 
                     var updatedBook = await GetByAsync(book.Id);
 
-                    return updatedBook;
+                    return true;
 
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return null;
+                    return false;
                 }
             }
-            //_context.Entry(book).State = EntityState.Detached;
-            //_context.Books.Update(book);
-            //await _context.SaveChangesAsync();
-
-            //return book;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -129,7 +113,7 @@ namespace LMS.Infrastructure.Repositories
             {
                 try
                 {
-                    Book book = await GetBookByAsync(id);
+                    Book book = await GetByAsync(id);
                     if (book is not null)
                     {
                         #region Authorship
@@ -167,34 +151,49 @@ namespace LMS.Infrastructure.Repositories
             //return true;
         }
 
-        public async Task<GetBookViewModel> GetByAsync(int id)
+        public async Task<Book> GetByAsync(int id)
         {
-            return await _context.GetBookViewModels.FindAsync(id);
-        }
-
-        private async Task<Book> GetBookByAsync(int id)
-        {
-            return await _context.Books.FindAsync(id);
+            return await _context.Books
+                        .Where(b => b.Id == id)
+                        .Include(b => b.Category)
+                        .FirstOrDefaultAsync();
         }
 
         private async Task<List<Authorship>> GetAuthorshipByBookIdAsync(int id)
         {
-            return await _context.Authorships.Where(auth => auth.BookId == id).ToListAsync();
+            return await _context.Authorships
+                        .Where(auth => auth.BookId == id)
+                        .ToListAsync();
         }
 
-        public async Task<IEnumerable<GetBookViewModel>> GetAllAsync()
+        public async Task<IEnumerable<Book>> GetAllAsync()
         {
-            return await _context.GetBookViewModels.ToListAsync();
+            return await _context.Books
+                        .Include(b => b.Category)
+                        .Skip(0)
+                        .Take(_booksToTake)
+                        .OrderBy(b => b.Title)
+                        .ToListAsync();
         }
 
-        public async Task<IEnumerable<GetBookViewModel>> GetAllByAsync(string title)
+        public async Task<IEnumerable<Book>> GetAllByAsync(string title)
         {
-            return await _context.GetBookViewModels.Where(b => b.title.Contains(title)).ToListAsync();
+            return await _context.Books
+                        .Where(b => b.Title.Contains(title))
+                        .Include(b => b.Category)
+                        .Skip(0)
+                        .Take(_booksToTake)
+                        .ToListAsync();
         }
 
         public async Task<IEnumerable<Book>> GetAllByAsync(int category)
         {
-            return await _context.Books.Where(b => b.CategoryId == category).ToListAsync();
+            return await _context.Books
+                        .Where(b => b.CategoryId == category)
+                        .Include(b => b.Category)
+                        .Skip(0)
+                        .Take(_booksToTake)
+                        .ToListAsync();
         }
 
     }

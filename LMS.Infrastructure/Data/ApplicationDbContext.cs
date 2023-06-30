@@ -1,5 +1,4 @@
 ﻿using LMS.CoreBusiness.Entities;
-using LMS.CoreBusiness.ViewModels;
 using LMS.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +10,6 @@ namespace LMS.Infrastructure.Data
 
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
-        public DbSet<GetBookViewModel> GetBookViewModels { get; set; }
         public DbSet<Authorship> Authorships { get; set; }
         public DbSet<Librarian> Librarians { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
@@ -25,7 +23,6 @@ namespace LMS.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
             modelBuilder.ApplyConfiguration(new AuthorshipConfiguration());
             modelBuilder.ApplyConfiguration(new BookConfiguration());
-            modelBuilder.ApplyConfiguration(new GetBookViewModelConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new LibrarianConfiguration());
             modelBuilder.ApplyConfiguration(new PurchaseConfiguration());

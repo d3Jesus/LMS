@@ -1,4 +1,4 @@
-﻿namespace LMS.Application.ViewModels.Loan
+﻿namespace LMS.Application.ViewModels.Purchase
 {
-    public record AddPurchaseDto(int bookId, int librarianId, decimal totalPayed, int numberOfCopies, decimal basePrice, decimal itemPurchasedPrice);
+    public record AddPurchaseDto(int librarianId, string customerName, decimal totalPayed, List<AddPurchaseItemsDto> items);
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using LMS.Application.ViewModels.Category;
 
 namespace LMS.Application.ViewModels.Book
 {
@@ -13,6 +14,7 @@ namespace LMS.Application.ViewModels.Book
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;
+        public virtual GetCategoryDto Category { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id

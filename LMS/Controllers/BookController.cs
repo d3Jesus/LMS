@@ -44,7 +44,7 @@ namespace LMS.API.Controllers
         {
             var response = await _service.CreateAsync(model);
 
-            return CreatedAtAction(nameof(Get), new { id = response.ResponseData.Id }, response.ResponseData);
+            return CreatedAtAction(nameof(GetAll), null, null);
         }
 
         [HttpPut]

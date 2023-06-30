@@ -13,6 +13,7 @@ namespace LMS.API.MappingConfig
             services.AddAutoMapper(typeof(BookProfile));
             services.AddAutoMapper(typeof(LibrarianProfile));
             services.AddAutoMapper(typeof(PurchaseProfile));
+            services.AddAutoMapper(typeof(PurchaseItemsProfile));
             services.AddAutoMapper(typeof(StockProfile));
         }
     }

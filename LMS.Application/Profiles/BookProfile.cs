@@ -8,10 +8,10 @@ public class BookProfile : Profile
 {
     public BookProfile()
     {
+        CreateMap<GetBookDto, Book>();
         CreateMap<Book, GetBookDto>();
-        CreateMap<AddBookDto, AddBookViewModel>();
-        CreateMap<GetBookViewModel, GetAllBooksDto>();
-        CreateMap<UpdateBookDto, UpdateBookViewModel>();
-        CreateMap<GetBookViewModel, GetBookDto>();
+
+        CreateMap<Book, AddBookDto>();
+        CreateMap<AddBookDto, Book>();
     }
 }

@@ -10,6 +10,7 @@ namespace LMS.CoreBusiness.Entities
         private int _edition;
         private string _isbn;
         private int _categoryId;
+        public Category Category { get; set; }
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;

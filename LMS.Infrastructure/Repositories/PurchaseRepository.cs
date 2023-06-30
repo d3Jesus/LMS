@@ -1,6 +1,5 @@
 ﻿using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
-using LMS.CoreBusiness.ViewModels;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,50 +14,48 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Purchase> CreateAsync(AddPurchaseViewModel purchase)
+        public async Task<bool> CreateAsync(Purchase purchase, List<PurchaseItems> items)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    Purchase purchaseEntity = new()
-                    {
-                        LibrarianId = purchase.librarianId,
-                        TotalPayed = purchase.totalPayed
-                    };
-                    _context.Purchases.Add(purchaseEntity);
+                    purchase.LibrarianId = purchase.LibrarianId;
+                    purchase.TotalPayed = purchase.TotalPayed;
+
+                    _context.Purchases.Add(purchase);
                     _context.SaveChanges();
 
-                    PurchaseItems purchaseItems = new()
+                    foreach (var item in items)
                     {
-                        PurchasedId = purchaseEntity.Id,
-                        BookId = purchase.bookId,
-                        NumberOfCopies = purchase.numberOfCopies,
-                        BasePrice = purchase.basePrice,
-                        PurchasedPrice = purchase.itemPurchasedPrice,
-                        Status = "SOLD"
-                    };
+                        PurchaseItems newPurchaseItem = new()
+                        {
+                            PurchasedId = purchase.Id,
+                            BookId = item.BookId,
+                            NumberOfCopies = item.NumberOfCopies,
+                            UnitPrice = item.UnitPrice,
+                            GrossPrice = item.GrossPrice,
+                            Status = "SOLD"
+                        };
+                        _context.Items.Add(newPurchaseItem);
+                        await _context.SaveChangesAsync();
+                    }
 
-                    _context.Items.Add(purchaseItems);
-                    await _context.SaveChangesAsync();
-
-                    return purchaseEntity;
+                    return true;
                 }
                 catch (Exception)
                 {
-                    return null;
+                    return false;
                 }
             }
 
         }
 
-        //public async Task<Purchase> UpdateAsync(AddPurchaseViewModel purchase)
-        //{
-        //    _context.Entry(purchase).State = EntityState.Detached;
-        //    _context.Purchases.Update(purchase);
-        //    await _context.SaveChangesAsync();
-
-        //    return purchase;
-        //}
+        public async Task<IEnumerable<Purchase>> GetAsync(DateTime initDate, DateTime endDate)
+        {
+            return await _context.Purchases
+                    .Where(prc => prc.DatePurchased >= initDate && prc.DatePurchased <= endDate)
+                    .ToListAsync();
+        }
     }
 }

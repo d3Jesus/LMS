@@ -14,12 +14,12 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Stock> CreateAsync(Stock stock)
+        public async Task<bool> CreateAsync(Stock stock)
         {
             _context.Stocks.Add(stock);
             await _context.SaveChangesAsync();
 
-            return stock;
+            return true;
         }
 
         public async Task<Stock> GetByAsync(int id)
@@ -27,13 +27,13 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Stocks.FindAsync(id);
         }
 
-        public async Task<Stock> UpdateAsync(Stock stock)
+        public async Task<bool> UpdateAsync(Stock stock)
         {
             _context.Entry(stock).State = EntityState.Detached;
             _context.Stocks.Update(stock);
             await _context.SaveChangesAsync();
 
-            return stock;
+            return true;
         }
     }
 }

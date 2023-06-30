@@ -1,12 +1,10 @@
 ﻿using LMS.CoreBusiness.Entities;
-using LMS.CoreBusiness.ViewModels;
 
 namespace LMS.CoreBusiness.Interfaces
 {
     public interface IPurchaseRepository
     {
-        Task<Purchase> CreateAsync(AddPurchaseViewModel purchase);
-        //Task<Purchase> UpdateAsync(AddPurchaseViewModel purchase);
-
+        Task<bool> CreateAsync(Purchase purchase, List<PurchaseItems> items);
+        Task<IEnumerable<Purchase>> GetAsync(DateTime initDate, DateTime endDate);
     }
 }

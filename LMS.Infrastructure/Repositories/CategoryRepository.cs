@@ -14,12 +14,12 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Category> CreateAsync(Category category)
+        public async Task<bool> CreateAsync(Category category)
         {
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return category;
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -47,12 +47,19 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Categories.Where(cat => cat.CategoryName.Equals(categoryName, StringComparison.OrdinalIgnoreCase)).ToListAsync();
         }
 
-        public async Task<Category> UpdateAsync(Category category)
+        public async Task<bool> UpdateAsync(Category category)
         {
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 
-            return category;
+            return true;
+        }
+
+        public async Task<Category> GetByAsync(int id)
+        {
+            return await _context.Categories
+                        .Where(cat => cat.Id == id)
+                        .FirstOrDefaultAsync();
         }
     }
 }

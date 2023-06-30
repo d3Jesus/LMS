@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
-using LMS.Application.ViewModels.Loan;
 using LMS.Application.ViewModels.Purchase;
+using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
-using LMS.CoreBusiness.ViewModels;
 
 namespace LMS.Application.Services
 {
@@ -19,16 +18,16 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetPurchaseDto>> AddAsync(AddPurchaseDto loan)
+        public async Task<ServiceResponse<bool>> AddAsync(AddPurchaseDto purchase)
         {
-            var serviceResponse = new ServiceResponse<GetPurchaseDto>();
+            var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                var mapper = _mapper.Map<AddPurchaseViewModel>(loan);
-                var response = await _repository.CreateAsync(mapper);
+                var newPurchase = _mapper.Map<Purchase>(purchase);
+                var newPurchaseitems = _mapper.Map<List<PurchaseItems>>(purchase.items);
+                var response = await _repository.CreateAsync(newPurchase, newPurchaseitems);
 
-                serviceResponse.ResponseData = _mapper.Map<GetPurchaseDto>(response);
-                serviceResponse.Message = $"Request added successfully!";
+                serviceResponse.Message = $"Purchase successfully registed!";
             }
             catch (Exception ex)
             {
@@ -38,26 +37,5 @@ namespace LMS.Application.Services
 
             return serviceResponse;
         }
-
-        //public async Task<ServiceResponse<GetPurchaseDto>> UpdateAsync(GetPurchaseDto loan)
-        //{
-        //    var serviceResponse = new ServiceResponse<GetPurchaseDto>();
-
-        //    try
-        //    {
-        //        var mappedRequest = _mapper.Map<AddPurchaseViewModel>(loan);
-        //        var result = await _repository.UpdateAsync(mappedRequest);
-
-        //        serviceResponse.ResponseData = _mapper.Map<GetPurchaseDto>(result);
-        //        serviceResponse.Message = "Request updated!";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        serviceResponse.Succeeded = false;
-        //        serviceResponse.Message = ex.Message;
-        //    }
-
-        //    return serviceResponse;
-        //}
     }
 }

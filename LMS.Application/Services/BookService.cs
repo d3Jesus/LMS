@@ -2,6 +2,7 @@
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Book;
+using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 using LMS.CoreBusiness.ViewModels;
 
@@ -18,17 +19,16 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<GetBookDto>> CreateAsync(AddBookDto model)
+        public async Task<ServiceResponse<bool>> CreateAsync(AddBookDto model)
         {
-            var serviceResponse = new ServiceResponse<GetBookDto>();
+            var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                var book = _mapper.Map<AddBookViewModel>(model);
-                var response = await _repository.CreateAsync(book);
+                var book = _mapper.Map<Book>(model);
+                var response = await _repository.CreateAsync(book, model.authors);
 
-                if (response is not null)
+                if (response is not false)
                 {
-                    serviceResponse.ResponseData = _mapper.Map<GetBookDto>(response);
                     serviceResponse.Message = "Book added successfully!";
                 }
                 else
@@ -62,30 +62,30 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetAllBooksDto>>> GetAllAsync()
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllAsync()
         {
             var result = await _repository.GetAllAsync();
 
-            var serviceResponse = new ServiceResponse<IEnumerable<GetAllBooksDto>>()
+            var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetAllBooksDto>>(result)
+                ResponseData = _mapper.Map<IEnumerable<GetBookDto>>(result)
             };
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetAllBooksDto>>> GetAllByAsync(string title)
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(string title)
         {
             var result = await _repository.GetAllByAsync(title);
 
-            var serviceResponse = new ServiceResponse<IEnumerable<GetAllBooksDto>>();
+            var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>();
             if (result is null)
             {
                 serviceResponse.Message = $"Book with title {title} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<IEnumerable<GetAllBooksDto>>(result);
+            serviceResponse.ResponseData = _mapper.Map<IEnumerable<GetBookDto>>(result);
 
             return serviceResponse;
         }
@@ -102,33 +102,32 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAllBooksDto>> GetByIdAsync(int id)
+        public async Task<ServiceResponse<GetBookDto>> GetByIdAsync(int id)
         {
             var result = await _repository.GetByAsync(id);
 
-            var serviceResponse = new ServiceResponse<GetAllBooksDto>();
+            var serviceResponse = new ServiceResponse<GetBookDto>();
             if (result is null)
             {
                 serviceResponse.Message = $"Book with ID {id} not found!";
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAllBooksDto>(result);
+            serviceResponse.ResponseData = _mapper.Map<GetBookDto>(result);
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetBookDto>> UpdateAsync(UpdateBookDto model)
+        public async Task<ServiceResponse<bool>> UpdateAsync(UpdateBookDto model)
         {
-            var serviceResponse = new ServiceResponse<GetBookDto>();
+            var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                var book = _mapper.Map<UpdateBookViewModel>(model);
-                var response = await _repository.UpdateAsync(book);
+                var book = _mapper.Map<Book>(model);
+                var response = await _repository.UpdateAsync(book, model.authors);
 
-                if (response is not null)
+                if (response is not false)
                 {
-                    serviceResponse.ResponseData = _mapper.Map<GetBookDto>(response);
                     serviceResponse.Message = "Book updated!";
                 }
                 else

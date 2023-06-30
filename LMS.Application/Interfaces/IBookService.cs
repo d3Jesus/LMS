@@ -5,12 +5,12 @@ namespace LMS.Application.Interfaces
 {
     public interface IBookService
     {
-        Task<ServiceResponse<GetBookDto>> CreateAsync(AddBookDto model);
-        Task<ServiceResponse<GetBookDto>> UpdateAsync(UpdateBookDto model);
+        Task<ServiceResponse<bool>> CreateAsync(AddBookDto model);
+        Task<ServiceResponse<bool>> UpdateAsync(UpdateBookDto model);
         Task<ServiceResponse<bool>> DeleteAsync(int id);
-        Task<ServiceResponse<GetAllBooksDto>> GetByIdAsync(int id);
-        Task<ServiceResponse<IEnumerable<GetAllBooksDto>>> GetAllAsync();
-        Task<ServiceResponse<IEnumerable<GetAllBooksDto>>> GetAllByAsync(string title);
+        Task<ServiceResponse<GetBookDto>> GetByIdAsync(int id);
+        Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllAsync();
+        Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(string title);
         Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(int category);
     }
 }
