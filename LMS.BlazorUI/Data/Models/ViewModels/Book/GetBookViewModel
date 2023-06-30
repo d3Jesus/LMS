@@ -1,0 +1,5 @@
+
+namespace LMS.BlazorUI.Data.Models.ViewModels.Book;
+
+public record struct GetBookViewModel 
+(int id, string title, string description, int edition, string iSBN, string categoryName, DateTime dateCreated, decimal price );

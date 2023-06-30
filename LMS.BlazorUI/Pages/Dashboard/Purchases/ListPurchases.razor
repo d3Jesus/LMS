@@ -1,0 +1,45 @@
+@page "/purchases"
+@layout DashboardLayout
+
+@inject IJSRuntime JS
+
+<Breadcrumb title="Purchase" />
+
+<CardComponent title="List of Purchase">
+
+    <bodyFragment>
+        <table class="table table-sm table-hover" style="width: 100%;" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Purchase Number</th>
+                    <th>Date Purchased</th>
+                    <th>Purchased By</th>
+                    <th>Registered By</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> AZD02312 </td>
+                    <td> 01/01/2023 </td>
+                    <td> Customer Name </td>
+                    <td> Librarian Name </td>
+                </tr>
+            </tbody>
+        </table>
+    </bodyFragment>
+
+    <footerFragment>
+        
+        <div class="text-center">
+            <a data-bs-toggle="tooltip" class="btn btn-outline-success" data-bs-placement="top" title="New Purchase" href="purchase/new">
+                <i class="bi bi-plus"></i> New
+            </a>
+        </div>
+
+    </footerFragment>
+
+</CardComponent>
+
+@code {
+}

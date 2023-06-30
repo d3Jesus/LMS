@@ -61,6 +61,12 @@ namespace LMS.BlazorUI.Data.Services
             return response.ResponseData;
         }
 
+        public async Task<List<GetBookViewModel>> GetByAsync(string title)
+        {
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<GetBookViewModel>>>($"books/getByTitle/{title}");
+            return response.ResponseData;
+        }
+
         public async Task<ServiceResponse<Book>> UpdateAsync(AddBookViewModel model)
         {
             var result = await _httpClient.PutAsJsonAsync("books", model);

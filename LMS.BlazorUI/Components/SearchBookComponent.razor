@@ -1,0 +1,68 @@
+@* this page is used to display a reusable input to search books *@
+
+@inject IBookService Service
+
+<div class="form-group mt-2 mb-2">
+
+    <input type="text" class="form-control"
+           placeholder="Type book title here to search"
+           @bind-value="bookTitle"
+           @bind-value:event="oninput"
+           autocomplete="off" />
+
+</div>
+
+@if (this.DisplaySearchResult != false && _booksList != null)
+{
+    <div style="overflow-y:auto; max-height: 300px; border: 1px solid silver">
+        <ul style="list-style-type:none">
+            @foreach (var book in _booksList)
+            {
+                <li style="cursor:pointer" @onclick="@(async()=>{ await SelectedBook(book); })" @key="book.Id">
+                    @book.Title
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    private string _bookTitle;
+    private string bookTitle
+    {
+        get => _bookTitle;
+        set
+        {
+            _bookTitle = value;
+            if (!string.IsNullOrWhiteSpace(_bookTitle) && _bookTitle.Length > 3)
+            {
+                Searchbook();
+            }
+        }
+    }
+
+    private List<GetBookViewModel> _booksList;
+
+    [Parameter]
+    public EventCallback<GetBookViewModel> OnSelectedItem { get; set; }
+
+    [Parameter]
+    public bool DisplaySearchResult { get; set; } = false;
+
+    private async void Searchbook()
+    {
+        _booksList = (await Service.GetByAsync(bookTitle ?? string.Empty)).ToList();
+
+        this.DisplaySearchResult = true;
+
+        StateHasChanged();
+    }
+
+    private async Task SelectedBook(GetBookViewModel book)
+    {
+        await OnSelectedItem.InvokeAsync(book);
+
+        this.bookTitle = string.Empty;
+        this.DisplaySearchResult = false;
+    }
+}
