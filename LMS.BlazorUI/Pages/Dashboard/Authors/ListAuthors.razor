@@ -1,4 +1,5 @@
 ﻿@page "/authors"
+@page "/authors/{responseStatus}"
 @layout DashboardLayout
 
 @inject IJSRuntime JS
@@ -14,6 +15,17 @@
     </nav>
 </div>
 
+@if(responseStatus is not null)
+{
+    if(responseStatus.Equals("scss"))
+    {
+        <AlertComponent alertMessage="Success." alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="An error occured while performing operation." alertType="danger" />
+    }
+}
+
 <CardComponent title="List of Authors">
 
     <bodyFragment>
@@ -22,13 +34,13 @@
                 <thead>
                     <tr>
                         <th>
-                            <label @onclick="@(() => SortByColumn("FirstName"))">First Name</label>
+                            <label @onclick="@(() => SortByColumn("FirstName"))"><b>First Name</b></label>
                         </th>
                         <th>
-                            <label @onclick="@(() => SortByColumn("LastName"))">Last Name</label>
+                            <label @onclick="@(() => SortByColumn("LastName"))"><b>Last Name</b></label>
                         </th>
                         <th>
-                            <label @onclick="@(() => SortByColumn("Nationality"))">Nationality</label>
+                            <label @onclick="@(() => SortByColumn("Nationality"))"><b>Nationality</b></label>
                         </th>
                         <th>Actions</th>
                     </tr>

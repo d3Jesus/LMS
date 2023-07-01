@@ -76,11 +76,17 @@
         author = response.ResponseData;
     }
 
-    public void OnValidSubmit()
+    public async Task OnValidSubmit()
     {
-        var result = Service.UpdateAsync(author);
+        var message = string.Empty;
 
-        NavigationManager.NavigateTo("authors", true);
+        var result = await Service.UpdateAsync(author);
+        if(result.Succeeded)
+            message = ResponseStatus.SUCCESS;
+        else
+            message = ResponseStatus.ERROR;
+
+        NavigationManager.NavigateTo($"authors/{message}", true);
     }
 
 }

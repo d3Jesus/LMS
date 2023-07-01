@@ -57,11 +57,17 @@
         authorFullName = string.Concat(author.FirstName, " ", author.LastName);
     }
 
-    public void OnValidSubmit()
+    public async Task OnValidSubmit()
     {
-        var result = Service.DeleteAsync(author);
+        var message = string.Empty;
 
-        NavigationManager.NavigateTo("authors", true);
+        var result = await Service.DeleteAsync(author);
+        if(result.Succeeded)
+            message = ResponseStatus.SUCCESS;
+        else
+            message = ResponseStatus.ERROR;
+
+        NavigationManager.NavigateTo($"authors/{message}", true);
     }
 
 }

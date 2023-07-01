@@ -67,11 +67,17 @@
 @code {
     private Author author = new Author();
 
-    public void OnValidSubmit()
+    public async Task OnValidSubmit()
     {
-        var result = Service.CreateAsync(author);
+        var message = string.Empty;
 
-        NavigationManager.NavigateTo("authors", true);
+        var result = await Service.CreateAsync(author);
+        if(result.Succeeded)
+            message = ResponseStatus.SUCCESS;
+        else
+            message = ResponseStatus.ERROR;
+
+        NavigationManager.NavigateTo($"authors/{message}", true);
     }
 
 }

@@ -1,17 +1,28 @@
 
 using LMS.BlazorUI.Data.Models;
 using LMS.BlazorUI.Extensions;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.BlazorUI.Pages.Dashboard.Authors
 {
     public partial class ListAuthors
     {
+        // If the operations was successful or not
+        [Parameter]
+        [TempData]
+        public string responseStatus { get; set;}
         private List<Author> allAuthors;
         private List<Author> authors;
         private const int _itemsPerPage = 25;
         private int _totalPages;
         private int _page = 0;
         private TableSorting sort = new();
+
+        protected override void OnParametersSet()
+        {
+
+        }
 
         protected override async Task OnInitializedAsync()
         {
