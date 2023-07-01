@@ -4,7 +4,15 @@
 @inject IJSRuntime JS
 @inject IAuthorService Service
 
-<Breadcrumb title="Authors" />
+<div class="pagetitle">
+    <h1>Authors</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Authors</li>
+        </ol>
+    </nav>
+</div>
 
 <CardComponent title="List of Authors">
 
@@ -55,11 +63,10 @@
     </bodyFragment>
 
     <footerFragment>
-        <button type="button" class="btn btn-outline-success"
+        <a class="btn btn-outline-success" href="/authors/new"
             data-bs-toggle="tooltip" data-bs-placement="top" title="Add Author">
             <i class="bi bi-plus"></i> New
-        </button>
-
+        </a>
     </footerFragment>
 
 </CardComponent>
