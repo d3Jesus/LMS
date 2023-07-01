@@ -17,14 +17,16 @@ public abstract class Person
         set { _id = value; }
     }
 
-    [Required]
+    [Required(ErrorMessage = "This field is required!")]
+    [StringLength(50, ErrorMessage = "This field only accept {1} characters long.")]
     public string FirstName
     {
         get { return _firstName; }
         set { _firstName = value; }
     }
 
-    [Required]
+    [Required(ErrorMessage = "This field is required!")]
+    [StringLength(50, ErrorMessage = "This field only accept {1} characters long.")]
     public string LastName
     {
         get { return _lastName; }

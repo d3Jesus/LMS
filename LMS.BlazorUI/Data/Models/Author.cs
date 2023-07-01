@@ -6,7 +6,8 @@ namespace LMS.BlazorUI.Data.Models
     {
         private string _nationality;
 
-        [Required]
+        [Required(ErrorMessage = "This field is required!")]
+        [StringLength(50, ErrorMessage = "This field only accept {1} characters long.")]
         public string Nationality
         {
             get { return _nationality; }
