@@ -9,7 +9,7 @@
 <CardComponent title="List of Authors">
 
     <bodyFragment>
-        <Datatable id="authorsTable">
+        <TableComponent>
             <Content>
                 <thead>
                     <tr>
@@ -23,30 +23,29 @@
                 <tbody>
                         @if (authors is not null)
                         {
-                            foreach (var author in authors)
-                            {
-                            <tr>
-                                <td scope="row">@author.Id</td>
-                                <td>@author.FirstName</td>
-                                <td>@author.LastName</td>
-                                <td>@author.Nationality</td>
-                                <td>
-                                <button type="button" class="btn text-info" @onclick="@(() => Modal.DisplayModal(ModalOperations.UPDATE, "Update Author", author.Id))"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Update Author">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
+                            <Virtualize Items="authors" Context="author">
+                                <tr>
+                                    <td scope="row">@author.Id</td>
+                                    <td>@author.FirstName</td>
+                                    <td>@author.LastName</td>
+                                    <td>@author.Nationality</td>
+                                    <td>
+                                    <button type="button" class="btn text-info" @onclick="@(() => Modal.DisplayModal(ModalOperations.UPDATE, "Update Author", author.Id))"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Update Author">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
 
-                                <button type="button" class="btn text-danger"
-                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Author">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            }
+                                    <button type="button" class="btn text-danger"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Author">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </Virtualize>
                         }
                 </tbody>
             </Content>
-        </Datatable>
+        </TableComponent>
     </bodyFragment>
 
     <footerFragment>
@@ -96,14 +95,15 @@
 
 
 @code {
-    private IEnumerable<Author> authors;
+    private List<Author> authors;
     private AddAuthor AddForm;
     private UpdateAuthor UpdateForm;
     private ModalComponent Modal;
 
     protected override async Task OnInitializedAsync()
     {
-        authors = await Service.GetAllAsync();
+        var result = await Service.GetAllAsync();
+        authors = result.ToList();
         StateHasChanged();
     }
 }

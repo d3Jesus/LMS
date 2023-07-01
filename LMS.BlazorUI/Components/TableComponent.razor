@@ -1,0 +1,11 @@
+
+<div class="table-responsive">
+    <table class="table table-sm table-hover" style="width: 100%;" cellspacing="0">
+        @Content
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Content { get; set; }
+}
