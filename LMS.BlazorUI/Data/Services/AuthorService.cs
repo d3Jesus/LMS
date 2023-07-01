@@ -21,7 +21,13 @@ namespace LMS.BlazorUI.Data.Services
 			return await result.Content.ReadFromJsonAsync<ServiceResponse<Author>>();
 		}
 
-		public async Task<IEnumerable<Author>> GetAllAsync()
+        public async Task<ServiceResponse<bool>> DeleteAsync(Author author)
+        {
+            var result = await _httpClient.DeleteAsync($"authors/{author.Id}");
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+        }
+
+        public async Task<IEnumerable<Author>> GetAllAsync()
         {
             var authors = await _httpClient.GetFromJsonAsync<ServiceResponse<IEnumerable<Author>>>("authors");
 

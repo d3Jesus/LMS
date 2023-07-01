@@ -1,0 +1,67 @@
+@page "/authors/delete/{authorId:int}"
+@layout DashboardLayout
+
+@inject IAuthorService Service
+@inject NavigationManager NavigationManager
+
+<div class="pagetitle">
+    <h1>Delete Author</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <NavLink href="dashboard">
+                    Dashboard
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item">
+                <NavLink href="authors">
+                    Authors
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item active">Delete Author</li>
+        </ol>
+    </nav>
+</div>
+
+<EditForm Model="@author" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+        <CardComponent title="Update Author">
+            <bodyFragment>
+
+                <p>You are about to delete the author named <i>@authorFullName</i></p>
+
+            </bodyFragment>
+            <footerFragment>
+                <a class="btn btn-outline-secondary" href="/authors">
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="bi bi-save"></i> Save
+                </button>
+            </footerFragment>
+        </CardComponent>
+</EditForm>
+
+@code {
+    private Author author = new Author();
+    private string authorFullName;
+
+    [Parameter]
+    public int authorId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var response = await Service.GetByAsync(authorId);
+        author = response.ResponseData;
+
+        authorFullName = string.Concat(author.FirstName, " ", author.LastName);
+    }
+
+    public void OnValidSubmit()
+    {
+        var result = Service.DeleteAsync(author);
+
+        NavigationManager.NavigateTo("authors", true);
+    }
+
+}
