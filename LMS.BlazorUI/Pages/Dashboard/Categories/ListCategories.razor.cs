@@ -3,7 +3,6 @@ using LMS.BlazorUI.Data.Interfaces;
 using LMS.BlazorUI.Data.Models;
 using LMS.BlazorUI.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace LMS.BlazorUI.Pages.Dashboard.Categories
 {
@@ -18,9 +17,6 @@ namespace LMS.BlazorUI.Pages.Dashboard.Categories
         private int _totalPages;
         private int _page = 0;
         private TableSorting sort = new();
-        
-        [Inject]
-        public IJSRuntime JS { get; set; }
         [Inject]
         public ICategoryService Service { get; set; }
 

@@ -25,7 +25,7 @@
 
 <EditForm Model="@author" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
-        <CardComponent title="Update Author">
+        <CardComponent title="Delete Author">
             <bodyFragment>
 
                 <p>You are about to delete the author named <i>@authorFullName</i></p>
@@ -59,13 +59,8 @@
 
     public async Task OnValidSubmit()
     {
-        var message = string.Empty;
-
         var result = await Service.DeleteAsync(author);
-        if(result.Succeeded)
-            message = ResponseStatus.SUCCESS;
-        else
-            message = ResponseStatus.ERROR;
+        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
 
         NavigationManager.NavigateTo($"authors/{message}", true);
     }

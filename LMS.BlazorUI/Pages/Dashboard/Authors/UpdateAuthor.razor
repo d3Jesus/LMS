@@ -78,13 +78,8 @@
 
     public async Task OnValidSubmit()
     {
-        var message = string.Empty;
-
         var result = await Service.UpdateAsync(author);
-        if(result.Succeeded)
-            message = ResponseStatus.SUCCESS;
-        else
-            message = ResponseStatus.ERROR;
+        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
 
         NavigationManager.NavigateTo($"authors/{message}", true);
     }
