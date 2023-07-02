@@ -1,57 +1,65 @@
 ﻿@page "/books"
+@page "/books/{responseStatus}"
 @layout DashboardLayout
-
-@inject IBookService Service
 
 <div class="pagetitle">
     <h1>Books</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item">Dashboard</li>
             <li class="breadcrumb-item active">Books</li>
         </ol>
     </nav>
 </div>
 
+@if(responseStatus is not null)
+{
+    Console.WriteLine(responseStatus);
+    if(responseStatus.Equals(ResponseStatus.SUCCESS))
+    {
+        <AlertComponent alertMessage="Success." alertType="success" />
+    } else if(responseStatus.Equals(ResponseStatus.ERROR))
+    {
+        <AlertComponent alertMessage="An error occured while performing operation." alertType="danger" />
+    }
+}
+
 <CardComponent title="List of Books">
 
     <bodyFragment>
-        <Datatable id="booksTable">
+        <TableComponent>
             <Content>
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Edition</th>
-                    <th>Category</th>
-                    <th>&nbsp;</th>
+                    <th><label @onclick="@(() => SortByColumn("Title"))"><b>Title</b></label></th>
+                    <th><label @onclick="@(() => SortByColumn("Edition"))"><b>Edition</b></label></th>
+                    <th><label @onclick="@(() => SortByColumn("CategoryName"))"><b>Category</b></label></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @if(books is not null)
                     {
-                        foreach(var book in books)
-                        {
-                        <tr>
-                            <td scope="row">@book.Id</td>
-                            <td>@book.Title</td>
-                            <td>@book.Edition</td>
-                            <td>@book.CategoryName</td>
-                            <td>
-                                <a class="text-info" href="books/update/@book.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Book">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <span class="text-white"> | </span>
-                                <a class="text-danger" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Book">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        }
+                        <Virtualize Items="books" Context="book">
+                            <tr>
+                                <td>@book.Title</td>
+                                <td>@book.Edition</td>
+                                <td>@book.Category.CategoryName</td>
+                                <td>
+                                    <a class="text-info" href="books/update/@book.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Book">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <span class="text-white"> | </span>
+                                    <a class="text-danger" href="books/delete/@book.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Book">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </Virtualize>
                     }
                 </tbody>
             </Content>
-        </Datatable>
+        </TableComponent>
     </bodyFragment>
 
     <footerFragment>
@@ -61,13 +69,3 @@
     </footerFragment>
 
 </CardComponent>
-
-
-@code {
-    private IEnumerable<GetBookViewModel> books;
-
-    protected override async Task OnInitializedAsync()
-    {
-        books = await Service.GetAllAsync();
-    }
-}
