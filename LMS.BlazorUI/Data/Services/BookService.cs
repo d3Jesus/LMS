@@ -1,9 +1,7 @@
-﻿using BlazorInputFile;
-using LMS.BlazorUI.Data.Interfaces;
+﻿using LMS.BlazorUI.Data.Interfaces;
 using LMS.BlazorUI.Data.Models;
 using LMS.BlazorUI.Data.Models.ViewModels;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Logging;
 
 namespace LMS.BlazorUI.Data.Services
 {
@@ -40,6 +38,11 @@ namespace LMS.BlazorUI.Data.Services
             var result = await _httpClient.PostAsJsonAsync("books", book);
 
             return await result.Content.ReadFromJsonAsync<ServiceResponse<Book>>();
+        }
+
+        public async Task DeleteAsync(int bookId)
+        {
+            await _httpClient.DeleteAsync($"books/{bookId}");
         }
 
         public async Task<IEnumerable<GetBookViewModel>> GetAllAsync()

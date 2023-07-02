@@ -1,10 +1,37 @@
-﻿@page "/delete-book"
+﻿@page "/books/delete/{bookId:int}"
 @layout DashboardLayout
 
+@inject IBookService Service
 @inject NavigationManager NavigationManager
 
-<h6>The book @book.Title is about to be deleted!</h6>
-<h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+<div class="pagetitle">
+    <h1>Books</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Dashboard</li>
+            <li class="breadcrumb-item">
+                <NavLink href="books">Books</NavLink>
+            </li>
+            <li class="breadcrumb-item active">Delete Book</li>
+        </ol>
+    </nav>
+</div>
+
+<CardComponent title="List of Books">
+
+    <bodyFragment>
+        <h6>The book @book.Title is about to be deleted!</h6>
+        <h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+    </bodyFragment>
+    <footerFragment>
+        <NavLink href="books" class="btn btn-outline-secondary">
+            Cancel
+        </NavLink>
+        <button type="button" class="btn btn-outline-danger" @onclick="@(OnValidSubmit)">
+            <i class="bi bi-trash"></i> Delete
+        </button>
+    </footerFragment>
+</CardComponent>
 
 @code {
 
@@ -13,9 +40,13 @@
     [Parameter]
     public int bookId { get; set; }
 
+    protected override async Task OnParametersSetAsync() => book = await Service.GetByAsync(bookId);
 
-    public void OnValidSubmit()
+    public async Task OnValidSubmit()
     {
-        NavigationManager.NavigateTo("books", true);
+        await Service.DeleteAsync(bookId);
+        string message = ResponseStatus.SUCCESS;
+
+        NavigationManager.NavigateTo($"books/{message}", true);
     }
 }
