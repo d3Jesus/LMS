@@ -1,61 +1,79 @@
 ﻿@page "/librarians"
+@page "/librarians/{responseStatus}"
 @layout DashboardLayout
 
-<Breadcrumb title="Librarians" />
+<div class="pagetitle">
+    <h1>Categories</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Dashboard</li>
+            <li class="breadcrumb-item active">Categories</li>
+        </ol>
+    </nav>
+</div>
+
+@if(responseStatus is not null)
+{
+    Console.WriteLine(responseStatus);
+    if(responseStatus.Equals(ResponseStatus.SUCCESS))
+    {
+        <AlertComponent alertMessage="Success." alertType="success" />
+    } else if(responseStatus.Equals(ResponseStatus.ERROR))
+    {
+        <AlertComponent alertMessage="An error occured while performing operation." alertType="danger" />
+    }
+}
 
 <CardComponent title="List of Librarians">
 
     <bodyFragment>
-        <Datatable id="librariansTable">
+        <TableComponent>
             <Content>
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>&nbsp;</th>
+                    <th><label @onclick="@(() => SortByColumn("FirstName"))"><b>First Name</b></label></th>
+                    <th><label @onclick="@(() => SortByColumn("LastName"))"><b>Last Name</b></label></th>
+                    <th><label @onclick="@(() => SortByColumn("PhoneNumber"))"><b>Phone Number</b></label></th>
+                    <th><label @onclick="@(() => SortByColumn("Email"))"><b>Email</b></label></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td scope="row">1</td>
-                    <td>Yunice</td>
-                    <td>Evelise</td>
-                    <td>Maputo</td>
-                    <td>
-                        <span class="badge bg-success">Active</span>
-                        <span class="badge bg-danger">Deleted</span>
-                    </td>
-                    <td>
-                        <a class="text-info" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Librarian">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a class="text-danger" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Librarian">
-                            <i class="bi bi-dash-circle"></i>
-                        </a>
-                        <a class="text-primary" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Recover Deleted Librarian">
-                            <i class="bi bi-plus-circle"></i>
-                        </a>
-                    </td>
-                </tr>
+                @if(listOfLibrarians is not null)
+                {
+                    <Virtualize Items="listOfLibrarians" Context="librarian">
+                        <tr>
+                            <td>@librarian.FirstName</td>
+                            <td>@librarian.LastName</td>
+                            <td>@librarian.PhoneNumber</td>
+                            <td>@librarian.Email</td>
+                            <td>
+                                <a class="text-info" href="/librarians/update/@librarian.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Librarian">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="text-danger" href="/librarians/delete/@librarian.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Librarian">
+                                    <i class="bi bi-dash-circle"></i>
+                                </a>
+                                <a class="text-success" href="/librarians/recover/@librarian.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Recover Deleted Librarian">
+                                    <i class="bi bi-plus-circle"></i>
+                                </a>
+                                <a class="text-primary" href="/librarians/manage/@librarian.Id" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage User">
+                                    <i class="bi bi-person"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </Virtualize>
+                }
             </tbody>
             </Content>
-        </Datatable>
+        </TableComponent>
+        <PaginationComponent totalPages="_totalPages" OnPageChange="HandlePageChange"></PaginationComponent>
     </bodyFragment>
 
     <footerFragment>
-        <div class="text-center">
-            <a class="btn btn-outline-success" href="new-librarian" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Librarian">
-                <i class="bi bi-plus"></i> New
-            </a>
-        </div>
+        <a class="btn btn-outline-success" href="/librarians/new" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Category">
+            <i class="bi bi-plus"></i> New
+        </a>
     </footerFragment>
 
 </CardComponent>
-
-
-@code {
-
-}

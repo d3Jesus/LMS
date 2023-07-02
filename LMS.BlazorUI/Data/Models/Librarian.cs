@@ -8,21 +8,21 @@ namespace LMS.BlazorUI.Data.Models
         private string _email;
         private string _phoneNumber;
 
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public string PhoneNumber
         {
             get { return _phoneNumber; }
             set { _phoneNumber = value; }
         }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public string Address
         {
             get { return _address; }
             set { _address = value; }
         }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         [EmailAddress]
         public string Email
         {

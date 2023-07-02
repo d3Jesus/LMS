@@ -1,15 +1,54 @@
-﻿@page "/delete-librarian"
+﻿@page "/librarians/delete/{librarianId:int}"
 @layout DashboardLayout
 
+@inject ILibrarianService Service
 @inject NavigationManager NavigationManager
 
-<h6>The librarian is about to be deleted!</h6>
-<h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+<div class="pagetitle">
+    <h1>Librarian</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Dashboard</li>
+            <li class="breadcrumb-item">
+                <NavLink href="librarians">
+                    Librarians
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item active">Delete Librarian</li>
+        </ol>
+    </nav>
+</div>
+
+<CardComponent title="Delete Librarian">
+    <bodyFragment>
+
+        <h6>The librarian <b>@librarianName</b> is about to be deleted!</h6>
+        <h5 class="text-danger">Are you sure that you want to delete this record ?</h5>
+            
+    </bodyFragment>
+    <footerFragment>
+        <div class="text-center">
+            <NavLink href="librarians" class="btn btn-outline-secondary">
+                Cancel
+            </NavLink>
+            <button type="button" class="btn btn-outline-danger" @onclick="@(OnValidSubmit)">
+                <i class="bi bi-save"></i> Delete
+            </button>
+        </div>
+    </footerFragment>
+</CardComponent>
 
 @code {
+    [Parameter]
+    public int librarianId { get; set; }
+    private string librarianName = string.Empty;
 
-    public void OnValidSubmit()
+    protected override async Task OnParametersSetAsync() => librarianName = (await Service.GetByAsync(librarianId)).ResponseData.FirstName;
+
+    public async Task OnValidSubmit()
     {
-        NavigationManager.NavigateTo("librarians", true);
+        var result = await Service.DeleteAsync(librarianId);
+        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        NavigationManager.NavigateTo($"librarians/{message}", true);
     }
 }
