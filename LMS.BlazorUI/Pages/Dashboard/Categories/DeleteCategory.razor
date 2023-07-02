@@ -1,13 +1,48 @@
-﻿@layout DashboardLayout
+﻿@page "/categories/delete/{categoryId:int}"
+@layout DashboardLayout
 
 @inject ICategoryService Service
 @inject NavigationManager NavigationManager
 
-<h6>Category @category.CategoryName is about to be deleted!</h6>
-<h5 class="text-danger">Are you sure you want to delete this record ?</h5>
+<div class="pagetitle">
+    <h1>Delete Category</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <NavLink href="dashboard">
+                    Dashboard
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item">
+                <NavLink href="Categories">
+                    Category
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item active">Delete Category</li>
+        </ol>
+    </nav>
+</div>
+
+<EditForm Model="@category" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+        <CardComponent title="Delete Category">
+            <bodyFragment>
+
+                <p>You are about to delete the category named <i>@category.CategoryName</i></p>
+
+            </bodyFragment>
+            <footerFragment>
+                <a class="btn btn-outline-secondary" href="/authors">
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="bi bi-save"></i> Save
+                </button>
+            </footerFragment>
+        </CardComponent>
+</EditForm>
 
 @code {
-
     private Category category = new Category();
 
     [Parameter]
@@ -19,10 +54,12 @@
         category = response.ResponseData;
     }
 
-    public void OnValidSubmit()
+    public async Task OnValidSubmit()
     {
-        var result = Service.DeleteAsync(categoryId);
+        var result = await Service.DeleteAsync(category.Id);
+        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
 
-        NavigationManager.NavigateTo("categories", true);
+        NavigationManager.NavigateTo($"categories/{message}", true);
     }
+
 }

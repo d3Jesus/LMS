@@ -1,29 +1,59 @@
-﻿
+﻿@page "/categories/new"
 @layout DashboardLayout
 
 @inject ICategoryService Service
 @inject NavigationManager NavigationManager
 
+<div class="pagetitle">
+    <h1>New Category</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <NavLink href="dashboard">
+                    Dashboard
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item">
+                <NavLink href="categories">
+                    Categories
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item active">New Category</li>
+        </ol>
+    </nav>
+</div>
+
 <EditForm Model="@category" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <div class="form-group">
-        <input type="text" class="form-control" id="name"
-               placeholder="Category Name" autocomplete="off"
-               @bind-value="category.CategoryName">
-    </div>
-
+    <CardComponent title="New Category">
+        <bodyFragment>
+            <div class="form-group">
+                <input type="text" class="form-control" id="name"
+                    placeholder="Category Name" autocomplete="off"
+                    @bind-value="category.CategoryName">
+            </div>
+        </bodyFragment>
+        <footerFragment>
+            <a class="btn btn-outline-secondary" href="/categories">
+                Cancel
+            </a>
+            <button type="submit" class="btn btn-outline-success">
+                <i class="bi bi-save"></i> Save
+            </button>
+        </footerFragment>
+    </CardComponent>
 </EditForm>
 
 @code {
     private Category category = new Category();
 
-    public void OnValidSubmit()
+    public async Task OnValidSubmit()
     {
-        var result = Service.CreateAsync(category);
+        var result = await Service.CreateAsync(category);
+        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
 
-        NavigationManager.NavigateTo("categories", true);
+        NavigationManager.NavigateTo($"categories/{message}", true);
     }
 
 }

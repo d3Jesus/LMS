@@ -1,115 +1,74 @@
 ﻿
 @page "/categories"
+@page "/categories/{responseStatus}"
 @layout DashboardLayout
 
-@inject IJSRuntime JS
-@inject ICategoryService Service
+<div class="pagetitle">
+    <h1>Categories</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Dashboard</li>
+            <li class="breadcrumb-item active">Categories</li>
+        </ol>
+    </nav>
+</div>
 
-<Breadcrumb title="Categories"/>
+@if(responseStatus is not null)
+{
+    Console.WriteLine(responseStatus);
+    if(responseStatus.Equals(ResponseStatus.SUCCESS))
+    {
+        <AlertComponent alertMessage="Success." alertType="success" />
+    } else if(responseStatus.Equals(ResponseStatus.ERROR))
+    {
+        <AlertComponent alertMessage="An error occured while performing operation." alertType="danger" />
+    }
+}
 
 <CardComponent title="List of Categories">
 
     <bodyFragment>
-        <Datatable id="categoriesTable">
+        <TableComponent>
             <Content>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>&nbsp;</th>
+                        <th>
+                            <label @onclick="@(() => SortByColumn("Name"))"><b>Name</b></label>
+                        </th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                         @if (categories is not null)
                         {
-                            foreach (var category in categories)
-                            {
+                            <Virtualize Items="categories" Context="category">
                                 <tr>
-                                    <td scope="row">@category.Id</td>
                                     <td>@category.CategoryName</td>
                                     <td>
-                                        <button type="button" class="btn text-info" @onclick="@(() => Modal.DisplayModal(ModalOperations.UPDATE, "Update Category", category.Id))"
+                                        <a class="btn text-info" href="/categories/update/@category.Id"
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Update Category">
                                             <i class="bi bi-pencil"></i>
-                                        </button>
+                                        </a>
 
-                                        <button type="button" class="btn text-danger" @onclick="@(() => Modal.DisplayModal(ModalOperations.DELETE, "Delete Category", category.Id))"
+                                        <a class="btn text-danger" href="/categories/delete/@category.Id"
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Category">
                                             <i class="bi bi-trash"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
-                            }
+                            </Virtualize>
                         }
                 </tbody>
             </Content>
-        </Datatable>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover" id="categoryTable" style="width: 100%;" cellspacing="0">
-                
-            </table>
-        </div>
+        </TableComponent>
+        <PaginationComponent totalPages="_totalPages" OnPageChange="HandlePageChange"></PaginationComponent>
     </bodyFragment>
 
     <footerFragment>
-        <button type="button" class="btn btn-outline-success" @onclick="@(() => Modal.DisplayModal(ModalOperations.ADD, "Add Category"))" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Category">
+        <a class="btn btn-outline-success" href="/categories/new" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Category">
             <i class="bi bi-plus"></i> New
-        </button>
+        </a>
         
     </footerFragment>
 
 </CardComponent>
-
-<ModalComponent @ref="Modal">
-
-    <bodyFragment>
-        @switch (Modal._operation)
-        {
-            case ModalOperations.ADD:
-                <AddCategory @ref="AddForm" />
-                break;
-            case ModalOperations.UPDATE: 
-                <UpdateCategory @ref="UpdateForm" categoryId="@Modal._id" />
-                break;
-            case ModalOperations.DELETE:
-                <DeleteCategory @ref="DeleteForm" categoryId="@Modal._id" />
-                break;
-        }
-    </bodyFragment>
-
-    <footerFragment>
-        @switch (Modal._operation)
-        {
-            case ModalOperations.ADD:
-                <button type="submit" class="btn btn-outline-success" @onclick="@(() => AddForm.OnValidSubmit())">
-                    <i class="bi bi-save"></i> Save
-                </button>
-                break;
-            case ModalOperations.UPDATE:
-                <button type="submit" class="btn btn-outline-success" @onclick="@(() => UpdateForm.OnValidSubmit())">
-                    <i class="bi bi-save"></i> Update
-                </button>
-                break;
-            case ModalOperations.DELETE:
-                <button type="submit" class="btn btn-outline-danger" @onclick="@(() => DeleteForm.OnValidSubmit())">
-                    <i class="bi bi-save"></i> Delete
-                </button>
-                break;
-        }
-    </footerFragment>
-
-</ModalComponent>
-
-@code{
-    private IEnumerable<Category> categories;
-    private AddCategory AddForm;
-    private UpdateCategory UpdateForm;
-    private DeleteCategory DeleteForm;
-    private ModalComponent Modal;
-
-    protected override async Task OnInitializedAsync()
-    {
-        categories = await Service.GetAsync();
-        StateHasChanged();
-    }
-}

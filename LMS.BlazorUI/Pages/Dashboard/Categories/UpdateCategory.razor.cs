@@ -1,10 +1,16 @@
-﻿using LMS.BlazorUI.Data.Models;
+﻿using LMS.BlazorUI.Data.Interfaces;
+using LMS.BlazorUI.Data.Models;
+using LMS.BlazorUI.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace LMS.BlazorUI.Pages.Dashboard.Categories
 {
     public partial class UpdateCategory : ComponentBase
     {
+        [Inject]
+        public ICategoryService Service { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
         private Category category = new Category();
 
         [Parameter]
@@ -16,11 +22,17 @@ namespace LMS.BlazorUI.Pages.Dashboard.Categories
             category = response.ResponseData;
         }
 
-        public void OnValidSubmit()
+        public async Task OnValidSubmit()
         {
-            var result = Service.UpdateAsync(category);
+            var message = string.Empty;
+        
+            var result = await Service.UpdateAsync(category);
+            if(result.Succeeded)
+                message = ResponseStatus.SUCCESS;
+            else
+                message = ResponseStatus.ERROR;
 
-            NavigationManager.NavigateTo("categories", true);
+            NavigationManager.NavigateTo($"categories/{message}", true);
         }
     }
 }
