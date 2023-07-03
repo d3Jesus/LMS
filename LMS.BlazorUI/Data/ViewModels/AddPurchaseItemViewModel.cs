@@ -1,4 +1,4 @@
-namespace LMS.BlazorUI.Data.Models.ViewModels;
+namespace LMS.BlazorUI.Data.ViewModels;
 
 public class AddPurchaseItemViewModel
 {

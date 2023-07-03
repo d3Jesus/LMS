@@ -9,7 +9,6 @@
 <Breadcrumb title="Books" />
 <EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
-    <ValidationSummary />
     <CardComponent title="New Book">
 
         <bodyFragment>
@@ -20,6 +19,7 @@
                     <input type="text" class="form-control"
                             placeholder="Book Title" autocomplete="off"
                             @bind-value="book.Title">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Title)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -27,6 +27,7 @@
                     <input type="text" class="form-control"
                             placeholder="Book Description" autocomplete="off"
                             @bind-value="book.Description">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Description)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -34,6 +35,7 @@
                     <input type="text" class="form-control"
                             placeholder="Book Edition" autocomplete="off"
                             @bind-value="book.Edition">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Edition)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -41,6 +43,7 @@
                     <input type="text" class="form-control"
                             placeholder="XXX-X-XX-XXXXXX-X" autocomplete="off"
                             @bind-value="book.ISBN">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.ISBN)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -51,6 +54,7 @@
                             {
                                 <option value=@category.Id>@category.CategoryName</option>
                             }
+                    <span class="text-danger"><ValidationMessage For="@(() => book.CategoryId)"></ValidationMessage></span>
                     </select>
                 </div>
 
@@ -59,12 +63,8 @@
                         <div class="form-control">
                         <InputFile OnChange="@LoadFiles" />
                         </div>
-                </div>
-
-                <div class="form-group col-lg-4 col-md-6">
-                    <label class="form-label">Number of Copies</label>
-                    <input type="text" class="form-control"
-                            placeholder="Number of Copies" autocomplete="off">
+                        <input type="hidden" class="form-control" @bind-value="book.Size" />
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Size)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -72,6 +72,7 @@
                     <input type="text" class="form-control"
                             placeholder="Book Price" autocomplete="off"
                             @bind-value="book.Price">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Price)"></ValidationMessage></span>
                 </div>
             </div>
 
@@ -91,14 +92,14 @@
         </footerFragment>
     </CardComponent>
 </EditForm>
+
 @code {
     private AddBookViewModel book = new();
     private IEnumerable<Category> categories;
     private string FileName = string.Empty;
+    private int size = 0;
 
     private List<IBrowserFile> loadedFiles = new();
-    private long maxFileSize = 1024 * 15;
-    private int maxAllowedFiles = 3;
     private bool isLoading;
 
     private void SelectedAuthor(List<BookAuthorsViewModel> author)
@@ -110,34 +111,8 @@
     {
         IBrowserFile browserFile = e.GetMultipleFiles(1).FirstOrDefault();
         book.File = browserFile;
-        //try
-        //{
-        //    loadedFiles.Add(browserFile);
-
-        //    var trustedFileNameForFileStorage = Path.GetRandomFileName();
-        //    var path = Path.Combine(Environment.ContentRootPath,
-        //            Environment.EnvironmentName, "unsafe_uploads",
-        //            trustedFileNameForFileStorage);
-
-        //    await using FileStream fs = new(path, FileMode.Create);
-        //    await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
-        //}
-        //catch (Exception ex)
-        //{
-        //    Logger.LogError("File: {Filename} Error: {Error}",
-        //        file.Name, ex.Message);
-        //}
-
-        //isLoading = false;
+        book.Size = browserFile.Size;
     }
-
-    //void HandleSelectedFile(InputFileChangeEventArgs file)
-    //{
-    //    book.File =file.GetMultipleFiles(1).FirstOrDefault();
-    //    //file = files.FirstOrDefault();
-    //    //FileName = files.FirstOrDefault().Name;
-    //    //book.File = file;
-    //}
 
     protected override async Task OnInitializedAsync()
     {
@@ -146,7 +121,9 @@
 
     private async Task OnValidSubmit()
     {
-        await BookService.CreateAsync(book);
-        NavigationManager.NavigateTo("books", true);
+        var result = (await BookService.CreateAsync(book)).Succeeded;
+        string message = result ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+
+        NavigationManager.NavigateTo($"books/{message}", true);
     }
 }

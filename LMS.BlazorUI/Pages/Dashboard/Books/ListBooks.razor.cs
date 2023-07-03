@@ -1,6 +1,6 @@
 
 using LMS.BlazorUI.Data.Interfaces;
-using LMS.BlazorUI.Data.Models.ViewModels;
+using LMS.BlazorUI.Data.ViewModels.Book;
 using LMS.BlazorUI.Extensions;
 using Microsoft.AspNetCore.Components;
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
+using LMS.Application.ViewModels.Author;
 using LMS.Application.ViewModels.Book;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
@@ -19,20 +20,16 @@ namespace LMS.Application.Services
             _repository = repository;
         }
 
-        public async Task<ServiceResponse<bool>> CreateAsync(AddBookDto model)
+        public async Task<ServiceResponse<GetBookDto>> CreateAsync(AddBookDto model)
         {
-            var serviceResponse = new ServiceResponse<bool>();
+            var serviceResponse = new ServiceResponse<GetBookDto>();
             try
             {
                 var book = _mapper.Map<Book>(model);
                 var response = await _repository.CreateAsync(book, model.authors);
 
-                if (response is not false)
-                {
-                    serviceResponse.Message = "Book added successfully!";
-                }
-                else
-                    serviceResponse.Message = "An error occored while saving the record!";
+                serviceResponse.ResponseData = _mapper.Map<GetBookDto>(response);
+                serviceResponse.Message = "Book added successfully!";
             }
             catch (Exception ex)
             {

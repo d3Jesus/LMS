@@ -15,7 +15,7 @@ namespace LMS.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<bool> CreateAsync(Book book, List<int> authors)
+        public async Task<Book> CreateAsync(Book book, List<int> authors)
         {
             using(var transaction = _context.Database.BeginTransaction())
             {
@@ -42,12 +42,12 @@ namespace LMS.Infrastructure.Repositories
 
                     transaction.Commit();
 
-                    return true;
+                    return book;
 
                 } catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return false;
+                    return null;
                 }
             }
         }

@@ -5,7 +5,7 @@ namespace LMS.Application.Interfaces
 {
     public interface IBookService
     {
-        Task<ServiceResponse<bool>> CreateAsync(AddBookDto model);
+        Task<ServiceResponse<GetBookDto>> CreateAsync(AddBookDto model);
         Task<ServiceResponse<bool>> UpdateAsync(UpdateBookDto model);
         Task<ServiceResponse<bool>> DeleteAsync(int id);
         Task<ServiceResponse<GetBookDto>> GetByIdAsync(int id);

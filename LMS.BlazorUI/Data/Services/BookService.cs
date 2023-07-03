@@ -1,6 +1,6 @@
 ﻿using LMS.BlazorUI.Data.Interfaces;
 using LMS.BlazorUI.Data.Models;
-using LMS.BlazorUI.Data.Models.ViewModels;
+using LMS.BlazorUI.Data.ViewModels.Book;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace LMS.BlazorUI.Data.Services
@@ -33,7 +33,7 @@ namespace LMS.BlazorUI.Data.Services
             };
             foreach (var author in model.BookAuthors)
             {
-                book.AuthorsIds.Add(author.AuthorId);
+                book.Authors.Add(author.AuthorId);
             }
             var result = await _httpClient.PostAsJsonAsync("books", book);
 
@@ -78,38 +78,17 @@ namespace LMS.BlazorUI.Data.Services
 
         private async Task<string> GetImageUrlAsync(IBrowserFile fileEntry)
         {
-            const long MAX_FILE_SIZE = 1024 * 100;
             using (var memStream = new MemoryStream())
             {
                 string fileName = fileEntry.Name;
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "img", fileName);
 
-                await using FileStream fs = new(path, FileMode.Create);
-                await fileEntry.OpenReadStream(MAX_FILE_SIZE).CopyToAsync(fs);
+                using (FileStream fs = new(path, FileMode.Create))
+                {
+                    await fileEntry.OpenReadStream().CopyToAsync(fs);
+                }
 
                 return $"/img/{fileName}";
-                //try
-                //{
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    Logger.LogError("File: {Filename} Error: {Error}",
-                //        fileEntry.Name, ex.Message);
-                //}
-                //Guid guid = Guid.NewGuid();
-                //string uniqueFileName = $"{fileEntry.Name}";
-
-                //var path = Path.Combine(_webHostEnvironment.WebRootPath, "img", uniqueFileName);
-
-                //await fileEntry.Data.CopyToAsync(memStream);
-
-                //using (FileStream fileStream = new FileStream(path, FileMode.Create))
-                //{
-                //    memStream.WriteTo(fileStream);
-                //}
-
-                //return uniqueFileName;
             }
         }
     }

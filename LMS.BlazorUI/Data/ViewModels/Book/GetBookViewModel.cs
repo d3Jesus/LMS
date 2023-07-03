@@ -1,4 +1,6 @@
-﻿namespace LMS.BlazorUI.Data.Models.ViewModels
+﻿using LMS.BlazorUI.Data.Models;
+
+namespace LMS.BlazorUI.Data.ViewModels.Book
 {
     public class GetBookViewModel
     {

@@ -43,8 +43,8 @@ namespace LMS.API.Controllers
         public async Task<IActionResult> Add(AddBookDto model)
         {
             var response = await _service.CreateAsync(model);
-
-            return CreatedAtAction(nameof(GetAll), null, null);
+            return Ok(response);
+            //return CreatedAtAction(nameof(Get), new { id = response.ResponseData.Id }, response.ResponseData);
         }
 
         [HttpPut]

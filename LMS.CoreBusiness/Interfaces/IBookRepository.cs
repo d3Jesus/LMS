@@ -4,7 +4,7 @@ namespace LMS.CoreBusiness.Interfaces
 {
     public interface IBookRepository
     {
-        Task<bool> CreateAsync(Book book, List<int> authors);
+        Task<Book> CreateAsync(Book book, List<int> authors);
         Task<bool> UpdateAsync(Book book, List<int> authors);
         Task<bool> DeleteAsync(int id);
         Task<Book> GetByAsync(int id);

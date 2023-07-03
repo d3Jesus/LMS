@@ -11,7 +11,7 @@
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;
-        public List<int> AuthorsIds { get; set; } = new();
+        public List<int> Authors { get; set; } = new();
         public virtual List<Author> Author { get; set; } = new();
 
         public int Id

@@ -1,5 +1,5 @@
 ﻿using LMS.BlazorUI.Data.Models;
-using LMS.BlazorUI.Data.Models.ViewModels;
+using LMS.BlazorUI.Data.ViewModels.Book;
 
 namespace LMS.BlazorUI.Data.Interfaces
 {
