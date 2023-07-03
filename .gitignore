@@ -130,3 +130,4 @@
 
 /LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.GeneratedMSBuildEditorConfig.editorconfig
 *.lock
+/LMS/obj/Debug/net6.0/project.razor.json
