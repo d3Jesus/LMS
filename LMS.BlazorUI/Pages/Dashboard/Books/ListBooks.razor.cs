@@ -8,9 +8,6 @@ namespace LMS.BlazorUI.Pages.Dashboard.Books
 {
     public partial class ListBooks
     {
-        // If the operations was successful or not
-        [Parameter]
-        public string responseStatus { get; set;}
         private List<GetBookViewModel> allBooks;
         private List<GetBookViewModel> books;
         private const int _itemsPerPage = 25;

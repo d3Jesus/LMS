@@ -17,6 +17,17 @@
     </nav>
 </div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <CardComponent title="List of Books">
 
     <bodyFragment>
@@ -24,10 +35,10 @@
         <h5 class="text-danger">Are you sure you want to delete this record ?</h5>
     </bodyFragment>
     <footerFragment>
-        <NavLink href="books" class="btn btn-outline-secondary">
+        <a href="books" class="btn btn-outline-secondary @IsDisabled">
             Cancel
-        </NavLink>
-        <button type="button" class="btn btn-outline-danger" @onclick="@(OnValidSubmit)">
+        </a>
+        <button type="button" class="btn btn-outline-danger @IsDisabled" @onclick="@(OnValidSubmit)">
             <i class="bi bi-trash"></i> Delete
         </button>
     </footerFragment>
@@ -39,14 +50,22 @@
 
     [Parameter]
     public int bookId { get; set; }
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     protected override async Task OnParametersSetAsync() => book = await Service.GetByAsync(bookId);
 
     public async Task OnValidSubmit()
     {
+        IsDisabled = "disabled";
         await Service.DeleteAsync(bookId);
-        string message = ResponseStatus.SUCCESS;
+        responseStatus = true;
+        responseMessage = "Book deleted successfully";
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"books/{message}", true);
+        await Task.Delay(2000);
+
+        NavigationManager.NavigateTo("books", true);
     }
 }

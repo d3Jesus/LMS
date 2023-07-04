@@ -5,8 +5,36 @@
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 
+<div class="pagetitle">
+    <h1>New Book</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <NavLink href="dashboard">
+                    Dashboard
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item">
+                <NavLink href="books">
+                    Books
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item active">New Book</li>
+        </ol>
+    </nav>
+</div>
 
-<Breadcrumb title="Books" />
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <CardComponent title="New Book">
@@ -81,14 +109,12 @@
         </bodyFragment>
 
         <footerFragment>
-            <div class="text-center">
-                <NavLink href="books" class="btn btn-outline-secondary">
-                    Cancel
-                </NavLink>
-                <button type="submit" class="btn btn-outline-success">
-                    <i class="bi bi-save"></i> Save
-                </button>
-            </div>
+            <a href="books" class="btn btn-outline-secondary @IsDisabled">
+                Cancel
+            </a>
+            <button type="submit" class="btn btn-outline-success @IsDisabled">
+                <i class="bi bi-save"></i> Save
+            </button>
         </footerFragment>
     </CardComponent>
 </EditForm>
@@ -98,6 +124,9 @@
     private IEnumerable<Category> categories;
     private string FileName = string.Empty;
     private int size = 0;
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     private List<IBrowserFile> loadedFiles = new();
     private bool isLoading;
@@ -121,9 +150,13 @@
 
     private async Task OnValidSubmit()
     {
-        var result = (await BookService.CreateAsync(book)).Succeeded;
-        string message = result ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        IsDisabled = "disabled";
+        var result = await BookService.CreateAsync(book);
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"books/{message}", true);
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("books", true);
     }
 }
