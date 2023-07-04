@@ -19,6 +19,17 @@
     </nav>
 </div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <EditForm Model="@librarian" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <CardComponent title="New Librarian">
@@ -70,10 +81,10 @@
             
         </bodyFragment>
         <footerFragment>
-            <NavLink href="librarians" class="btn btn-outline-secondary">
+            <a href="librarians" class="btn btn-outline-secondary @IsDisabled">
                 Cancel
-            </NavLink>
-            <button type="submit" class="btn btn-outline-success">
+            </a>
+            <button type="submit" class="btn btn-outline-success @IsDisabled">
                 <i class="bi bi-save"></i> Save
             </button>
         </footerFragment>
@@ -82,12 +93,20 @@
 
 @code {
     private Librarian librarian = new Librarian();
+    
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     private async Task OnValidSubmit()
-    { 
+    {
+        IsDisabled = "disabled";
         var result = await Service.CreateAsync(librarian);
-        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"librarians/{message}", true);
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("librarians", true);
     }
 }

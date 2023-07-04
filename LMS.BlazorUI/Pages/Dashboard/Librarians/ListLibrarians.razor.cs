@@ -8,9 +8,6 @@ namespace LMS.BlazorUI.Pages.Dashboard.Librarians
 {
     public partial class ListLibrarians
     {
-        // If the operations was successful or not
-        [Parameter]
-        public string responseStatus { get; set;}
         private List<Librarian> allLibrarians;
         private List<Librarian> listOfLibrarians;
         private const int _itemsPerPage = 25;

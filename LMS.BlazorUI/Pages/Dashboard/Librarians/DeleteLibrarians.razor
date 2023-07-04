@@ -19,6 +19,17 @@
     </nav>
 </div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <CardComponent title="Delete Librarian">
     <bodyFragment>
 
@@ -28,11 +39,11 @@
     </bodyFragment>
     <footerFragment>
         <div class="text-center">
-            <NavLink href="librarians" class="btn btn-outline-secondary">
+            <a href="librarians" class="btn btn-outline-secondary @IsDisabled">
                 Cancel
-            </NavLink>
-            <button type="button" class="btn btn-outline-danger" @onclick="@(OnValidSubmit)">
-                <i class="bi bi-save"></i> Delete
+            </a>
+            <button type="button" class="btn btn-outline-danger @IsDisabled" @onclick="@(OnValidSubmit)">
+                <i class="bi bi-trash"></i> Delete
             </button>
         </div>
     </footerFragment>
@@ -42,13 +53,22 @@
     [Parameter]
     public int librarianId { get; set; }
     private string librarianName = string.Empty;
+    
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     protected override async Task OnParametersSetAsync() => librarianName = (await Service.GetByAsync(librarianId)).ResponseData.FirstName;
 
     public async Task OnValidSubmit()
     {
+        IsDisabled = "disabled";
         var result = await Service.DeleteAsync(librarianId);
-        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
-        NavigationManager.NavigateTo($"librarians/{message}", true);
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
+
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("librarians", true);
     }
 }
