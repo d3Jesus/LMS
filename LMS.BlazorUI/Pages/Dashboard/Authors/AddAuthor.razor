@@ -23,6 +23,17 @@
     </nav>
 </div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <EditForm Model="@author" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
         <CardComponent title="New Author">
@@ -54,10 +65,10 @@
 
             </bodyFragment>
             <footerFragment>
-                <a class="btn btn-outline-secondary" href="/authors">
+                <a class="btn btn-outline-secondary @IsDisabled" href="/authors">
                     Cancel
                 </a>
-                <button type="submit" class="btn btn-outline-success">
+                <button type="submit" class="btn btn-outline-success @IsDisabled">
                     <i class="bi bi-save"></i> Save
                 </button>
             </footerFragment>
@@ -66,13 +77,20 @@
 
 @code {
     private Author author = new Author();
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     public async Task OnValidSubmit()
     {
+        IsDisabled = "disabled";
         var result = await Service.CreateAsync(author);
-        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"authors/{message}", true);
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("authors", true);
     }
 
 }

@@ -54,10 +54,10 @@
 
             </bodyFragment>
             <footerFragment>
-                <a class="btn btn-outline-secondary" href="/authors">
+                <a class="btn btn-outline-secondary @IsDisabled" href="/authors">
                     Cancel
                 </a>
-                <button type="submit" class="btn btn-outline-success">
+                <button type="submit" class="btn btn-outline-success @IsDisabled">
                     <i class="bi bi-save"></i> Save
                 </button>
             </footerFragment>
@@ -69,6 +69,9 @@
 
     [Parameter]
     public int authorId { get; set; }
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -78,10 +81,14 @@
 
     public async Task OnValidSubmit()
     {
+        IsDisabled = "disabled";
         var result = await Service.UpdateAsync(author);
-        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"authors/{message}", true);
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("authors", true);
     }
 
 }

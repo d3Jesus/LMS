@@ -7,9 +7,6 @@ namespace LMS.BlazorUI.Pages.Dashboard.Authors
 {
     public partial class ListAuthors
     {
-        // If the operations was successful or not
-        [Parameter]
-        public string responseStatus { get; set;}
         private List<Author> allAuthors;
         private List<Author> authors;
         private const int _itemsPerPage = 25;

@@ -23,6 +23,17 @@
     </nav>
 </div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <EditForm Model="@author" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
         <CardComponent title="Delete Author">
@@ -32,11 +43,11 @@
 
             </bodyFragment>
             <footerFragment>
-                <a class="btn btn-outline-secondary" href="/authors">
+                <a class="btn btn-outline-secondary @IsDisabled" href="/authors">
                     Cancel
                 </a>
-                <button type="submit" class="btn btn-outline-success">
-                    <i class="bi bi-save"></i> Save
+                <button type="submit" class="btn btn-outline-danger @IsDisabled">
+                    <i class="bi bi-trash"></i> Delete
                 </button>
             </footerFragment>
         </CardComponent>
@@ -45,6 +56,9 @@
 @code {
     private Author author = new Author();
     private string authorFullName;
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     [Parameter]
     public int authorId { get; set; }
@@ -59,10 +73,14 @@
 
     public async Task OnValidSubmit()
     {
+        IsDisabled = "disabled";
         var result = await Service.DeleteAsync(author);
-        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"authors/{message}", true);
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("authors", true);
     }
 
 }
