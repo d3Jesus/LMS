@@ -1,6 +1,5 @@
 ﻿
 @page "/categories"
-@page "/categories/{responseStatus}"
 @layout DashboardLayout
 
 <div class="pagetitle">
@@ -12,18 +11,6 @@
         </ol>
     </nav>
 </div>
-
-@if(responseStatus is not null)
-{
-    Console.WriteLine(responseStatus);
-    if(responseStatus.Equals(ResponseStatus.SUCCESS))
-    {
-        <AlertComponent alertMessage="Success." alertType="success" />
-    } else if(responseStatus.Equals(ResponseStatus.ERROR))
-    {
-        <AlertComponent alertMessage="An error occured while performing operation." alertType="danger" />
-    }
-}
 
 <CardComponent title="List of Categories">
 

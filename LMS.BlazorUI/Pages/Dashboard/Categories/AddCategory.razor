@@ -23,6 +23,17 @@
     </nav>
 </div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
+
 <EditForm Model="@category" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
 
@@ -35,10 +46,10 @@
             </div>
         </bodyFragment>
         <footerFragment>
-            <a class="btn btn-outline-secondary" href="/categories">
+            <a class="btn btn-outline-secondary @IsDisabled" href="/categories">
                 Cancel
             </a>
-            <button type="submit" class="btn btn-outline-success">
+            <button type="submit" class="btn btn-outline-success @IsDisabled">
                 <i class="bi bi-save"></i> Save
             </button>
         </footerFragment>
@@ -47,13 +58,20 @@
 
 @code {
     private Category category = new Category();
+    private bool responseStatus;
+    private string responseMessage;
+    private string IsDisabled = string.Empty;
 
     public async Task OnValidSubmit()
     {
+        IsDisabled = "disabled";
         var result = await Service.CreateAsync(category);
-        string message = result.Succeeded ? ResponseStatus.SUCCESS : ResponseStatus.ERROR;
+        responseStatus = result.Succeeded;
+        responseMessage = result.Message;
+        StateHasChanged();
 
-        NavigationManager.NavigateTo($"categories/{message}", true);
+        await Task.Delay(2000);
+        NavigationManager.NavigateTo("categories", true);
     }
 
 }

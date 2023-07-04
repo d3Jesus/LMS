@@ -8,9 +8,6 @@ namespace LMS.BlazorUI.Pages.Dashboard.Categories
 {
     public partial class ListCategories
     {
-        // If the operations was successful or not
-        [Parameter]
-        public string responseStatus { get; set;}
         private List<Category> allCategories;
         private List<Category> categories;
         private const int _itemsPerPage = 25;

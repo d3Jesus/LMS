@@ -1,6 +1,5 @@
 ﻿using LMS.BlazorUI.Data.Interfaces;
 using LMS.BlazorUI.Data.Models;
-using LMS.BlazorUI.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace LMS.BlazorUI.Pages.Dashboard.Categories
@@ -15,24 +14,25 @@ namespace LMS.BlazorUI.Pages.Dashboard.Categories
 
         [Parameter]
         public int categoryId { get; set; }
+        private bool responseStatus;
+        private string responseMessage;
+        private string IsDisabled = string.Empty;
 
         protected override async Task OnParametersSetAsync()
         {
-            var response = await Service.GetByAsync(categoryId);
-            category = response.ResponseData;
+            category = (await Service.GetByAsync(categoryId)).ResponseData;
         }
 
         public async Task OnValidSubmit()
         {
-            var message = string.Empty;
-        
+            IsDisabled = "disabled";
             var result = await Service.UpdateAsync(category);
-            if(result.Succeeded)
-                message = ResponseStatus.SUCCESS;
-            else
-                message = ResponseStatus.ERROR;
+            responseStatus = result.Succeeded;
+            responseMessage = result.Message;
+            StateHasChanged();
 
-            NavigationManager.NavigateTo($"categories/{message}", true);
+            await Task.Delay(2000);
+            NavigationManager.NavigateTo("categories", true);
         }
     }
 }

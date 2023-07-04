@@ -2,7 +2,7 @@
 @layout DashboardLayout
 
 <div class="pagetitle">
-    <h1>New Category</h1>
+    <h1>Update Category</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -15,10 +15,21 @@
                     Categories
                 </NavLink>
             </li>
-            <li class="breadcrumb-item active">New Category</li>
+            <li class="breadcrumb-item active">Update Category</li>
         </ol>
     </nav>
 </div>
+
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
 
 <EditForm Model="@category" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
@@ -32,11 +43,11 @@
             </div>
         </bodyFragment>
         <footerFragment>
-            <a class="btn btn-outline-secondary" href="/authors">
+            <a class="btn btn-outline-secondary @IsDisabled" href="/authors">
                 Cancel
             </a>
-            <button type="submit" class="btn btn-outline-success">
-                <i class="bi bi-save"></i> Save
+            <button type="submit" class="btn btn-outline-success @IsDisabled">
+                <i class="bi bi-save"></i> Update
             </button>
         </footerFragment>
     </CardComponent>
