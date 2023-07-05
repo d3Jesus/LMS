@@ -16,7 +16,7 @@
             set { _bookId = value; }
         }
 
-        public virtual List<Author> Authors { get; set; }
-        public virtual List<Book> Books { get; set; }
+        public Author Authors { get; set; }
+        public Book Books { get; set; }
     }
 }

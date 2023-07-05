@@ -10,7 +10,7 @@ namespace LMS.CoreBusiness.Entities
         private int _edition;
         private string _isbn;
         private int _categoryId;
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;
@@ -70,6 +70,9 @@ namespace LMS.CoreBusiness.Entities
             set { _price = value; }
         }
 
+        public virtual List<Authorship> Authorships { get; set; }
+        public virtual Author Author { get; set; }
+        public virtual List<Author> Authors { get; set; }
         public virtual List<Category> Categories { get; set; }
     }
 }

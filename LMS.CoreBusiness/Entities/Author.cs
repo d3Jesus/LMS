@@ -9,5 +9,8 @@
             get { return _nationality; }
             set { _nationality = value; }
         }
+        
+        public virtual List<Authorship> Authorships { get; set; }
+        public virtual List<Book> Books { get; set; }
     }
 }

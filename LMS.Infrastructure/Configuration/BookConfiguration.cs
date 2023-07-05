@@ -17,7 +17,16 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.ImageUrl).IsRequired().HasMaxLength(50);
             builder.Property(p => p.DateCreated).IsRequired().HasMaxLength(50);
             builder.Property(p => p.Price).IsRequired().HasColumnType("numeric").HasPrecision(18, 2);
+            
             builder.Ignore(p => p.Categories);
+            builder.Ignore(p => p.Authors);
+            builder.Ignore(p => p.Author);
+            builder.Ignore(p => p.Authorships);
+
+            builder.HasMany(x => x.Authors).WithMany(x => x.Books)
+                    .UsingEntity<Authorship>(
+                    r => r.HasOne(x => x.Authors).WithMany().HasForeignKey(x => x.AuthorId),
+                    l => l.HasOne(x => x.Books).WithMany().HasForeignKey(x => x.BookId)); 
         }
     }
 }

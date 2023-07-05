@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using LMS.Application.ViewModels.Author;
 using LMS.Application.ViewModels.Category;
 
 namespace LMS.Application.ViewModels.Book
@@ -15,7 +16,7 @@ namespace LMS.Application.ViewModels.Book
         private DateTime _dateCreated;
         private decimal _price;
         public virtual GetCategoryDto Category { get; set; }
-        public virtual List<int> Authors { get; set; }
+        public virtual List<GetAuthorDto> Authors { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id
