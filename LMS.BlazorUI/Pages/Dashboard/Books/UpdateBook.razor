@@ -1,38 +1,73 @@
 ﻿@page "/books/update/{id:int}"
 @layout DashboardLayout
 
-@inject IBookService Service
-@inject NavigationManager NavigationManager
+<div class="pagetitle">
+    <h1>Update Book</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <NavLink href="dashboard">
+                    Dashboard
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item">
+                <NavLink href="books">
+                    Books
+                </NavLink>
+            </li>
+            <li class="breadcrumb-item active">Update Book</li>
+        </ol>
+    </nav>
+</div>
 
+@if(responseMessage is not null)
+{
+    if(responseStatus)
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="success" />
+    } else
+    {
+        <AlertComponent alertMessage="@responseMessage" alertType="danger" />
+    }
+}
 
-<Breadcrumb title="Books" />
+<EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <CardComponent title="Update Book">
 
-@*<CardComponent title="Update Book">
-    <bodyFragment>
-        <EditForm Model="@book" OnValidSubmit="@OnValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+        <bodyFragment>
 
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Title</label>
                     <input type="text" class="form-control"
-                           placeholder="Book Title" autocomplete="off"
-                           @bind-value="book.Title">
+                            placeholder="Book Title" autocomplete="off"
+                            @bind-value="book.Title">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Title)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Description</label>
                     <input type="text" class="form-control"
-                           placeholder="Book Description" autocomplete="off"
-                           @bind-value="book.Description">
+                            placeholder="Book Description" autocomplete="off"
+                            @bind-value="book.Description">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Description)"></ValidationMessage></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6">
+                    <label class="form-label">Edition</label>
+                    <input type="text" class="form-control"
+                            placeholder="Book Edition" autocomplete="off"
+                            @bind-value="book.Edition">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Edition)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">ISBN</label>
                     <input type="text" class="form-control"
-                           placeholder="XXX-X-XX-XXXXXX-X" autocomplete="off"
-                           @bind-value="book.ISBN">
+                            placeholder="XXX-X-XX-XXXXXX-X" autocomplete="off"
+                            @bind-value="book.ISBN">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.ISBN)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
@@ -43,58 +78,39 @@
                             {
                                 <option value=@category.Id>@category.CategoryName</option>
                             }
+                    <span class="text-danger"><ValidationMessage For="@(() => book.CategoryId)"></ValidationMessage></span>
                     </select>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Cover</label>
-                    @*<BlazorInputFile.InputFile OnChange="HandleSelectedFile" multiple >
-                    </BlazorInputFile.InputFile> *
-                </div>
-
-                <div class="form-group col-lg-4 col-md-6">
-                    <label class="form-label">Number of Copies</label>
-                    <input type="text" class="form-control"
-                           placeholder="Number of Copies" autocomplete="off">
+                        <div class="form-control">
+                        <InputFile OnChange="@LoadFiles" />
+                        </div>
+                        <input type="hidden" class="form-control" @bind-value="book.Size" />
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Size)"></ValidationMessage></span>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6">
                     <label class="form-label">Price</label>
                     <input type="text" class="form-control"
-                           placeholder="Book Price" autocomplete="off"
-                           @bind-value="book.Price">
+                            placeholder="Book Price" autocomplete="off"
+                            @bind-value="book.Price">
+                    <span class="text-danger"><ValidationMessage For="@(() => book.Price)"></ValidationMessage></span>
                 </div>
             </div>
 
-        </EditForm>
-    </bodyFragment>
-    <footerFragment>
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-secondary">
+            <BookAuthorsTable OnAuthorSelected="SelectedAuthor" listOfAuthors="@book.Authors"></BookAuthorsTable>
+        
+        </bodyFragment>
+
+        <footerFragment>
+            <a href="books" class="btn btn-outline-secondary @IsDisabled">
                 Cancel
+            </a>
+            <button type="submit" class="btn btn-outline-success @IsDisabled">
+                <i class="bi bi-save"></i> Update
             </button>
-            <button type="submit" class="btn btn-outline-success">
-                <i class="bi bi-save"></i> Save
-            </button>
-        </div>
-    </footerFragment>
-</CardComponent>
-
-@code {
-    private AddBookViewModel book = new AddBookViewModel();
-    private IEnumerable<Category> categories;
-    //[Parameter]
-    //public int id { get; set; }
-
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    book = await Service.GetByAsync(id);
-    //}
-
-    private void OnValidSubmit()
-    {
-        //Service.UpdateAsync(book);
-
-        NavigationManager.NavigateTo("books", true);
-    }
-}*@
+        </footerFragment>
+    </CardComponent>
+</EditForm>

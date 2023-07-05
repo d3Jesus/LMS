@@ -13,8 +13,7 @@
         <tbody>
             @if (listOfAuthors != null)
             {
-                @foreach (var bookAuthors in listOfAuthors)
-                {
+                <Virtualize Items="listOfAuthors" Context="bookAuthors">
                     <tr>
                         <td>@bookAuthors.AuthorId</td>
                         <td>@bookAuthors.AuthorName</td>
@@ -25,7 +24,7 @@
                             </button>
                         </td>
                     </tr>
-                }
+                </Virtualize>
             }
             else
             {
@@ -46,7 +45,8 @@
 
     protected override void OnInitialized()
     {
-        listOfAuthors = new();
+        if(listOfAuthors is null)
+            listOfAuthors = new();
     }
 
     private async Task OnSelectedAuthor(BookAuthorsViewModel product)

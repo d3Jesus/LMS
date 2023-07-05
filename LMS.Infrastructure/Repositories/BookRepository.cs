@@ -156,6 +156,7 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Books
                         .Where(b => b.Id == id)
                         .Include(b => b.Category)
+                        .Include(b => b.Authors)
                         .FirstOrDefaultAsync();
         }
 

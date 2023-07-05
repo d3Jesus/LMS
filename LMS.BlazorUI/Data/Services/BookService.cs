@@ -58,9 +58,9 @@ namespace LMS.BlazorUI.Data.Services
             return response.ResponseData;
         }
 
-        public async Task<Book> GetByAsync(int id)
+        public async Task<GetBookViewModel> GetByAsync(int id)
         {
-            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<Book>>($"books/{id}");
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<GetBookViewModel>>($"books/{id}");
             return response.ResponseData;
         }
 
@@ -70,9 +70,25 @@ namespace LMS.BlazorUI.Data.Services
             return response.ResponseData;
         }
 
-        public async Task<ServiceResponse<Book>> UpdateAsync(AddBookViewModel model)
+        public async Task<ServiceResponse<Book>> UpdateAsync(UpdateBookViewModel model)
         {
-            var result = await _httpClient.PutAsJsonAsync("books", model);
+            var existingBook = await GetByAsync(model.Id);
+            Book book = new()
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Description = model.Description,
+                Edition = model.Edition,
+                ISBN = model.ISBN,
+                CategoryId = model.CategoryId,
+                ImageUrl = model.File is null ? existingBook.ImageUrl : await GetImageUrlAsync(model.File),
+                Price = model.Price
+            };
+            foreach (var author in model.Authors)
+            {
+                book.Authors.Add(author.AuthorId);
+            }
+            var result = await _httpClient.PutAsJsonAsync("books", book);
             return await result.Content.ReadFromJsonAsync<ServiceResponse<Book>>();
         }
 
