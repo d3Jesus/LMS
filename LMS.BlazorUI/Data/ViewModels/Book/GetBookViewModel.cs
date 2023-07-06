@@ -12,7 +12,7 @@ namespace LMS.BlazorUI.Data.ViewModels.Book
         public string ISBN{ get; set; }
         public int CategoryId { get; set; }
         public Category Category{ get; set; }
-        public virtual List<GetAuthorsViewModel> Authors { get; set; }
+        public virtual List<GetAuthorsViewModel> ListOfAuthors { get; set; }
         public string ImageUrl{ get; set; }
         public DateTime DateCreated{ get; set; }
         public decimal Price { get; set; }

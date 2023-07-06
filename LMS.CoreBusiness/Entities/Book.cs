@@ -72,7 +72,8 @@ namespace LMS.CoreBusiness.Entities
 
         public virtual List<Authorship> Authorships { get; set; }
         public virtual Author Author { get; set; }
-        public virtual List<Author> Authors { get; set; }
+        public virtual List<Author> ListOfAuthors { get; set; }
+        public virtual List<int> Authors { get; set; }
         public virtual List<Category> Categories { get; set; }
     }
 }

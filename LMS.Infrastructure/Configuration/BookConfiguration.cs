@@ -19,11 +19,12 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.Price).IsRequired().HasColumnType("numeric").HasPrecision(18, 2);
             
             builder.Ignore(p => p.Categories);
-            builder.Ignore(p => p.Authors);
+            builder.Ignore(p => p.ListOfAuthors);
             builder.Ignore(p => p.Author);
             builder.Ignore(p => p.Authorships);
+            builder.Ignore(p => p.Authors);
 
-            builder.HasMany(x => x.Authors).WithMany(x => x.Books)
+            builder.HasMany(x => x.ListOfAuthors).WithMany(x => x.Books)
                     .UsingEntity<Authorship>(
                     r => r.HasOne(x => x.Authors).WithMany().HasForeignKey(x => x.AuthorId),
                     l => l.HasOne(x => x.Books).WithMany().HasForeignKey(x => x.BookId)); 

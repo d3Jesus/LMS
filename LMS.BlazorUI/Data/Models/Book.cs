@@ -12,7 +12,7 @@
         private DateTime _dateCreated;
         private decimal _price;
         public List<int> Authors { get; set; } = new();
-        public virtual List<Author> Author { get; set; } = new();
+        public virtual List<Author> ListOfAuthors { get; set; } = new();
 
         public int Id
         {

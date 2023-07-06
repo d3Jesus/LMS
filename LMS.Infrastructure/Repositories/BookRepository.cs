@@ -52,12 +52,31 @@ namespace LMS.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateAsync(Book book, List<int> authors)
+        public async Task<Book> UpdateAsync(Book book, List<int> authors)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
+
+                    var authorships = await GetAuthorshipByBookIdAsync(book.Id);
+
+                    if (authorships is not null)
+                    {
+                        _context.Authorships.RemoveRange(authorships.ToArray());
+                        _context.SaveChanges();
+                        foreach (int authorId in authors)
+                        {
+                            _context.Authorships
+                                .Add(
+                                    new Authorship()
+                                    {
+                                        BookId = book.Id,
+                                        AuthorId = authorId
+                                    });
+                            await _context.SaveChangesAsync();
+                        }
+                    }
 
                     Book existingBook = await GetByAsync(book.Id);
                     if(existingBook is not null)
@@ -72,37 +91,16 @@ namespace LMS.Infrastructure.Repositories
 
                         _context.Books.Update(existingBook);
                         await _context.SaveChangesAsync();
-
-                        var authorships = await GetAuthorshipByBookIdAsync(book.Id);
-                        if(authorships is not null)
-                            foreach (int authorId in authors)
-                            {
-                                var authorship = authorships.Where(auth => auth.BookId == book.Id && auth.AuthorId == authorId).FirstOrDefault();
-
-                                if(authorship is null)
-                                {
-                                    _context.Authorships.Add(authorship);
-                                    await _context.SaveChangesAsync();
-                                }
-                                else
-                                    authorships.Remove(authorship);
-                            }
-
-                        _context.Authorships.RemoveRange(authorships);
-                        await _context.SaveChangesAsync();
                     }
 
                     transaction.Commit();
 
-                    var updatedBook = await GetByAsync(book.Id);
-
-                    return true;
-
+                    return existingBook;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return false;
+                    return null;
                 }
             }
         }
@@ -156,7 +154,8 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Books
                         .Where(b => b.Id == id)
                         .Include(b => b.Category)
-                        .Include(b => b.Authors)
+                        .Include(b => b.ListOfAuthors)
+                        .AsNoTrackingWithIdentityResolution()
                         .FirstOrDefaultAsync();
         }
 
@@ -164,6 +163,7 @@ namespace LMS.Infrastructure.Repositories
         {
             return await _context.Authorships
                         .Where(auth => auth.BookId == id)
+                        .AsNoTrackingWithIdentityResolution()
                         .ToListAsync();
         }
 
@@ -171,7 +171,7 @@ namespace LMS.Infrastructure.Repositories
         {
             return await _context.Books
                         .Include(b => b.Category)
-                        .Include(b => b.Authors)
+                        .Include(b => b.ListOfAuthors)
                         .Skip(0)
                         .Take(_booksToTake)
                         .OrderBy(b => b.Title)

@@ -50,9 +50,7 @@ namespace LMS.API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(UpdateBookDto model)
         {
-            var response = await _service.UpdateAsync(model);
-
-            return NoContent();
+            return Ok(await _service.UpdateAsync(model));
         }
 
         [HttpDelete("{id}")]
@@ -61,9 +59,7 @@ namespace LMS.API.Controllers
             if (id == 0)
                 return BadRequest(id);
 
-            await _service.DeleteAsync(id);
-
-            return NoContent();
+            return Ok(await _service.DeleteAsync(id));
         }
     }
 }

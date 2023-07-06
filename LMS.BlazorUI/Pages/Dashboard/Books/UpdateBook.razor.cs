@@ -35,7 +35,7 @@ public partial class UpdateBook
             ISBN = data.ISBN,
             CategoryId = data.CategoryId,
             Price = data.Price,
-            Authors = data.Authors.Select(dt => new BookAuthorsViewModel()
+            Authors = data.ListOfAuthors.Select(dt => new BookAuthorsViewModel()
             {
                 AuthorId = dt.Id,
                 AuthorName = string.Concat(dt.FirstName, " ", dt.LastName)
