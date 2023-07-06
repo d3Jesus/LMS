@@ -59,7 +59,9 @@ namespace LMS.API.Controllers
             if (id == 0)
                 return BadRequest(id);
 
-            return Ok(await _service.DeleteAsync(id));
+            await _service.DeleteAsync(id);
+
+            return NoContent();
         }
     }
 }

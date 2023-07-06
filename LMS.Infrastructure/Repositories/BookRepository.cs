@@ -107,46 +107,21 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            using(var transaction = _context.Database.BeginTransaction())
+            try
             {
-                try
-                {
-                    Book book = await GetByAsync(id);
-                    if (book is not null)
-                    {
-                        #region Authorship
-                        var authorships = await GetAuthorshipByBookIdAsync(id);
-                        if (authorships is not null)
-                        {
-                            foreach (var authorship in authorships)
-                            {
-                                _context.Authorships.Remove(authorship);
-                                await _context.SaveChangesAsync();
-                            }
-                        }
-                        #endregion
-                    }
+                Book book = await GetByAsync(id);
 
-                    _context.Books.Remove(book);
-                    await _context.SaveChangesAsync();
+                _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
 
+                return true;
 
-                    transaction.Commit();
-
-                    return true;
-
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    return false;
-                }
             }
-            //_context.Entry(book).State = EntityState.Detached;
-            //_context.Books.Remove(book);
-            //await _context.SaveChangesAsync();
-
-            //return true;
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
         }
 
         public async Task<Book> GetByAsync(int id)
