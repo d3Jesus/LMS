@@ -2,6 +2,7 @@
 using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LMS.Infrastructure.Repositories
 {
@@ -47,6 +48,10 @@ namespace LMS.Infrastructure.Repositories
                 } catch (Exception ex)
                 {
                     transaction.Rollback();
+
+                    Log.Error(ex, ex.Message);
+                    await Log.CloseAndFlushAsync();
+
                     return null;
                 }
             }

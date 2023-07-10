@@ -24,7 +24,6 @@ builder.Services.AddCors(options =>
         });
 });
 
-
 var app = builder.Build();
 
 app.UseCors(builder => builder
@@ -38,6 +37,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    SetupLogging.Development();
+}
+else
+{
+    SetupLogging.Production();
 }
 
 app.UseHttpsRedirection();

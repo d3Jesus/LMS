@@ -17,4 +17,8 @@
     <ProjectReference Include="..\LMS.Infrastructure\LMS.Infrastructure.csproj" />
   </ItemGroup>
 
+  <Target Name="MakeMyDir" AfterTargets="Build">
+      <MakeDir Directories="$(OutDir)LogFiles" />
+  </Target>
+
 </Project>
