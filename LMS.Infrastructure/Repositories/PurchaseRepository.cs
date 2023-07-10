@@ -53,7 +53,7 @@ namespace LMS.Infrastructure.Repositories
         public async Task<IEnumerable<Purchase>> GetAsync(DateTime initDate, DateTime endDate, int itemsToTake)
         {
             return await _context.Purchases
-                    .Where(prc => prc.DatePurchased >= initDate && prc.DatePurchased <= endDate)
+                    .Where(prc => prc.DatePurchased.Date >= initDate.Date && prc.DatePurchased.Date <= endDate.Date)
                     .Skip(0)
                     .Take(itemsToTake)
                     .OrderBy(prc => prc.DatePurchased)

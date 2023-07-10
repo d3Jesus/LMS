@@ -3,30 +3,45 @@
 
 @inject IJSRuntime JS
 
-<Breadcrumb title="Purchase" />
+<div class="pagetitle">
+    <h1>Purchases</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Dashboard</li>
+            <li class="breadcrumb-item active">Purchases</li>
+        </ol>
+    </nav>
+</div>
 
 <CardComponent title="List of Purchase">
 
     <bodyFragment>
-        <table class="table table-sm table-hover" style="width: 100%;" cellspacing="0">
+        <TableComponent>
+            <Content>
             <thead>
                 <tr>
                     <th>Purchase Number</th>
                     <th>Date Purchased</th>
                     <th>Purchased By</th>
-                    <th>Registered By</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td> AZD02312 </td>
-                    <td> 01/01/2023 </td>
-                    <td> Customer Name </td>
-                    <td> Librarian Name </td>
-                </tr>
+               @if (purchases is not null)
+                {
+                    <Virtualize Items="purchases" Context="purchase">
+                        <tr>
+                            <td>@purchase.id</td>
+                            <td>@purchase.datePurchased</td>
+                            <td>@purchase.customerName</td>
+                        </tr>
+                    </Virtualize>
+                }
             </tbody>
-        </table>
+            </Content>
+        </TableComponent>
+
+        <PaginationComponent totalPages="_totalPages" OnPageChange="HandlePageChange"></PaginationComponent>
     </bodyFragment>
 
     <footerFragment>

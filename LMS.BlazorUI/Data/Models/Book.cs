@@ -15,6 +15,8 @@
         private int _copiesAvailable;
         public List<int> Authors { get; set; } = new();
         public virtual List<Author> ListOfAuthors { get; set; } = new();
+        public virtual List<PurchaseItems> PurchaseItems { get; set; }
+        public virtual IList<Purchase> Purchases { get; set; } = new List<Purchase>();
 
         public int Id
         {

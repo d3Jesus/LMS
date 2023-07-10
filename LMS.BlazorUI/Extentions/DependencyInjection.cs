@@ -12,6 +12,7 @@ namespace LMS.BlazorUI.Extentions
 			services.AddScoped<IBookService, BookService>();
 			services.AddScoped<IAuthorService, AuthorService>();
 			services.AddScoped<ILibrarianService, LibrarianService>();
+			services.AddScoped<IPurchaseService, PurchaseService>();
 
 			services.AddHttpClient("local", httpClient =>
 			{
