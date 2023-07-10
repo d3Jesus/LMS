@@ -24,6 +24,10 @@ public class UpdateBookViewModel
 
     [Required(ErrorMessage = "This field is required.")]
     public decimal Price { get; set; }
+    [Required]
+    public int CopiesAvailable { get; set; } = 1;
+    [Required]
+    public string Status { get; set; }
     [MaxSize(512000, ErrorMessage = "This file size extends the maximum size of 512kb.")]
     public virtual long Size { get; set; }
     public virtual List<BookAuthorsViewModel> Authors { get; set; } 

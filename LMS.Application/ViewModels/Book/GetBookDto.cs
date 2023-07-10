@@ -15,6 +15,8 @@ namespace LMS.Application.ViewModels.Book
         private string _imageUrl;
         private DateTime _dateCreated;
         private decimal _price;
+        private string _status;
+        private int _copiesAvailable;
         public virtual GetCategoryDto Category { get; set; }
         public virtual List<GetAuthorDto> ListOfAuthors { get; set; }
         //public virtual List<int> Authors { get; set; } 
@@ -72,6 +74,18 @@ namespace LMS.Application.ViewModels.Book
         {
             get { return _price; }
             set { _price = value; }
+        }
+
+        public string Status
+        {
+            get { return _status; }
+            set { _status = value; }
+        }
+
+        public int CopiesAvailable
+        {
+            get { return _copiesAvailable; }
+            set { _copiesAvailable = value; }
         }
     }
 }

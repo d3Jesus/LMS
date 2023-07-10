@@ -21,9 +21,14 @@ public partial class UpdateBook
     private string IsDisabled = string.Empty;
     [Parameter]
     public int id { get; set; }
+    public List<string> bookStatus;
 
     protected override async Task OnParametersSetAsync()
     {
+        bookStatus = new List<string>()
+        {
+            "Available"
+        };
         categories = await CategoryService.GetAsync();
         var data = await Service.GetByAsync(id);
         book = new()

@@ -10,6 +10,8 @@
             int categoryId,
             string imageUrl,
             decimal price,
+            string _status,
+            int _copiesAvailable,
             List<int> authors
         );
 }

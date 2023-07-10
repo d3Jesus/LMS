@@ -29,7 +29,9 @@ namespace LMS.BlazorUI.Data.Services
                 CategoryId = model.CategoryId,
                 ImageUrl = await GetImageUrlAsync(model.File),
                 DateCreated = DateTime.Now,
-                Price = model.Price
+                Price = model.Price,
+                CopiesAvailable = model.CopiesAvailable,
+                Status = "Available"
             };
             foreach (var author in model.BookAuthors)
             {
@@ -82,7 +84,9 @@ namespace LMS.BlazorUI.Data.Services
                 ISBN = model.ISBN,
                 CategoryId = model.CategoryId,
                 ImageUrl = model.File is null ? existingBook.ImageUrl : await GetImageUrlAsync(model.File),
-                Price = model.Price
+                Price = model.Price,
+                CopiesAvailable = model.CopiesAvailable,
+                Status = model.Status
             };
             foreach (var author in model.Authors)
             {
