@@ -147,6 +147,8 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Books
                         .Include(b => b.Category)
                         .Include(b => b.ListOfAuthors)
+                        .Include(b => b.PurchaseItems)
+                        .ThenInclude(b => b.Purchase)
                         .Skip(0)
                         .Take(_booksToTake)
                         .OrderBy(b => b.Title)

@@ -7,7 +7,10 @@ public class Purchase
     private string _customerName;
     private DateTime _datePurchased;
     private decimal _totalPayed;
-    public virtual List<PurchaseItems> Items { get; set; } = new();
+    
+    // many-to-many relationship with Book
+    public virtual IList<PurchaseItems> PurchaseItems { get; set; }
+    public virtual List<Librarian> Librarians { get; set; }
 
     public int Id
     {
@@ -39,5 +42,4 @@ public class Purchase
         set { _totalPayed = value; }
     }
 
-    public virtual List<Librarian> Librarians { get; set; }
 }

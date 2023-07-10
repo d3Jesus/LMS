@@ -10,6 +10,9 @@ namespace LMS.Application.Profiles
         {
             CreateMap<AddPurchaseDto, Purchase>();
             CreateMap<Purchase, AddPurchaseDto>();
+
+            CreateMap<GetPurchaseDto, Purchase>();
+            CreateMap<Purchase, GetPurchaseDto>();
         }
     }
 }

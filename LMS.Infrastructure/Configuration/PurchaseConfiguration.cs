@@ -15,7 +15,6 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.DatePurchased).IsRequired();
             builder.Property(p => p.TotalPayed).HasColumnType("numeric").HasPrecision(18, 2).IsRequired();
             builder.Ignore(p => p.Librarians);
-            builder.Ignore(p => p.Items);
         }
     }
 }

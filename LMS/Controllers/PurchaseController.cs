@@ -14,10 +14,10 @@ namespace LMS.API.Controllers
             _service = service;
         }
 
-        [HttpGet("{initDate}/{endDate}")]
-        public async Task<IActionResult> GetAll(DateTime initDate, DateTime endDate)
+        [HttpGet("{initDate}/{endDate}/{itemsPerPage}")]
+        public async Task<IActionResult> GetAll(DateTime initDate, DateTime endDate, int itemsPerPage)
         {
-            return Ok(await _service.GetAsync(initDate, endDate));
+            return Ok(await _service.GetAsync(initDate, endDate, itemsPerPage));
         }
 
         [HttpPost]

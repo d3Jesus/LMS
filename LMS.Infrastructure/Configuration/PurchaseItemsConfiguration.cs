@@ -9,15 +9,20 @@ namespace LMS.Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<PurchaseItems> builder)
         {
             builder.ToTable(nameof(PurchaseItems));
-            builder.Property(p => p.Id).IsRequired();
-            builder.Property(p => p.PurchasedId).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.BookId).IsRequired();
+            builder.HasKey(p => new { p.PurchaseId, p.BookId });
             builder.Property(p => p.NumberOfCopies).IsRequired();
             builder.Property(p => p.UnitPrice).HasColumnType("numeric").HasPrecision(18, 2).IsRequired();
             builder.Property(p => p.GrossPrice).HasColumnType("numeric").HasPrecision(18, 2).IsRequired();
-            builder.Property(p => p.Status).IsRequired();
-            builder.Ignore(p => p.Books);
-            builder.Ignore(p => p.Purchases);
+            builder.Ignore(p => p.Book);
+            builder.Ignore(p => p.Purchase);
+            
+            builder.HasOne(e => e.Purchase)
+                .WithMany(e => e.PurchaseItems)
+                .HasForeignKey(e => e.PurchaseId);
+
+            builder.HasOne(e => e.Book)
+                .WithMany(e => e.PurchaseItems)
+                .HasForeignKey(e => e.BookId);
         }
     }
 }

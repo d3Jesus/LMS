@@ -89,5 +89,10 @@ namespace LMS.CoreBusiness.Entities
         public virtual List<Author> ListOfAuthors { get; set; }
         public virtual List<int> Authors { get; set; }
         public virtual List<Category> Categories { get; set; }
+
+        #region many-to-many relationship with Purchase
+        public virtual IList<PurchaseItems> PurchaseItems { get; set; }
+        // public virtual IList<Purchase> Purchases { get; set; } = new List<Purchase>();
+        #endregion
     }
 }

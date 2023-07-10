@@ -30,12 +30,11 @@ namespace LMS.Infrastructure.Repositories
                     {
                         PurchaseItems newPurchaseItem = new()
                         {
-                            PurchasedId = purchase.Id,
+                            PurchaseId = purchase.Id,
                             BookId = item.BookId,
                             NumberOfCopies = item.NumberOfCopies,
                             UnitPrice = item.UnitPrice,
-                            GrossPrice = item.GrossPrice,
-                            Status = "SOLD"
+                            GrossPrice = item.GrossPrice
                         };
                         _context.Items.Add(newPurchaseItem);
                         await _context.SaveChangesAsync();
@@ -51,10 +50,13 @@ namespace LMS.Infrastructure.Repositories
 
         }
 
-        public async Task<IEnumerable<Purchase>> GetAsync(DateTime initDate, DateTime endDate)
+        public async Task<IEnumerable<Purchase>> GetAsync(DateTime initDate, DateTime endDate, int itemsToTake)
         {
             return await _context.Purchases
                     .Where(prc => prc.DatePurchased >= initDate && prc.DatePurchased <= endDate)
+                    .Skip(0)
+                    .Take(itemsToTake)
+                    .OrderBy(prc => prc.DatePurchased)
                     .ToListAsync();
         }
     }

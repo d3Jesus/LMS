@@ -38,9 +38,9 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetPurchaseDto>>> GetAsync(DateTime initDate, DateTime endDate)
+        public async Task<ServiceResponse<IEnumerable<GetPurchaseDto>>> GetAsync(DateTime initDate, DateTime endDate, int itemsToTake)
         {
-            var result = await _repository.GetAsync(initDate, endDate);
+            var result = await _repository.GetAsync(initDate, endDate, itemsToTake);
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetPurchaseDto>>()
             {
