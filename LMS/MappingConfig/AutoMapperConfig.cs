@@ -15,6 +15,7 @@ namespace LMS.API.MappingConfig
             services.AddAutoMapper(typeof(PurchaseProfile));
             services.AddAutoMapper(typeof(PurchaseItemsProfile));
             services.AddAutoMapper(typeof(StockProfile));
+            services.AddAutoMapper(typeof(AccountProfile));
         }
     }
 }

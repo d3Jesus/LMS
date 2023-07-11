@@ -105,6 +105,8 @@ namespace LMS.Infrastructure.Repositories
                 catch (Exception ex)
                 {
                     transaction.Rollback();
+                    Log.Error(ex, ex.Message);
+                    await Log.CloseAndFlushAsync();
                     return null;
                 }
             }
@@ -124,6 +126,8 @@ namespace LMS.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                Log.Error(ex, ex.Message);
+                await Log.CloseAndFlushAsync();
                 return false;
             }
             

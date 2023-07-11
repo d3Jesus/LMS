@@ -3,6 +3,7 @@ using LMS.Application.Services;
 using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using LMS.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,9 +13,14 @@ namespace LMS.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 Environment.GetEnvironmentVariable("ConnectionStrings:LmsDefaultConnection")));
+            services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(
+                Environment.GetEnvironmentVariable("ConnectionStrings:LmsDefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<UsersDbContext>();
 
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IAuthorService, AuthorService>();
@@ -33,6 +39,9 @@ namespace LMS.Infrastructure.Extensions
 
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockService, StockService>();
+
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }
