@@ -2,7 +2,7 @@
 
 namespace LMS.Application.ViewModels.UserAccount
 {
-    public class AccountDto
+    public class UserRegistrationDto
     {
         [Required]
         public string Username { get; set; }

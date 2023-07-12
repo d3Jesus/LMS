@@ -5,6 +5,7 @@ namespace LMS.CoreBusiness.Interfaces
     public interface IAccountRepository
     {
         Task<IEnumerable<Roles>> GetRolesAsync();
-        Task<bool> Register(Account account);
+        Task<bool> Register(UserRegistration account);
+        Task<bool> Login(UserLogin account);
     }
 }

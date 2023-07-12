@@ -8,7 +8,8 @@ namespace LMS.Application.Profiles
     {
         public AccountProfile()
         {
-            CreateMap<AccountDto, Account>();
+            CreateMap<UserRegistrationDto, UserRegistration>();
+            CreateMap<UserLoginDto, UserLogin>();
 
             CreateMap<Roles, RolesDto>();
         }

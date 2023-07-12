@@ -6,6 +6,7 @@ namespace LMS.Application.Interfaces
     public interface IAccountService
     {
         Task<ServiceResponse<IEnumerable<RolesDto>>> GetRoles();
-        Task<ServiceResponse<bool>> Register(AccountDto model);
+        Task<ServiceResponse<bool>> Register(UserRegistrationDto model);
+        Task<ServiceResponse<bool>> Login(UserLoginDto model);
     }
 }

@@ -31,16 +31,35 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> Register(AccountDto model)
+        public async Task<ServiceResponse<bool>> Register(UserRegistrationDto model)
         {
             var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                Account newUser = _mapper.Map<Account>(model);
+                UserRegistration newUser = _mapper.Map<UserRegistration>(model);
                 var response = await _repository.Register(newUser);
 
                 serviceResponse.ResponseData = response;
                 serviceResponse.Message = $"User created successfully!";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Succeeded = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+        public async Task<ServiceResponse<bool>> Login(UserLoginDto model)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+            try
+            {
+                UserLogin loggin = _mapper.Map<UserLogin>(model);
+                var response = await _repository.Login(loggin);
+
+                serviceResponse.ResponseData = response;
+                serviceResponse.Message = $"User logged in successfully!";
             }
             catch (Exception ex)
             {
