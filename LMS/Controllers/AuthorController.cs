@@ -1,11 +1,13 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels.Author;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.API.Controllers
 {
-    [Route("api/authors")]
     [ApiController]
+    [Route("api/authors")]
+    [Authorize(Roles = "Admin")]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _service;

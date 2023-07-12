@@ -6,6 +6,6 @@ namespace LMS.CoreBusiness.Interfaces
     {
         Task<IEnumerable<Roles>> GetRolesAsync();
         Task<bool> Register(UserRegistration account);
-        Task<bool> Login(UserLogin account);
+        Task<string> Login(UserLogin account);
     }
 }

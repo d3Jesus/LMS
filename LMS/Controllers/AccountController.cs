@@ -42,7 +42,7 @@ namespace LMS.API.Controllers
         /// Endpoint to login a user
         /// </summary>
         /// <param name="user"> User DTO containing the user email and password.</param>
-        /// <returns>true on sucess and false otherwise</returns>
+        /// <returns>token string on success and empty string otherwise</returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto user)
         {

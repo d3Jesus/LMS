@@ -7,6 +7,6 @@ namespace LMS.Application.Interfaces
     {
         Task<ServiceResponse<IEnumerable<RolesDto>>> GetRoles();
         Task<ServiceResponse<bool>> Register(UserRegistrationDto model);
-        Task<ServiceResponse<bool>> Login(UserLoginDto model);
+        Task<ServiceResponse<string>> Login(UserLoginDto model);
     }
 }

@@ -50,9 +50,9 @@ namespace LMS.Application.Services
 
             return serviceResponse;
         }
-        public async Task<ServiceResponse<bool>> Login(UserLoginDto model)
+        public async Task<ServiceResponse<string>> Login(UserLoginDto model)
         {
-            var serviceResponse = new ServiceResponse<bool>();
+            var serviceResponse = new ServiceResponse<string>();
             try
             {
                 UserLogin loggin = _mapper.Map<UserLogin>(model);
