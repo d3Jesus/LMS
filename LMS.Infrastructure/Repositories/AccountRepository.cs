@@ -4,6 +4,7 @@ using LMS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Security.Principal;
 
 namespace LMS.Infrastructure.Repositories
 {
@@ -39,23 +40,27 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<bool> Login(UserLogin account)
         {
-            var result = await _signInManager.PasswordSignInAsync(account.Email, account.Password, false, true);
+            bool result = await AuthenticateUser(account.Email, account.Password);
 
-            if (result.Succeeded)
+            if (result)
             {
                 // create JWT
-             
+
                 Log.Information($"User {account.Email} logged in.");
-                return true;
             }
 
-            if (result.IsLockedOut)
-                Log.Information($"User account {account.Email} was locked out.");
-            
-            if (result.IsNotAllowed)
-                Log.Information($"User account {account.Email} not allowed.");
+            return result;
+        }
 
-            return false;
+        private async Task<bool> AuthenticateUser(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return false;
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
+            if (!isPasswordValid) return false;
+
+            return true;
         }
 
         public async Task<bool> Register(UserRegistration account)
