@@ -13,10 +13,12 @@ namespace LMS.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            const string environmentVariable = "ConnectionStrings:LmsDefaultConnection";
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-                Environment.GetEnvironmentVariable("ConnectionStrings:LmsDefaultConnection")));
+                Environment.GetEnvironmentVariable(environmentVariable)));
             services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(
-                Environment.GetEnvironmentVariable("ConnectionStrings:LmsDefaultConnection")));
+                Environment.GetEnvironmentVariable(environmentVariable)));
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()
