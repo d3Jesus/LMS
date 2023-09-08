@@ -9,7 +9,6 @@ namespace LMS.API.MappingConfig
             if (services is null) throw new ArgumentNullException(nameof(services));
 
             services.AddAutoMapper(typeof(AuthorProfile));
-            services.AddAutoMapper(typeof(CategoryProfile));
             services.AddAutoMapper(typeof(BookProfile));
             services.AddAutoMapper(typeof(LibrarianProfile));
             services.AddAutoMapper(typeof(PurchaseProfile));
