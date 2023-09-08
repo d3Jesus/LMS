@@ -3,9 +3,13 @@ using LMS.Application.Services;
 using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using LMS.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LMS.Infrastructure.Extensions
 {
@@ -45,6 +49,46 @@ namespace LMS.Infrastructure.Extensions
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration.GetSection("JwtKeys:Issuer").Value,
+                    ValidAudience = configuration.GetSection("JwtKeys:Audience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JwtKeys:Secret").Value))
+                };
+            });
+            return services;
+        }
+
+        public static IServiceCollection ConfigureCors(this IServiceCollection services)
+        {
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins("https://localhost:7078/api/");
+                    });
+            });
 
             return services;
         }
