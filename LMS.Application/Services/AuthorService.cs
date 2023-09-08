@@ -22,7 +22,7 @@ namespace LMS.Application.Services
                 var response = await _repository.CreateAsync(author);
 
                 serviceResponse.ResponseData = response.Adapt<GetAuthorDto>();
-                serviceResponse.Message = $"Author with name {string.Concat(model.firstName, " ", model.lastName)} added successfully!";
+                serviceResponse.Message = $"Author with name {string.Concat(model.FirstName, " ", model.LastName)} added successfully!";
             }
             catch (Exception ex)
             {
