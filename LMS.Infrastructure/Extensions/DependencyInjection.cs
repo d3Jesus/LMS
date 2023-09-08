@@ -20,7 +20,8 @@ namespace LMS.Infrastructure.Extensions
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<UsersDbContext>();
+                    .AddEntityFrameworkStores<UsersDbContext>()
+                    .AddDefaultTokenProviders();
 
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IAuthorService, AuthorService>();
