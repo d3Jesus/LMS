@@ -2,6 +2,7 @@
 using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LMS.Infrastructure.Repositories
 {
@@ -9,10 +10,7 @@ namespace LMS.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoryRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public CategoryRepository(ApplicationDbContext context) => _context = context;
 
         public async Task<Category> CreateAsync(Category category)
         {
@@ -23,14 +21,17 @@ namespace LMS.Infrastructure.Repositories
 
                 return category;
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
+                Log.Error(ex, ex.InnerException.Message, ex.Message);
                 return new Category();
             }
         }
 
-        public async Task<Category> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
+            try
+            {
             var existingCategory = _context.Categories.Where(cat => cat.Id == id).FirstOrDefault();
 
             _context.Categories.Remove(existingCategory);
@@ -38,10 +39,10 @@ namespace LMS.Infrastructure.Repositories
 
             return existingCategory;
         }
-
-        public async Task<IEnumerable<Category>> GetAsync()
+            catch (Exception ex)
         {
-            return await _context.Categories.ToListAsync();
+                Log.Error(ex, ex.InnerException.Message, ex.Message);
+                return false;
         }
 
         public Category GetBy(int id)
@@ -56,10 +57,23 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<Category> UpdateAsync(Category category)
         {
-            _context.Categories.Update(category);
+            try
+            {
+                Category existingCategory = await GetByAsync(category.Id);
+                if (existingCategory is null) return category;
+
+                existingCategory.CategoryName = category.CategoryName;
+
+                _context.Entry(existingCategory).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return category;
+        }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.InnerException.Message, ex.Message);
+                return new Category();
+            }
         }
 
         public async Task<Category> GetByAsync(int id)
