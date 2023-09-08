@@ -22,7 +22,7 @@ public class Book
 
     public decimal Price { get; set; }
 
-    public string Status { get; set; }
+    public string Status { get; set; } = "Available";
 
     public int CopiesAvailable { get; set; }
 
