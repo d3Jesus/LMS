@@ -1,33 +1,28 @@
-﻿using AutoMapper;
-using LMS.Application.Interfaces;
+﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Category;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
+using Mapster;
 
 namespace LMS.Application.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
-        private readonly IMapper _mapper;
 
-        public CategoryService(IMapper mapper, ICategoryRepository repository)
-        {
-            _mapper = mapper;
-            _repository = repository;
-        }
+        public CategoryService(ICategoryRepository repository) => _repository = repository;
 
-        public async Task<ServiceResponse<GetCategoryDto>> CreateAsync(AddCategoryDto category)
+        public async Task<ServiceResponse<GetCategoryDto>> CreateAsync(AddCategoryDto categoryDto)
         {
             var serviceResponse = new ServiceResponse<GetCategoryDto>();
             try
             {
-                var mapper = _mapper.Map<Category>(category);
-                var response = await _repository.CreateAsync(mapper);
+                var category = categoryDto.Adapt<Category>();
+                var response = await _repository.CreateAsync(category);
 
-                serviceResponse.ResponseData = _mapper.Map<GetCategoryDto>(response);
-                serviceResponse.Message = $"Category {category.categoryName} added successfully!";
+                serviceResponse.ResponseData = categoryDto.Adapt<GetCategoryDto>();
+                serviceResponse.Message = $"Category {categoryDto.CategoryName} was added successfully!";
             }
             catch (Exception ex)
             {
@@ -46,10 +41,12 @@ namespace LMS.Application.Services
             {
                 await _repository.DeleteAsync(id);
 
+                serviceResponse.ResponseData = true;
                 serviceResponse.Message = "Author deleted successfuly!";
             }
             catch (Exception ex)
             {
+                serviceResponse.ResponseData = true;
                 serviceResponse.Succeeded = false;
                 serviceResponse.Message = ex.Message;
             }
@@ -63,15 +60,15 @@ namespace LMS.Application.Services
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetCategoryDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetCategoryDto>>(result)
+                ResponseData = result.Adapt<IEnumerable<GetCategoryDto>>()
             };
 
             return serviceResponse;
         }
 
-        public ServiceResponse<GetCategoryDto> GetBy(int id)
+        public async Task<ServiceResponse<GetCategoryDto>> GetByAsync(int id)
         {
-            var result = _repository.GetBy(id);
+            var result = await _repository.GetByAsync(id);
 
             var serviceResponse = new ServiceResponse<GetCategoryDto>();
             if (result is null)
@@ -80,7 +77,7 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetCategoryDto>(result);
+            serviceResponse.ResponseData = result.Adapt<GetCategoryDto>();
 
             return serviceResponse;
         }
@@ -96,21 +93,21 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<IEnumerable<GetCategoryDto>>(result);
+            serviceResponse.ResponseData = result.Adapt<IEnumerable<GetCategoryDto>>();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetCategoryDto>> UpdateAsync(GetCategoryDto category)
+        public async Task<ServiceResponse<GetCategoryDto>> UpdateAsync(UpdateCategoryDto categoryDto)
         {
             var serviceResponse = new ServiceResponse<GetCategoryDto>();
 
             try
             {
-                var mapper = _mapper.Map<Category>(category);
-                var result = await _repository.UpdateAsync(mapper);
+                var category = categoryDto.Adapt<Category>();
+                var result = await _repository.UpdateAsync(category);
 
-                serviceResponse.ResponseData = _mapper.Map<GetCategoryDto>(result);
+                serviceResponse.ResponseData = result.Adapt<GetCategoryDto>();
                 serviceResponse.Message = "Category updated!";
             }
             catch (Exception ex)
