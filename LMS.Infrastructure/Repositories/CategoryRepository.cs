@@ -32,28 +32,25 @@ namespace LMS.Infrastructure.Repositories
         {
             try
             {
-            var existingCategory = _context.Categories.Where(cat => cat.Id == id).FirstOrDefault();
+                var existingCategory = _context.Categories.Where(cat => cat.Id == id).FirstOrDefault();
 
-            _context.Categories.Remove(existingCategory);
-            await _context.SaveChangesAsync();
+                _context.Categories.Remove(existingCategory);
+                await _context.SaveChangesAsync();
 
-            return existingCategory;
-        }
+                return true;
+            }
             catch (Exception ex)
-        {
+            {
                 Log.Error(ex, ex.InnerException.Message, ex.Message);
                 return false;
+            }
         }
 
-        public Category GetBy(int id)
-        {
-            return _context.Categories.Find(id);
-        }
+        public async Task<IEnumerable<Category>> GetAsync() 
+            => await _context.Categories.ToListAsync();
 
-        public async Task<IEnumerable<Category>> GetAsync(string categoryName)
-        {
-            return await _context.Categories.Where(cat => cat.CategoryName.Equals(categoryName, StringComparison.OrdinalIgnoreCase)).ToListAsync();
-        }
+        public async Task<IEnumerable<Category>> GetAsync(string categoryName) 
+            => await _context.Categories.Where(cat => cat.CategoryName.Equals(categoryName)).AsNoTracking().ToListAsync();
 
         public async Task<Category> UpdateAsync(Category category)
         {
@@ -65,10 +62,10 @@ namespace LMS.Infrastructure.Repositories
                 existingCategory.CategoryName = category.CategoryName;
 
                 _context.Entry(existingCategory).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return category;
-        }
+                return category;
+            }
             catch (Exception ex)
             {
                 Log.Error(ex, ex.InnerException.Message, ex.Message);
@@ -76,11 +73,10 @@ namespace LMS.Infrastructure.Repositories
             }
         }
 
-        public async Task<Category> GetByAsync(int id)
-        {
-            return await _context.Categories
+        public async Task<Category> GetByAsync(int id) 
+            => await _context.Categories
                         .Where(cat => cat.Id == id)
+                        .AsNoTracking()
                         .FirstOrDefaultAsync();
-        }
     }
 }
