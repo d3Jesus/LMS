@@ -24,7 +24,7 @@ namespace LMS.Application.Services
             try
             {
                 var book = _mapper.Map<Book>(model);
-                var response = await _repository.CreateAsync(book, model.authors);
+                var response = await _repository.CreateAsync(book);
 
                 serviceResponse.ResponseData = _mapper.Map<GetBookDto>(response);
                 serviceResponse.Message = "Book added successfully!";
@@ -57,9 +57,9 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllAsync()
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAsync()
         {
-            var result = await _repository.GetAllAsync();
+            var result = await _repository.GetAsync();
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>()
             {
@@ -69,9 +69,9 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(string title)
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAsync(string title)
         {
-            var result = await _repository.GetAllByAsync(title);
+            var result = await _repository.GetAsync(title);
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>();
             if (result is null)
@@ -85,9 +85,9 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAllByAsync(int category)
+        public async Task<ServiceResponse<IEnumerable<GetBookDto>>> GetAsync(int category)
         {
-            var result = await _repository.GetAllByAsync(category);
+            var result = await _repository.GetAsync(category);
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetBookDto>>()
             {
@@ -119,7 +119,7 @@ namespace LMS.Application.Services
             try
             {
                 var book = _mapper.Map<Book>(model);
-                var response = await _repository.UpdateAsync(book, model.authors);
+                var response = await _repository.UpdateAsync(book);
 
                 serviceResponse.ResponseData = _mapper.Map<GetBookDto>(response);
                 serviceResponse.Message = "Book updated successfully!";

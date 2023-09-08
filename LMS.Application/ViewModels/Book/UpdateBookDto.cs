@@ -1,17 +1,38 @@
-﻿namespace LMS.Application.ViewModels.Book
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LMS.Application.ViewModels.Book;
+
+public class UpdateBookDto
 {
-    public record UpdateBookDto
-        (
-            int id,
-            string title,
-            string description,
-            int edition,
-            string isbn,
-            int categoryId,
-            string imageUrl,
-            decimal price,
-            string _status,
-            int _copiesAvailable,
-            List<int> authors
-        );
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "The book's title is required.")]
+    [StringLength(100, ErrorMessage = "This field only allows {1} characters.")]
+    public string Title { get; set; }
+
+    [Required(ErrorMessage = "The book's decription is required.")]
+    [StringLength(100, ErrorMessage = "This field only allows {1} characters.")]
+    public string Description { get; set; }
+
+    [Required(ErrorMessage = "The book's edition is required.")]
+    public int Edition { get; set; } = 0;
+
+    [Required(ErrorMessage = "The book's ISBN is required.")]
+    [StringLength(50, ErrorMessage = "This field only allows {1} characters.")]
+    public string Isbn { get; set; }
+
+    [Required(ErrorMessage = "The book's category is required.")]
+    public int CategoryId { get; set; }
+
+    [Required(ErrorMessage = "The book's title is required.")]
+    [StringLength(50, ErrorMessage = "This field only allows {1} characters.")]
+    public string ImageUrl { get; set; }
+
+    [Required(ErrorMessage = "The book's price is required.")]
+    public decimal Price { get; set; }
+
+    [Required(ErrorMessage = "The book's status is required.")]
+    public string Status { get; set; }
+
+    public int CopiesAvailable { get; set; } = 0;
 }
