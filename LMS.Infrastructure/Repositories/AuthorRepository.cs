@@ -2,6 +2,7 @@
 using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LMS.Infrastructure.Repositories
 {
@@ -9,55 +10,72 @@ namespace LMS.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public AuthorRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public AuthorRepository(ApplicationDbContext context) => _context = context;
 
         public async Task<Author> CreateAsync(Author author)
         {
-            _context.Authors.Add(author);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Authors.Add(author);
+                await _context.SaveChangesAsync();
 
-            return author;
+                return author;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.InnerException.Message, ex.Message);
+
+                return null;
+            }
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var existingAuthor = _context.Authors.Where(auth => auth.Id == id).FirstOrDefault();
+            try
+            {
+                var existingAuthor = _context.Authors.Where(auth => auth.Id == id).FirstOrDefault();
 
-            _context.Authors.Remove(existingAuthor);
-            await _context.SaveChangesAsync();
+                _context.Authors.Remove(existingAuthor);
+                await _context.SaveChangesAsync();
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.InnerException.Message, ex.Message);
+
+                return false;
+            }
         }
 
-        public async Task<IEnumerable<Author>> GetAsync(bool wasDeleted)
-        {
-            return await _context.Authors.Where(auth => auth.WasDeleted == wasDeleted).ToListAsync();
-        }
+        public async Task<IEnumerable<Author>> GetAsync(bool wasDeleted) 
+            => await _context.Authors.Where(auth => auth.WasDeleted == wasDeleted).ToListAsync();
 
-        public async Task<Author> GetByAsync(int id)
-        {
-            return await _context.Authors.FindAsync(id);
-        }
+        public async Task<Author> GetByAsync(int id) 
+            => await _context.Authors.FindAsync(id);
 
         public async Task<IEnumerable<Author>> GetByAsync(string name)
-        {
-            return await _context.Authors.Where(c => c.FirstName == name || c.LastName == name).ToListAsync();
-        }
+            => await _context.Authors.Where(c => c.FirstName == name || c.LastName == name).ToListAsync();
 
         public async Task<Author> GetByNationalityAsync(string nationality)
-        {
-            return await _context.Authors.Where(c => c.Nationality == nationality).FirstOrDefaultAsync();
-        }
+            => await _context.Authors.Where(c => c.Nationality == nationality).FirstOrDefaultAsync();
 
         public async Task<Author> UpdateAsync(Author author)
         {
-            _context.Authors.Update(author);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Authors.Update(author);
+                await _context.SaveChangesAsync();
 
-            return author;
+                return author;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.InnerException.Message, ex.Message);
+
+                return null;
+            }
+            
         }
     }
 }
