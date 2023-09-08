@@ -1,33 +1,28 @@
-﻿using AutoMapper;
-using LMS.Application.Interfaces;
+﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Author;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
+using Mapster;
 
 namespace LMS.Application.Services
 {
     public class AuthorService : IAuthorService
     {
         private readonly IAuthorRepository _repository;
-        private readonly IMapper _mapper;
 
-        public AuthorService(IMapper mapper, IAuthorRepository repository)
-        {
-            _mapper = mapper;
-            _repository = repository;
-        }
+        public AuthorService(IAuthorRepository repository) => _repository = repository;
 
-        public async Task<ServiceResponse<GetAuthorDto>> CreateAsync(AddAuthorDto author)
+        public async Task<ServiceResponse<GetAuthorDto>> CreateAsync(AddAuthorDto model)
         {
             var serviceResponse = new ServiceResponse<GetAuthorDto>();
             try
             {
-                var mapper = _mapper.Map<Author>(author);
-                var response = await _repository.CreateAsync(mapper);
+                Author author = model.Adapt<Author>();
+                var response = await _repository.CreateAsync(author);
 
-                serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(response);
-                serviceResponse.Message = $"Author with name {string.Concat(author.firstName, " ", author.lastName)} added successfully!";
+                serviceResponse.ResponseData = response.Adapt<GetAuthorDto>();
+                serviceResponse.Message = $"Author with name {string.Concat(model.firstName, " ", model.lastName)} added successfully!";
             }
             catch (Exception ex)
             {
@@ -63,7 +58,7 @@ namespace LMS.Application.Services
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetAuthorDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetAuthorDto>>(result)
+                ResponseData = result.Adapt<IEnumerable<GetAuthorDto>>()
             };
 
             return serviceResponse;
@@ -80,7 +75,7 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
+            serviceResponse.ResponseData = result.Adapt<GetAuthorDto>();
 
             return serviceResponse;
         }
@@ -96,7 +91,7 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<IEnumerable<GetAuthorDto>>(result);
+            serviceResponse.ResponseData = result.Adapt<IEnumerable<GetAuthorDto>>();
 
             return serviceResponse;
         }
@@ -112,21 +107,21 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
+            serviceResponse.ResponseData = result.Adapt<GetAuthorDto>();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorDto>> UpdateAsync(GetAuthorDto author)
+        public async Task<ServiceResponse<GetAuthorDto>> UpdateAsync(GetAuthorDto model)
         {
             var serviceResponse = new ServiceResponse<GetAuthorDto>();
 
             try
             {
-                var mappedAuthor = _mapper.Map<Author>(author);
-                var result = await _repository.UpdateAsync(mappedAuthor);
+                var author = model.Adapt<Author>();
+                var result = await _repository.UpdateAsync(author);
 
-                serviceResponse.ResponseData = _mapper.Map<GetAuthorDto>(result);
+                serviceResponse.ResponseData = result.Adapt<GetAuthorDto>();
                 serviceResponse.Message = "Author updated!";
             }
             catch (Exception ex)
