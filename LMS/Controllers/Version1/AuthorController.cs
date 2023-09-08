@@ -90,7 +90,7 @@ namespace LMS.API.Controllers.Version1
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update(GetAuthorDto model)
+        public async Task<IActionResult> Update(UpdateAuthorDto model)
         {
             if (model == null) return BadRequest();
 

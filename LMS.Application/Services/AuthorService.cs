@@ -112,7 +112,7 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetAuthorDto>> UpdateAsync(GetAuthorDto model)
+        public async Task<ServiceResponse<GetAuthorDto>> UpdateAsync(UpdateAuthorDto model)
         {
             var serviceResponse = new ServiceResponse<GetAuthorDto>();
 

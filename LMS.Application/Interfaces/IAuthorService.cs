@@ -17,7 +17,7 @@ namespace LMS.Application.Interfaces
         /// </summary>
         /// <param name="author">Authors object with data to update.</param>
         /// <returns>Author with updated information.</returns>
-        Task<ServiceResponse<GetAuthorDto>> UpdateAsync(GetAuthorDto author);
+        Task<ServiceResponse<GetAuthorDto>> UpdateAsync(UpdateAuthorDto author);
 
         /// <summary>
         /// Delete author with the given Id
