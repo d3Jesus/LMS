@@ -3,6 +3,7 @@ using LMS.CoreBusiness.Interfaces;
 using LMS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Globalization;
@@ -18,15 +19,18 @@ namespace LMS.Infrastructure.Repositories
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _role;
         private readonly UsersDbContext _context;
+        private readonly IConfiguration _configuration;
 
         public AccountRepository(
             UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> role, 
-            UsersDbContext context)
+            RoleManager<IdentityRole> role,
+            UsersDbContext context,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _role = role;
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<Roles>> GetRolesAsync()
@@ -71,11 +75,13 @@ namespace LMS.Infrastructure.Repositories
 
         private void GenerateToken(out string tokenString, IdentityUser user, string role)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JWTAuthentication@123"));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtKeys:Secret").Value));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var tokeOptions = new JwtSecurityToken(
+                issuer: _configuration.GetSection("JwtKeys:Issuer").Value,
+                audience: _configuration.GetSection("JwtKeys:Audience").Value,
                 claims: CreateClaims(user, role),
-                expires: DateTime.Now.AddMinutes(6),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signinCredentials
             );
             tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
