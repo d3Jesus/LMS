@@ -11,6 +11,7 @@ namespace LMS.Infrastructure.Configuration
             builder.ToTable(nameof(Book));
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.Title).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.Edition).IsRequired();
             builder.Property(p => p.ISBN).IsRequired().HasMaxLength(50);
             builder.Property(p => p.CategoryId).IsRequired();
