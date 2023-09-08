@@ -133,3 +133,5 @@
 /LMS/obj/Debug/net6.0/project.razor.json
 /.vs/LMS/v17/HierarchyCache.v1.txt
 /LMS/obj/Debug/net6.0/LMS.API.AssemblyInfo.cs
+/LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.RazorAssemblyInfo.cs
+/LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.AssemblyInfo.cs
