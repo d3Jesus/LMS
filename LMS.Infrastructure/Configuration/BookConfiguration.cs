@@ -20,7 +20,6 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.Status).IsRequired().HasMaxLength(50);
             builder.Property(p => p.CopiesAvailable).IsRequired();
 
-            builder.Ignore(p => p.Categories);
             builder.Ignore(p => p.Authorships);
         }
     }
