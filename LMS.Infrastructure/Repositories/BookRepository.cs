@@ -138,7 +138,8 @@ namespace LMS.Infrastructure.Repositories
             return await _context.Books
                         .Where(b => b.Id == id)
                         .Include(b => b.Category)
-                        .Include(b => b.ListOfAuthors)
+                        .Include(b => b.Authorships)
+                        .ThenInclude(b => b.Authors)
                         .AsNoTrackingWithIdentityResolution()
                         .FirstOrDefaultAsync();
         }
@@ -155,7 +156,8 @@ namespace LMS.Infrastructure.Repositories
         {
             return await _context.Books
                         .Include(b => b.Category)
-                        .Include(b => b.ListOfAuthors)
+                        .Include(b => b.Authorships)
+                        .ThenInclude(b => b.Authors)
                         .Include(b => b.PurchaseItems)
                         .ThenInclude(b => b.Purchase)
                         .Skip(0)
