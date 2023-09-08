@@ -4,79 +4,28 @@ namespace LMS.CoreBusiness.Entities
 {
     public class Book
     {
-        private int _id;
-        private string _title;
-        private string _description;
-        private int _edition;
-        private string _isbn;
-        private int _categoryId;
-        public virtual Category Category { get; set; }
-        private string _imageUrl;
-        private DateTime _dateCreated;
-        private decimal _price;
-        private string _status;
-        private int _copiesAvailable;
+    public int Id { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+    public string Title { get; set; }
 
-        public string Title 
-        { 
-            get { return _title; } 
-            set { _title = value; } 
-        }
+    public string Description { get; set; }
 
-        public string Description 
-        { 
-            get { return _description; } 
-            set { _description = value; } 
-        }
+    public int Edition { get; set; }
 
-        public int Edition 
-        {
-            get { return _edition; } 
-            set { _edition = value; } 
-        }
+    public string ISBN { get; set; }
 
-        public string ISBN 
-        {
-            get { return _isbn; }
-            set { _isbn = value; }
-        }
+    public int CategoryId { get; set; }
+    public virtual Category Category { get; set; }
         
-        public int CategoryId 
-        {
-            get { return _categoryId; }
-            set { _categoryId = value; }
-        }
+    public string ImageUrl { get; set; }
 
-        public string ImageUrl
-        {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
-        }
+    public DateTime DateCreated { get; set; }
 
-        public DateTime DateCreated
-        {
-            get { return _dateCreated; }
-            set { _dateCreated = value; }
-        }
+    public decimal Price { get; set; }
 
-        public decimal Price
-        {
-            get { return _price; }
-            set { _price = value; }
-        }
+    public string Status { get; set; }
 
-        public string Status
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
+    public int CopiesAvailable { get; set; }
 
         public int CopiesAvailable
         {
