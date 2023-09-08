@@ -16,12 +16,6 @@ namespace LMS.Infrastructure.Configuration
             builder.Property(p => p.WasDeleted).HasDefaultValue(false);
 
             builder.Ignore(p => p.Authorships);
-            builder.Ignore(p => p.Books);
-
-            builder.HasMany(x => x.Books).WithMany(x => x.ListOfAuthors)
-                    .UsingEntity<Authorship>(
-                    r => r.HasOne(x => x.Books).WithMany().HasForeignKey(x => x.BookId),
-                    l => l.HasOne(x => x.Authors).WithMany().HasForeignKey(x => x.AuthorId)); 
         }
     }
 }

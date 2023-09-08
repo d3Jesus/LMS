@@ -10,7 +10,6 @@
             set { _nationality = value; }
         }
         
-        public virtual List<Authorship> Authorships { get; set; }
-        public virtual List<Book> Books { get; set; }
+        public virtual ICollection<Authorship> Authorships { get; set; }
     }
 }
