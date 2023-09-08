@@ -1,3 +1,17 @@
-﻿namespace LMS.Application.ViewModels.Author;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record AddAuthorDto (string FirstName, string LastName, string Nationality);
+namespace LMS.Application.ViewModels.Author;
+
+public class AddAuthorDto
+{
+    [Required(ErrorMessage = "The author's first name is required.")]
+    [StringLength(20, ErrorMessage = "This field only allows {1} characters.")]
+    public string FirstName { get; set; }
+
+    [Required(ErrorMessage = "The author's last name is required.")]
+    [StringLength(20, ErrorMessage = "This field only allows {1} characters.")]
+    public string LastName { get; set; }
+
+    [Required(ErrorMessage = "The author's nationality is required.")]
+    public string Nationality { get; set; }
+}
