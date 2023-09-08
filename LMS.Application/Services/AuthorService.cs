@@ -57,7 +57,7 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted)
+        public async Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted = false)
         {
             var result = await _repository.GetAsync(wasDeleted);
 
