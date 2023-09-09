@@ -1,33 +1,28 @@
-﻿using AutoMapper;
-using LMS.Application.Interfaces;
+﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Librarian;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
+using Mapster;
 
 namespace LMS.Application.Services
 {
     public class LibrarianService : ILibrarianService
     {
         private readonly ILibrarianRepository _repository;
-        private readonly IMapper _mapper;
 
-        public LibrarianService(IMapper mapper, ILibrarianRepository repository)
-        {
-            _mapper = mapper;
-            _repository = repository;
-        }
+        public LibrarianService(ILibrarianRepository repository) => _repository = repository;
 
         public async Task<ServiceResponse<GetLibrarianDto>> CreateAsync(AddLibrarianDto librarian)
         {
             var serviceResponse = new ServiceResponse<GetLibrarianDto>();
             try
             {
-                var mapper = _mapper.Map<Librarian>(librarian);
+                var mapper = librarian.Adapt<Librarian>();
                 var response = await _repository.CreateAsync(mapper);
 
-                serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(response);
-                serviceResponse.Message = $"Librarian with name {string.Concat(librarian.firstName, " ", librarian.lastName)} added successfully!";
+                serviceResponse.ResponseData = response.Adapt<GetLibrarianDto>();
+                serviceResponse.Message = $"Librarian with name {string.Concat(librarian.FirstName, " ", librarian.LastName)} added successfully!";
             }
             catch (Exception ex)
             {
@@ -63,7 +58,7 @@ namespace LMS.Application.Services
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetLibrarianDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetLibrarianDto>>(result)
+                ResponseData = result.Adapt<IEnumerable<GetLibrarianDto>>()
             };
 
             return serviceResponse;
@@ -80,7 +75,7 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(result);
+            serviceResponse.ResponseData = result.Adapt<GetLibrarianDto>();
 
             return serviceResponse;
         }
@@ -96,21 +91,21 @@ namespace LMS.Application.Services
                 serviceResponse.Succeeded = false;
             }
 
-            serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(result);
+            serviceResponse.ResponseData = result.Adapt<GetLibrarianDto>();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetLibrarianDto>> UpdateAsync(GetLibrarianDto librarian)
+        public async Task<ServiceResponse<GetLibrarianDto>> UpdateAsync(UpdateLibrarianDto librarian)
         {
             var serviceResponse = new ServiceResponse<GetLibrarianDto>();
 
             try
             {
-                var mappedLibrarian = _mapper.Map<Librarian>(librarian);
+                var mappedLibrarian = librarian.Adapt<Librarian>();
                 var result = await _repository.UpdateAsync(mappedLibrarian);
 
-                serviceResponse.ResponseData = _mapper.Map<GetLibrarianDto>(result);
+                serviceResponse.ResponseData = result.Adapt<GetLibrarianDto>();
                 serviceResponse.Message = "Librarian updated!";
             }
             catch (Exception ex)
