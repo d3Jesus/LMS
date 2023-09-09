@@ -38,6 +38,9 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookService, BookService>();
 
+            services.AddScoped<IAuthorshipRepository, AuthorshipRepository>();
+            services.AddScoped<IAuthorshipService, AuthorshipService>();
+
             services.AddScoped<ILibrarianRepository, LibrarianRepository>();
             services.AddScoped<ILibrarianService, LibrarianService>();
 
