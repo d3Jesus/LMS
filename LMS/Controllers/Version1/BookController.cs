@@ -11,7 +11,12 @@ namespace LMS.API.Controllers.Version1
     public class BookController : ControllerBase
     {
         private readonly IBookService _service;
-        public BookController(IBookService service) => _service = service;
+        private readonly IAuthorshipService _authorshipService;
+        public BookController(IBookService service, IAuthorshipService authorshipService)
+        {
+            _service = service;
+            _authorshipService = authorshipService;
+        }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetBookDto>))]
@@ -89,6 +94,23 @@ namespace LMS.API.Controllers.Version1
             var response = await _service.DeleteAsync(id);
 
             return response.ResponseData ? NoContent() : NotFound();
+        }
+
+        [HttpPost("authorship/{bookId:int}")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(GetBookDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Authorship(int bookId, [FromBody] List<int> bookAuthors)
+        {
+            if (bookId <= 0) return BadRequest("Invalid book Id.");
+            if (!bookAuthors.Any()) return BadRequest("The list of authors can't be empty.");
+
+            var book = await _service.GetAsync(bookId);
+            if (book == null) return NotFound($"Book with ID {bookId} not found.");
+
+            var response = await _authorshipService.CreateOrUpdateAsync(bookId, bookAuthors);
+
+            return response.ResponseData ? CreatedAtAction(nameof(Get), new { bookId }, null) : BadRequest(response.Message);
         }
     }
 }
