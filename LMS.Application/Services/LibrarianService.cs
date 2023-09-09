@@ -71,7 +71,7 @@ namespace LMS.Application.Services
 
         public async Task<ServiceResponse<GetLibrarianDto>> GetByAsync(int id)
         {
-            var result = await _repository.GetByAsync(id);
+            var result = await _repository.GetAsync(id);
 
             var serviceResponse = new ServiceResponse<GetLibrarianDto>();
             if (result is null)
@@ -87,7 +87,7 @@ namespace LMS.Application.Services
 
         public async Task<ServiceResponse<GetLibrarianDto>> GetByAsync(string name)
         {
-            var result = await _repository.GetByAsync(name);
+            var result = await _repository.GetAsync(name);
 
             var serviceResponse = new ServiceResponse<GetLibrarianDto>();
             if (result is null)
