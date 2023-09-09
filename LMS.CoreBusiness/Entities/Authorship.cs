@@ -2,21 +2,10 @@
 {
     public class Authorship
     {
-        private int _authorId;
-        private int _bookId;
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
 
-        public int AuthorId
-        {
-            get { return _authorId; }
-            set { _authorId = value; }
-        }
-        public int BookId
-        {
-            get { return _bookId; }
-            set { _bookId = value; }
-        }
-
-        public Author Authors { get; set; }
-        public Book Books { get; set; }
+        public int BookId { get; set; }
+        public Book Book { get; set; }
     }
 }
