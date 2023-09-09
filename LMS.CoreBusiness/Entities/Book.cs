@@ -1,95 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿
+namespace LMS.CoreBusiness.Entities;
 
-namespace LMS.CoreBusiness.Entities
+public class Book
 {
-    public class Book
-    {
-        private int _id;
-        private string _title;
-        private string _description;
-        private int _edition;
-        private string _isbn;
-        private int _categoryId;
-        public virtual Category Category { get; set; }
-        private string _imageUrl;
-        private DateTime _dateCreated;
-        private decimal _price;
-        private string _status;
-        private int _copiesAvailable;
+    public int Id { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+    public string Title { get; set; }
 
-        public string Title 
-        { 
-            get { return _title; } 
-            set { _title = value; } 
-        }
+    public string Description { get; set; }
 
-        public string Description 
-        { 
-            get { return _description; } 
-            set { _description = value; } 
-        }
+    public int Edition { get; set; }
 
-        public int Edition 
-        {
-            get { return _edition; } 
-            set { _edition = value; } 
-        }
+    public string ISBN { get; set; }
 
-        public string ISBN 
-        {
-            get { return _isbn; }
-            set { _isbn = value; }
-        }
-        
-        public int CategoryId 
-        {
-            get { return _categoryId; }
-            set { _categoryId = value; }
-        }
+    public int CategoryId { get; set; }
+    public virtual Category Category { get; set; }
 
-        public string ImageUrl
-        {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
-        }
+    public string ImageUrl { get; set; }
 
-        public DateTime DateCreated
-        {
-            get { return _dateCreated; }
-            set { _dateCreated = value; }
-        }
+    public DateTime DateCreated { get; set; }
 
-        public decimal Price
-        {
-            get { return _price; }
-            set { _price = value; }
-        }
+    public decimal Price { get; set; }
 
-        public string Status
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
+    public string Status { get; set; } = "Available";
 
-        public int CopiesAvailable
-        {
-            get { return _copiesAvailable; }
-            set { _copiesAvailable = value; }
-        }
+    public int CopiesAvailable { get; set; }
 
-        public virtual List<Authorship> Authorships { get; set; }
-        public virtual List<Category> Categories { get; set; }
-
-        #region many-to-many relationship with Purchase
-        public virtual IList<PurchaseItems> PurchaseItems { get; set; }
-        // public virtual IList<Purchase> Purchases { get; set; } = new List<Purchase>();
-        #endregion
-    }
+    public virtual ICollection<Authorship> Authorships { get; set; }
+    public virtual ICollection<PurchaseItems> PurchaseItems { get; set; }
 }

@@ -132,6 +132,7 @@
 *.lock
 /LMS/obj/Debug/net6.0/project.razor.json
 /.vs/LMS/v17/HierarchyCache.v1.txt
+<<<<<<< HEAD
 /LMS.BlazorUI/bin/Debug/net6.0/af/Humanizer.resources.dll
 /LMS.BlazorUI/bin/Debug/net6.0/ar/Humanizer.resources.dll
 /LMS.BlazorUI/bin/Debug/net6.0/az/Humanizer.resources.dll
@@ -197,3 +198,9 @@
 /LMS.BlazorUI/obj/Debug/net6.0/scopedcss/Shared/MainLayout.razor.rz.scp.css
 /LMS.BlazorUI/obj/Debug/net6.0/scopedcss/projectbundle/LMS.BlazorUI.bundle.scp.css
 /LMS.BlazorUI/obj/Debug/net6.0/scopedcss/bundle/LMS.BlazorUI.styles.css
+=======
+/LMS/obj/Debug/net6.0/LMS.API.AssemblyInfo.cs
+/LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.RazorAssemblyInfo.cs
+/LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.AssemblyInfo.cs
+/LMS.BlazorUI/obj/Debug/net6.0/LMS.BlazorUI.csproj.FileListAbsolute.txt
+>>>>>>> book-refactor
