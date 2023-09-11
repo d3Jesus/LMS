@@ -39,12 +39,13 @@ namespace LMS.Application.Services
 
             try
             {
-                await _repository.DeleteAsync(id);
+                serviceResponse.ResponseData = await _repository.DeleteAsync(id);
 
                 serviceResponse.Message = "Librarian deleted successfuly!";
             }
             catch (Exception ex)
             {
+                serviceResponse.ResponseData = false;
                 serviceResponse.Succeeded = false;
                 serviceResponse.Message = ex.Message;
             }
