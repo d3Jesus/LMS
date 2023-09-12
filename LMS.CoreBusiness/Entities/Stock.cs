@@ -2,26 +2,11 @@
 {
     public class Stock
     {
-        private int _bookid;
-        private int _copiesOwned;
-        private int copiesAvailable;
-
-        public int BookId
-        {
-            get { return _bookid; }
-            set { _bookid = value; }
-        }
-        public int NumberOfCopies
-        {
-            get { return _copiesOwned; }
-            set { _copiesOwned = value; }
-        }
-        public int CopiesAvailable
-        {
-            get { return copiesAvailable; }
-            set { copiesAvailable = value; }
-        }
-
+        public int BookId { get; set; }
         public virtual Book Book { get; set; }
+        
+        public int NumberOfCopies { get; set; }
+        
+        public decimal SalePrice { get; set; }
     }
 }
