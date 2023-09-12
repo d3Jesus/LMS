@@ -1,23 +1,17 @@
-﻿using AutoMapper;
-using LMS.Application.Interfaces;
+﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
-using LMS.Application.ViewModels.Author;
 using LMS.Application.ViewModels.UserAccount;
 using LMS.CoreBusiness.Entities.Accounts;
 using LMS.CoreBusiness.Interfaces;
+using Mapster;
 
 namespace LMS.Application.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _repository;
-        private readonly IMapper _mapper;
 
-        public AccountService(IAccountRepository repository, IMapper mapper)
-        {
-            _repository = repository;
-            _mapper = mapper;
-        }
+        public AccountService(IAccountRepository repository) => _repository = repository;
 
         public async Task<ServiceResponse<IEnumerable<RolesDto>>> GetRoles()
         {
@@ -25,7 +19,7 @@ namespace LMS.Application.Services
 
             var serviceResponse = new ServiceResponse<IEnumerable<RolesDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<RolesDto>>(result)
+                ResponseData = result.Adapt<IEnumerable<RolesDto>>()
             };
 
             return serviceResponse;
@@ -36,7 +30,7 @@ namespace LMS.Application.Services
             var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                UserRegistration newUser = _mapper.Map<UserRegistration>(model);
+                UserRegistration newUser = model.Adapt<UserRegistration>();
                 var response = await _repository.Register(newUser);
 
                 serviceResponse.ResponseData = response;
@@ -55,7 +49,7 @@ namespace LMS.Application.Services
             var serviceResponse = new ServiceResponse<string>();
             try
             {
-                UserLogin loggin = _mapper.Map<UserLogin>(model);
+                UserLogin loggin = model.Adapt<UserLogin>();
                 var response = await _repository.Login(loggin);
 
                 serviceResponse.ResponseData = response;

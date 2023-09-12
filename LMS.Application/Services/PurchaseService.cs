@@ -1,30 +1,25 @@
-﻿using AutoMapper;
-using LMS.Application.Interfaces;
+﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Purchase;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
+using Mapster;
 
 namespace LMS.Application.Services
 {
     public class PurchaseService : IPurchaseService
     {
         private readonly IPurchaseRepository _repository;
-        private readonly IMapper _mapper;
 
-        public PurchaseService(IMapper mapper, IPurchaseRepository repository)
-        {
-            _mapper = mapper;
-            _repository = repository;
-        }
+        public PurchaseService(IPurchaseRepository repository) => _repository = repository;
 
         public async Task<ServiceResponse<bool>> AddAsync(AddPurchaseDto purchase)
         {
             var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                var newPurchase = _mapper.Map<Purchase>(purchase);
-                var newPurchaseitems = _mapper.Map<List<PurchaseItems>>(purchase.items);
+                var newPurchase = purchase.Adapt<Purchase>();
+                var newPurchaseitems = purchase.items.Adapt<List<PurchaseItems>>();
                 var response = await _repository.CreateAsync(newPurchase, newPurchaseitems);
 
                 serviceResponse.Message = $"Purchase successfully registed!";
@@ -44,7 +39,7 @@ namespace LMS.Application.Services
 
             var serviceResponse = new ServiceResponse<IEnumerable<GetPurchaseDto>>()
             {
-                ResponseData = _mapper.Map<IEnumerable<GetPurchaseDto>>(result)
+                ResponseData = result.Adapt<IEnumerable<GetPurchaseDto>>()
             };
 
             return serviceResponse;
