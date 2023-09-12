@@ -1,11 +1,9 @@
-using LMS.API.MappingConfig;
 using LMS.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
 
 builder.Services.AddInfrastructure();
-builder.Services.AddAutoMapperConfiguration();
 
 // Add services to the container.
 builder.Services.AddControllers();
