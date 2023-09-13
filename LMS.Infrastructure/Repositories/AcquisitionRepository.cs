@@ -6,7 +6,7 @@ using Serilog;
 
 namespace LMS.Infrastructure.Repositories;
 
-public class AcquisitionRepository : IAcquisition
+public class AcquisitionRepository : IAcquisitionRepository
 {
     private readonly ApplicationDbContext _context;
 

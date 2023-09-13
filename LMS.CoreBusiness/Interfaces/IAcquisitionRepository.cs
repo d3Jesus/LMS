@@ -2,7 +2,7 @@
 
 namespace LMS.CoreBusiness.Interfaces;
 
-public interface IAcquisition
+public interface IAcquisitionRepository
 {
     /// <summary>
     /// Register a new acquisition
