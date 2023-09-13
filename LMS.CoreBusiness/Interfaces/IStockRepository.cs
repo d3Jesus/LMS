@@ -4,8 +4,12 @@ namespace LMS.CoreBusiness.Interfaces
 {
     public interface IStockRepository
     {
-        Task<bool> CreateAsync(Stock stock);
-        Task<bool> UpdateAsync(Stock stock);
-        Task<Stock> GetByAsync(int id);
+        Task AddOrUpdateAsync(Stock stock);
+
+        void Outbound(Stock stock);
+
+        Task<Stock> GetAsync(int bookId);
+
+        Task<IEnumerable<Stock>> GetAsync();
     }
 }
