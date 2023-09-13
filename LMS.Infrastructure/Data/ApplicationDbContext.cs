@@ -1,5 +1,6 @@
 ﻿using LMS.CoreBusiness.Entities;
 using LMS.Infrastructure.Configuration;
+using LMS.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Data
@@ -16,6 +17,8 @@ namespace LMS.Infrastructure.Data
         public DbSet<PurchaseItems> Items { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Acquisition> Acquisitions { get; set; }
+        public DbSet<AcquisitionItems> AcquisitionItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +31,8 @@ namespace LMS.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new PurchaseConfiguration());
             modelBuilder.ApplyConfiguration(new PurchaseItemsConfiguration());
             modelBuilder.ApplyConfiguration(new StockConfiguration());
+            modelBuilder.ApplyConfiguration(new AcquisitionConfiguration())
+                        .ApplyConfiguration(new AcquisitionItemsConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
