@@ -47,6 +47,9 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IPurchaseService, PurchaseService>();
 
+            services.AddScoped<IAcquisitionRepository, AcquisitionRepository>();
+            services.AddScoped<IAcquisitionService, AcquisitionService>();
+
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockService, StockService>();
 
