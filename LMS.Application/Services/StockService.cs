@@ -12,13 +12,13 @@ namespace LMS.Application.Services
 
         public StockService(IStockRepository repository) => _repository = repository;
 
-        public async Task<ServiceResponse<List<GetStockDto>>> GetAsync()
+        public async Task<ServiceResponse<IEnumerable<GetStockDto>>> GetAsync()
         {
             var result = await _repository.GetAsync();
 
-            var serviceResponse = new ServiceResponse<List<GetStockDto>>();
+            var serviceResponse = new ServiceResponse<IEnumerable<GetStockDto>>();
 
-            serviceResponse.ResponseData = result.Adapt<List<GetStockDto>>();
+            serviceResponse.ResponseData = result.Adapt<IEnumerable<GetStockDto>>();
 
             return serviceResponse;
         }
