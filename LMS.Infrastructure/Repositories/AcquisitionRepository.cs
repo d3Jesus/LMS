@@ -39,8 +39,8 @@ public class AcquisitionRepository : IAcquisitionRepository
         try
         {
             acquisition.Id = GenerateId();
-            _context.Acquisitions.Add(acquisition);
-            await _context.SaveChangesAsync();
+            await _context.Acquisitions.AddAsync(acquisition);
+            //await _context.SaveChangesAsync();
 
             return acquisition;
         }
