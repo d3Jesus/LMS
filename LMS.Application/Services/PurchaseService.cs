@@ -2,7 +2,10 @@
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Purchase;
 using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 using Mapster;
 
 namespace LMS.Application.Services
@@ -33,16 +36,7 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetPurchaseDto>>> GetAsync(DateTime initDate, DateTime endDate, int itemsToTake)
-        {
-            var result = await _repository.GetAsync(initDate, endDate, itemsToTake);
-
-            var serviceResponse = new ServiceResponse<IEnumerable<GetPurchaseDto>>()
-            {
-                ResponseData = result.Adapt<IEnumerable<GetPurchaseDto>>()
-            };
-
-            return serviceResponse;
-        }
+        public async Task<PagedList<GetPurchaseResponse>> GetAsync(GetPurchaseRequest request) 
+            => await _repository.GetAsync(request);
     }
 }
