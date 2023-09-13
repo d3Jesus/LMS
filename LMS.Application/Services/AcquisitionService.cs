@@ -2,7 +2,6 @@
 using LMS.Application.Interfaces;
 using LMS.Application.ViewModels.Acquisition;
 using LMS.CoreBusiness.Entities;
-using LMS.CoreBusiness.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.CoreBusiness.UnitsOfWork;
 

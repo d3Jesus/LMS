@@ -1,7 +1,6 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Stock;
-using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 using Mapster;
 
@@ -13,59 +12,29 @@ namespace LMS.Application.Services
 
         public StockService(IStockRepository repository) => _repository = repository;
 
-        public async Task<ServiceResponse<GetStockDto>> CreateAsync(AddStockDto stock)
+        public async Task<ServiceResponse<List<GetStockDto>>> GetAsync()
         {
-            var serviceResponse = new ServiceResponse<GetStockDto>();
-            try
-            {
-                var mapper = stock.Adapt<Stock>();
-                var response = await _repository.CreateAsync(mapper);
+            var result = await _repository.GetAsync();
 
-                serviceResponse.ResponseData = response.Adapt<GetStockDto>();
-                serviceResponse.Message = $"Book added in stock successfully!";
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Succeeded = false;
-                serviceResponse.Message = ex.Message;
-            }
+            var serviceResponse = new ServiceResponse<List<GetStockDto>>();
+
+            serviceResponse.ResponseData = result.Adapt<List<GetStockDto>>();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStockDto>> GetByAsync(int id)
+        public async Task<ServiceResponse<GetStockDto>> GetAsync(int bookId)
         {
-            var result = await _repository.GetByAsync(id);
+            var result = await _repository.GetAsync(bookId);
 
             var serviceResponse = new ServiceResponse<GetStockDto>();
             if (result is null)
             {
-                serviceResponse.Message = $"Stock with ID {id} not found!";
+                serviceResponse.Message = $"Book with ID {bookId} not found in stock!";
                 serviceResponse.Succeeded = false;
             }
 
             serviceResponse.ResponseData = result.Adapt<GetStockDto>();
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetStockDto>> UpdateAsync(GetStockDto stock)
-        {
-            var serviceResponse = new ServiceResponse<GetStockDto>();
-
-            try
-            {
-                var mappedStock = stock.Adapt<Stock>();
-                var result = await _repository.UpdateAsync(mappedStock);
-
-                serviceResponse.ResponseData = result.Adapt<GetStockDto>();
-                serviceResponse.Message = "Stock updated!";
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Succeeded = false;
-                serviceResponse.Message = ex.Message;
-            }
 
             return serviceResponse;
         }
