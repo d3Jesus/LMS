@@ -19,10 +19,6 @@ namespace LMS.Infrastructure.Configuration
             builder.HasOne(e => e.Purchase)
                 .WithMany(e => e.PurchaseItems)
                 .HasForeignKey(e => e.PurchaseId);
-
-            builder.HasOne(e => e.Book)
-                .WithMany(e => e.PurchaseItems)
-                .HasForeignKey(e => e.BookId);
         }
     }
 }

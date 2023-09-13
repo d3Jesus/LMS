@@ -11,7 +11,6 @@ namespace LMS.Infrastructure.Configuration
             builder.ToTable(nameof(Purchase));
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.LibrarianId).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.CustomerName).IsRequired().HasMaxLength(50);
             builder.Property(p => p.DatePurchased).IsRequired();
             builder.Property(p => p.TotalPayed).HasColumnType("numeric").HasPrecision(18, 2).IsRequired();
             builder.Ignore(p => p.Librarians);
