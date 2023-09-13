@@ -4,36 +4,51 @@ using LMS.Application.ViewModels.Acquisition;
 using LMS.CoreBusiness.Entities;
 using LMS.CoreBusiness.Interfaces;
 using LMS.Application.ViewModels;
+using LMS.CoreBusiness.UnitsOfWork;
 
 namespace LMS.Application.Services;
 
 public class AcquisitionService : IAcquisitionService
 {
-    private readonly IAcquisition _repository;
+    private readonly IAcquisitionUnitOfWork _unitOfWork;
 
-    public AcquisitionService(IAcquisition repository) => _repository = repository;
+    public AcquisitionService(IAcquisitionUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     public async Task<ServiceResponse<GetAcquisitionDto>> CreateAsync(AddAcquisitionDto acquisitionDto)
     {
         try
         {
+            _unitOfWork.BeginTransaction();
+
             Acquisition acquisition = acquisitionDto.Adapt<Acquisition>();
-
             acquisition.Items = acquisitionDto.Items.Adapt<List<AcquisitionItems>>();
-            var result = await _repository.CreateAsync(acquisition);
 
-            if (result is null)
+            var result = await _unitOfWork.AcquisitionRepository.CreateAsync(acquisition);
+
+            foreach(var item in acquisition.Items) 
+            {
+                Stock stock = new()
+                {
+                    BookId = item.BookId,
+                    NumberOfCopies = item.Quantity,
+                    SalePrice = item.SalePrice
+                };
+
+                await _unitOfWork.StockRepository.AddOrUpdateAsync(stock);
+            }
+
+            if (_unitOfWork.CommitTransaction())
                 return new ServiceResponse<GetAcquisitionDto>
                 {
-                    Succeeded = false,
-                    Message = "Failed to register acquisition."
+                    ResponseData = result.Adapt<GetAcquisitionDto>(),
+                    Succeeded = true,
+                    Message = "Acquisition registered successfuly."
                 };
 
             return new ServiceResponse<GetAcquisitionDto>
             {
-                ResponseData = result.Adapt<GetAcquisitionDto>(),
-                Succeeded = true,
-                Message = "Acquisition registered successfuly."
+                Succeeded = false,
+                Message = "Failed to register acquisition."
             };
         }
         catch
@@ -48,7 +63,7 @@ public class AcquisitionService : IAcquisitionService
 
     public async Task<ServiceResponse<List<GetAcquisitionDto>>> GetAsync(DateTime fromDate, DateTime toDate)
     {
-        var response = await _repository.GetAsync(fromDate, toDate);
+        var response = await _unitOfWork.AcquisitionRepository.GetAsync(fromDate, toDate);
 
         return new ServiceResponse<List<GetAcquisitionDto>>
         {
@@ -60,7 +75,7 @@ public class AcquisitionService : IAcquisitionService
 
     public async Task<ServiceResponse<GetAcquisitionDto>> GetAsync(string acquisitionId)
     {
-        var result = await _repository.GetAsync(acquisitionId);
+        var result = await _unitOfWork.AcquisitionRepository.GetAsync(acquisitionId);
 
         return new ServiceResponse<GetAcquisitionDto>
         {
