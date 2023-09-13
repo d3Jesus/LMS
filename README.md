@@ -1,6 +1,4 @@
 # Library Management System
-## Introduction
-LMS or Library Management System was designed to study the React.js technology.
 
 ## Table of Contents
 
