@@ -12,9 +12,8 @@ namespace LMS.Infrastructure.Configuration
             builder.HasKey(p => p.BookId);
             builder.Property(p => p.BookId).IsRequired();
             builder.Property(p => p.NumberOfCopies).IsRequired().HasMaxLength(50);
-            builder.Property(p => p.CopiesAvailable).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.SalePrice).IsRequired().HasColumnType("numeric").HasPrecision(18, 2);
             builder.Ignore(p => p.Book);
-
         }
     }
 }
