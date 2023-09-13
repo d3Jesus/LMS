@@ -1,8 +1,10 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.Services;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.UnitsOfWork;
 using LMS.Infrastructure.Data;
 using LMS.Infrastructure.Repositories;
+using LMS.Infrastructure.UnitsOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +58,12 @@ namespace LMS.Infrastructure.Extensions
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
 
+            return services;
+        }
+
+        public static IServiceCollection AddUnitsOfWork(this IServiceCollection services)
+        {
+            services.AddScoped<IAcquisitionUnitOfWork, AcquisitionUnitOfWork>();
             return services;
         }
 

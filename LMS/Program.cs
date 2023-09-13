@@ -3,7 +3,7 @@ using LMS.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
 
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure().AddUnitsOfWork();
 
 // Add services to the container.
 builder.Services.AddControllers();
