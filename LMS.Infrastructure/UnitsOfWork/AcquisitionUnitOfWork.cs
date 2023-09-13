@@ -49,7 +49,7 @@ public class AcquisitionUnitOfWork : IAcquisitionUnitOfWork
     public void RollbackTransaction()
     {
         _appTransaction.Rollback();
-        _appTransaction.DisposeAsync();
+        _appTransaction.Dispose();
     }
 
     public bool SaveChanges()
