@@ -15,37 +15,27 @@ namespace LMS.Infrastructure.Repositories
 
         public PurchaseRepository(ApplicationDbContext context) => _context = context;
 
-        public async Task<bool> CreateAsync(Purchase purchase, List<PurchaseItems> items)
+        public async Task<Purchase> CreateAsync(int librarianId, List<PurchaseItems> items)
         {
             using var transaction = _context.Database.BeginTransaction();
 
             try
             {
-                purchase.LibrarianId = purchase.LibrarianId;
-                purchase.TotalPayed = purchase.TotalPayed;
+                Purchase purchase = new()
+                {
+                    LibrarianId = librarianId,
+                    TotalPayed = items.Sum(x => x.GrossPrice),
+                    PurchaseItems = items
+                };
 
                 _context.Purchases.Add(purchase);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
-                foreach (var item in items)
-                {
-                    PurchaseItems newPurchaseItem = new()
-                    {
-                        PurchaseId = purchase.Id,
-                        BookId = item.BookId,
-                        NumberOfCopies = item.NumberOfCopies,
-                        UnitPrice = item.UnitPrice,
-                        GrossPrice = item.GrossPrice
-                    };
-                    _context.Items.Add(newPurchaseItem);
-                    await _context.SaveChangesAsync();
-                }
-
-                return true;
+                return purchase;
             }
             catch (Exception)
             {
-                return false;
+                return new Purchase();
             }
 
         }
@@ -89,5 +79,13 @@ namespace LMS.Infrastructure.Repositories
                 _ => purchase => purchase.Id
             };
         }
+
+        public async Task<Purchase> GetAsync(int purchaseId) 
+            => await _context.Purchases
+                                    .Where(prc => prc.Id == purchaseId)
+                                    .Include(prc => prc.PurchaseItems)
+                                    .ThenInclude(i => i.Book)
+                                    .Include(prc => prc.Librarian)
+                                    .FirstOrDefaultAsync();
     }
 }

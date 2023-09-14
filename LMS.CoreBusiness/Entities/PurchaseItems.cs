@@ -3,6 +3,8 @@ namespace LMS.CoreBusiness.Entities;
 
 public class PurchaseItems
 {
+    public int Id { get; set; }
+
     public int PurchaseId { get; set; }
     public virtual Purchase Purchase { get; set; }
 

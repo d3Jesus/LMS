@@ -8,7 +8,8 @@ namespace LMS.Application.Interfaces
 {
     public interface IPurchaseService
     {
-        Task<ServiceResponse<bool>> AddAsync(AddPurchaseDto purchase);
+        Task<ServiceResponse<GetPurchaseDto>> AddAsync(int librarianId, List<AddPurchaseItemsDto> items);
         Task<PagedList<GetPurchaseResponse>> GetAsync(GetPurchaseRequest request);
+        Task<ServiceResponse<GetPurchaseDto>> GetAsync(int purchaseId);
     }
 }

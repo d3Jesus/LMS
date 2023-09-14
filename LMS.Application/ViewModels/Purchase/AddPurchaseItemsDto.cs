@@ -1,3 +1,12 @@
 namespace LMS.Application.ViewModels.Purchase;
 
-public record AddPurchaseItemsDto(int BookId, int NumberOfCopies, decimal UnitPrice, decimal GrossPrice);
+public class AddPurchaseItemsDto
+{
+    public int BookId { get; set; }
+
+    public int NumberOfCopies { get; set; }
+
+    public decimal UnitPrice { get; set; }
+
+    public decimal GrossPrice => UnitPrice * NumberOfCopies;
+}

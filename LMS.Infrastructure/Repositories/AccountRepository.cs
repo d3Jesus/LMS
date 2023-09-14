@@ -49,7 +49,7 @@ namespace LMS.Infrastructure.Repositories
 
             if (result)
             {
-                var user = _context.Users.Where(x => x.Email.Equals(account.Email)).FirstOrDefault();
+                var user = _context.Users.Where(x => x.Email.Equals(account.Email)).Include(x => x.Librarian).FirstOrDefault();
 
                 var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
                 GenerateToken(out string tokenString, user, userRole);
@@ -87,7 +87,7 @@ namespace LMS.Infrastructure.Repositories
             tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         }
 
-        private List<Claim> CreateClaims(AspNetUsers user, string role)
+        private static List<Claim> CreateClaims(AspNetUsers user, string role)
         {
             try
             {
@@ -109,36 +109,35 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<bool> Register(UserRegistrationRequest account)
         {
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                var userExists = await _userManager.FindByEmailAsync(account.Email);
-                if (userExists is not null)
-                    return false;
-
-                AspNetUsers user = new()
-                {
-                    UserName = account.Username,
-                    Email = account.Email,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    NormalizedEmail = account.Email.ToUpper(),
-                    NormalizedUserName = account.Username.ToUpper()
-                };
+            using var transaction = _context.Database.BeginTransaction();
             
-                var result = await _userManager.CreateAsync(user, account.Password);
+            var userExists = await _userManager.FindByEmailAsync(account.Email);
+            if (userExists is not null)
+                return false;
 
-                if (!result.Succeeded)
-                    return false;
+            AspNetUsers user = new()
+            {
+                UserName = account.Username,
+                Email = account.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                NormalizedEmail = account.Email.ToUpper(),
+                NormalizedUserName = account.Username.ToUpper()
+            };
 
-                var response = await _userManager.AddToRoleAsync(user, account.Role);
-                if(response.Succeeded)
-                {
-                    await transaction.CommitAsync();
-                    return response.Succeeded;
-                }
+            var result = await _userManager.CreateAsync(user, account.Password);
 
-                await transaction.RollbackAsync();
+            if (!result.Succeeded)
+                return false;
+
+            var response = await _userManager.AddToRoleAsync(user, account.Role);
+            if (response.Succeeded)
+            {
+                await transaction.CommitAsync();
                 return response.Succeeded;
             }
+
+            await transaction.RollbackAsync();
+            return response.Succeeded;
         }
     }
 }

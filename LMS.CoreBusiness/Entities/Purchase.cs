@@ -5,9 +5,9 @@ public class Purchase
     public int Id { get; set; }
 
     public int LibrarianId { get; set; }
-    public virtual Librarian Librarians { get; set; }
+    public virtual Librarian Librarian { get; set; }
 
-    public DateTime DatePurchased { get; set; } = DateTime.Now;
+    public DateTime DatePurchased { get; private init; } = DateTime.Now;
 
     public decimal TotalPayed { get; set; }
 

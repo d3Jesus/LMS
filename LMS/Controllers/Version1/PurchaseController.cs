@@ -1,4 +1,5 @@
 ﻿using LMS.Application.Interfaces;
+using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Purchase;
 using LMS.CoreBusiness.Enums;
 using LMS.CoreBusiness.Helpers;
@@ -6,6 +7,7 @@ using LMS.CoreBusiness.Requests;
 using LMS.CoreBusiness.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LMS.API.Controllers.Version1
 {
@@ -41,12 +43,36 @@ namespace LMS.API.Controllers.Version1
             return Ok(await _service.GetAsync(request));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(AddPurchaseDto model)
+        [HttpGet("purchaseId={purchaseId}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ServiceResponse<GetPurchaseDto>))]
+        public async Task<IActionResult> Get(int purchaseId)
         {
-            var response = await _service.AddAsync(model);
+            if (purchaseId <= 0) return BadRequest("Invalid purchase ID.");
 
-            return Ok(response);
+            var response = await _service.GetAsync(purchaseId);
+
+            return response.Succeeded ? Ok(response.ResponseData) : NotFound(response.Message);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Add([FromBody] List<AddPurchaseItemsDto> items)
+        {
+            if (!items.Any()) return BadRequest("The shopping list can not be empty.");
+
+            var user = HttpContext.User.Identity as ClaimsIdentity;
+            if (user is null) return BadRequest("You can not register a purchase while your are not logged in. Please, log in to proceed.");
+
+            var userClaims = user.Claims.ToList();
+            var librarianId = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(librarianId) || Convert.ToInt32(librarianId) <= 0) return BadRequest("Invalid librarian ID");
+
+            var response = await _service.AddAsync(Convert.ToInt32(librarianId), items);
+
+            return response.Succeeded ? CreatedAtAction(nameof(Get), new { purchaseId = response.ResponseData.Id }) : BadRequest(response.Message);
         }
     }
 }

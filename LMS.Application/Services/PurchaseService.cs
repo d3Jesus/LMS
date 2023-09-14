@@ -16,15 +16,15 @@ namespace LMS.Application.Services
 
         public PurchaseService(IPurchaseRepository repository) => _repository = repository;
 
-        public async Task<ServiceResponse<bool>> AddAsync(AddPurchaseDto purchase)
+        public async Task<ServiceResponse<GetPurchaseDto>> AddAsync(int librarianId, List<AddPurchaseItemsDto> items)
         {
-            var serviceResponse = new ServiceResponse<bool>();
+            var serviceResponse = new ServiceResponse<GetPurchaseDto>();
             try
             {
-                var newPurchase = purchase.Adapt<Purchase>();
-                var newPurchaseitems = purchase.items.Adapt<List<PurchaseItems>>();
-                var response = await _repository.CreateAsync(newPurchase, newPurchaseitems);
+                var purchaseitems = items.Adapt<List<PurchaseItems>>();
+                var response = await _repository.CreateAsync(librarianId, purchaseitems);
 
+                serviceResponse.ResponseData = response.Adapt<GetPurchaseDto>();
                 serviceResponse.Message = $"Purchase successfully registed!";
             }
             catch (Exception ex)
@@ -38,5 +38,23 @@ namespace LMS.Application.Services
 
         public async Task<PagedList<GetPurchaseResponse>> GetAsync(GetPurchaseRequest request) 
             => await _repository.GetAsync(request);
+
+        public async Task<ServiceResponse<GetPurchaseDto>> GetAsync(int purchaseId)
+        {
+            var serviceResponse = new ServiceResponse<GetPurchaseDto>();
+            try
+            {
+                var response = await _repository.GetAsync(purchaseId);
+
+                serviceResponse.ResponseData = response.Adapt<GetPurchaseDto>();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Succeeded = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }
