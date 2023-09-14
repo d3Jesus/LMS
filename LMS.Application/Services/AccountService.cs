@@ -1,8 +1,8 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.UserAccount;
-using LMS.CoreBusiness.Entities.Accounts;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests.Account;
 using Mapster;
 
 namespace LMS.Application.Services
@@ -30,7 +30,7 @@ namespace LMS.Application.Services
             var serviceResponse = new ServiceResponse<bool>();
             try
             {
-                UserRegistration newUser = model.Adapt<UserRegistration>();
+                UserRegistrationRequest newUser = model.Adapt<UserRegistrationRequest>();
                 var response = await _repository.Register(newUser);
 
                 serviceResponse.ResponseData = response;
@@ -49,7 +49,7 @@ namespace LMS.Application.Services
             var serviceResponse = new ServiceResponse<string>();
             try
             {
-                UserLogin loggin = model.Adapt<UserLogin>();
+                UserLoginRequest loggin = model.Adapt<UserLoginRequest>();
                 var response = await _repository.Login(loggin);
 
                 serviceResponse.ResponseData = response;
