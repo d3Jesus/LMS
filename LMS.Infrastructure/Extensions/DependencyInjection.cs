@@ -1,5 +1,6 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.Services;
+using LMS.CoreBusiness.Entities.Accounts;
 using LMS.CoreBusiness.Interfaces;
 using LMS.CoreBusiness.UnitsOfWork;
 using LMS.Infrastructure.Data;
@@ -26,7 +27,7 @@ namespace LMS.Infrastructure.Extensions
             services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(
                 Environment.GetEnvironmentVariable(environmentVariable)));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<AspNetUsers, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<UsersDbContext>()
                     .AddDefaultTokenProviders();

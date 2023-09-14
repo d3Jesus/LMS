@@ -1,28 +1,27 @@
 ﻿using LMS.CoreBusiness.Entities.Accounts;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests.Account;
 using LMS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
 
 namespace LMS.Infrastructure.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AspNetUsers> _userManager;
         private readonly RoleManager<IdentityRole> _role;
         private readonly UsersDbContext _context;
         private readonly IConfiguration _configuration;
 
         public AccountRepository(
-            UserManager<IdentityUser> userManager,
+            UserManager<AspNetUsers> userManager,
             RoleManager<IdentityRole> role,
             UsersDbContext context,
             IConfiguration configuration)
@@ -44,22 +43,23 @@ namespace LMS.Infrastructure.Repositories
                         .ToListAsync();
         }
 
-        public async Task<string> Login(UserLogin account)
+        public async Task<string> Login(UserLoginRequest account)
         {
-            string tokenString = string.Empty;
             bool result = await AuthenticateUser(account.Email, account.Password);
 
             if (result)
             {
-                // create JWT
-                var user = await _userManager.FindByEmailAsync(account.Email);
+                var user = _context.Users.Where(x => x.Email.Equals(account.Email)).FirstOrDefault();
+
                 var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
-                GenerateToken(out tokenString, user, userRole);
+                GenerateToken(out string tokenString, user, userRole);
 
                 Log.Information($"User {account.Email} logged in.");
+
+                return tokenString;
             }
 
-            return tokenString;
+            return "Invalid credentials.";
         }
 
         private async Task<bool> AuthenticateUser(string email, string password)
@@ -73,7 +73,7 @@ namespace LMS.Infrastructure.Repositories
             return true;
         }
 
-        private void GenerateToken(out string tokenString, IdentityUser user, string role)
+        private void GenerateToken(out string tokenString, AspNetUsers user, string role)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtKeys:Secret").Value));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -87,14 +87,14 @@ namespace LMS.Infrastructure.Repositories
             tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         }
 
-        private List<Claim> CreateClaims(IdentityUser user, string role)
+        private List<Claim> CreateClaims(AspNetUsers user, string role)
         {
             try
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.LibrarianId.ToString()),
+                    new Claim(ClaimTypes.Name, string.Concat(user.Librarian.FirstName, " ", user.Librarian.LastName)),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, role)
                 };
@@ -107,7 +107,7 @@ namespace LMS.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> Register(UserRegistration account)
+        public async Task<bool> Register(UserRegistrationRequest account)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -115,7 +115,7 @@ namespace LMS.Infrastructure.Repositories
                 if (userExists is not null)
                     return false;
 
-                IdentityUser user = new()
+                AspNetUsers user = new()
                 {
                     UserName = account.Username,
                     Email = account.Email,
