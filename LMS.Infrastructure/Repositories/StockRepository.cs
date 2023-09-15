@@ -44,7 +44,12 @@ namespace LMS.Infrastructure.Repositories
         {
             try
             {
-                _context.Entry(stock).State = EntityState.Modified;
+                Stock existingStock = await GetAsync(stock.BookId);
+                if (existingStock is not null)
+                {
+                    existingStock.NumberOfCopies -= stock.NumberOfCopies;
+                    _context.Entry(existingStock).State = EntityState.Modified;
+                }
             }
             catch (Exception ex)
             {
