@@ -52,6 +52,7 @@ public class AcquisitionService : IAcquisitionService
         }
         catch
         {
+            _unitOfWork.RollbackTransaction();
             return new ServiceResponse<GetAcquisitionDto>
             {
                 Succeeded = false,
