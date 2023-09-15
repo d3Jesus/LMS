@@ -17,8 +17,6 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<Purchase> CreateAsync(int librarianId, List<PurchaseItems> items)
         {
-            using var transaction = _context.Database.BeginTransaction();
-
             try
             {
                 Purchase purchase = new()
@@ -28,8 +26,8 @@ namespace LMS.Infrastructure.Repositories
                     PurchaseItems = items
                 };
 
-                _context.Purchases.Add(purchase);
-                await _context.SaveChangesAsync();
+                await _context.Purchases.AddAsync(purchase);
+                // await _context.SaveChangesAsync();
 
                 return purchase;
             }
