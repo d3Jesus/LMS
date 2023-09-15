@@ -1,4 +1,6 @@
 ﻿using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
 
 namespace LMS.CoreBusiness.Interfaces;
 
@@ -28,8 +30,8 @@ public interface ILibrarianRepository
     /// <summary>
     /// Retrieve all librarians.
     /// </summary>
-    /// <param name="wasDeleted">Specifies if should retrieve deleted librarians or not. </param>
-    Task<IEnumerable<Librarian>> GetAsync(bool wasDeleted);
+    /// <param name="request">Request paramenters</param>
+    Task<PagedList<Librarian>> GetAsync(ResourceRequest request);
 
     /// <summary>
     /// Get librarian by the given ID
@@ -37,11 +39,4 @@ public interface ILibrarianRepository
     /// <param name="id">Librarian Id</param>
     /// <returns>Librarian with given ID</returns>
     Task<Librarian> GetAsync(int id);
-
-    /// <summary>
-    /// Retrieve librarians with the given name.
-    /// </summary>
-    /// <param name="name">Librarian name.</param>
-    /// <returns>List of librarians with given name.</returns>
-    Task<IEnumerable<Librarian>> GetAsync(string name);
 }

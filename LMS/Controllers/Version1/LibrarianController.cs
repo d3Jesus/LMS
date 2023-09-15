@@ -1,5 +1,7 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels.Librarian;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS.API.Controllers.Version1
@@ -11,11 +13,12 @@ namespace LMS.API.Controllers.Version1
         private readonly ILibrarianService _service;
         public LibrarianController(ILibrarianService service) => _service = service;
 
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetLibrarianDto>))]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}/{searchTerm?}/{sortColumn?}/{sortOrder?}/{wasDeleted?}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetLibrarianDto>))]
+        public async Task<IActionResult> Get(int currentPage, int pageSize, string? searchTerm = "", string? sortColumn = "id", string? sortOrder = "desc", bool wasDeleted = false)
         {
-            return Ok(await _service.GetAsync(false));
+            ResourceRequest request = new(currentPage, pageSize, searchTerm, sortColumn, sortOrder, wasDeleted);
+            return Ok(await _service.GetAsync(request));
         }
 
         [HttpGet("{id:int}")]

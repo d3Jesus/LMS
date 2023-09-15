@@ -1,5 +1,8 @@
 ﻿using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Librarian;
+using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
 
 namespace LMS.Application.Interfaces
 {
@@ -29,8 +32,8 @@ namespace LMS.Application.Interfaces
         /// <summary>
         /// Retrieve all librarians.
         /// </summary>
-        /// <param name="wasDeleted">Specifies if should retrieve deleted librarians or not. </param>
-        Task<ServiceResponse<IEnumerable<GetLibrarianDto>>> GetAsync(bool wasDeleted);
+        /// <param name="request">Request parameters.</param>
+        Task<PagedList<Librarian>> GetAsync(ResourceRequest request);
 
         /// <summary>
         /// Get librarian by the given ID
@@ -38,12 +41,5 @@ namespace LMS.Application.Interfaces
         /// <param name="id">Librarian Id</param>
         /// <returns>Librarian with given ID</returns>
         Task<ServiceResponse<GetLibrarianDto>> GetByAsync(int id);
-
-        /// <summary>
-        /// Retrieve librarians with the given name.
-        /// </summary>
-        /// <param name="name">Librarian name.</param>
-        /// <returns>List of librarians with given name.</returns>
-        Task<ServiceResponse<GetLibrarianDto>> GetByAsync(string name);
     }
 }

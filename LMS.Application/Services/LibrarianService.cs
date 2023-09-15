@@ -2,7 +2,9 @@
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Librarian;
 using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests;
 using Mapster;
 
 namespace LMS.Application.Services
@@ -53,17 +55,8 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetLibrarianDto>>> GetAsync(bool wasDeleted)
-        {
-            var result = await _repository.GetAsync(wasDeleted);
-
-            var serviceResponse = new ServiceResponse<IEnumerable<GetLibrarianDto>>()
-            {
-                ResponseData = result.Adapt<IEnumerable<GetLibrarianDto>>()
-            };
-
-            return serviceResponse;
-        }
+        public async Task<PagedList<Librarian>> GetAsync(ResourceRequest request)
+            => await _repository.GetAsync(request);
 
         public async Task<ServiceResponse<GetLibrarianDto>> GetByAsync(int id)
         {
@@ -73,22 +66,6 @@ namespace LMS.Application.Services
             if (result is null)
             {
                 serviceResponse.Message = $"Librarian with ID {id} not found!";
-                serviceResponse.Succeeded = false;
-            }
-
-            serviceResponse.ResponseData = result.Adapt<GetLibrarianDto>();
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetLibrarianDto>> GetByAsync(string name)
-        {
-            var result = await _repository.GetAsync(name);
-
-            var serviceResponse = new ServiceResponse<GetLibrarianDto>();
-            if (result is null)
-            {
-                serviceResponse.Message = $"Librarian with name {name} not found!";
                 serviceResponse.Succeeded = false;
             }
 
