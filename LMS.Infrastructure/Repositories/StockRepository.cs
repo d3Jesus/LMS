@@ -35,7 +35,7 @@ namespace LMS.Infrastructure.Repositories
         }
 
         public async Task<Stock> GetAsync(int bookId) 
-            => await _context.Stocks.FindAsync(bookId);
+            => await _context.Stocks.Where(x => x.BookId == bookId).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<Stock>> GetAsync() 
             => await _context.Stocks.Include(st => st.Book).ToListAsync();
