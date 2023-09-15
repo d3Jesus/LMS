@@ -1,4 +1,7 @@
 ﻿using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 
 namespace LMS.CoreBusiness.Interfaces
 {
@@ -26,11 +29,11 @@ namespace LMS.CoreBusiness.Interfaces
         Task<bool> DeleteAsync(int id);
 
         /// <summary>
-        /// Retrieve all authors.
+        /// Retrieve authors with pagination and sort functionalities.
         /// </summary>
-        /// <param name="wasDeleted">Specifies if should retrieve deleted authors or not. </param>
+        /// <param name="request">Request paramenters </param>
         /// <returns>List of authors</returns>
-        Task<IEnumerable<Author>> GetAsync(bool wasDeleted);
+        Task<PagedList<GetAuthorsResponse>> GetAsync(GetAuthorsRequest request);
 
         /// <summary>
         /// Get author by the given ID

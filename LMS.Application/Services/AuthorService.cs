@@ -2,7 +2,10 @@
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Author;
 using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 using Mapster;
 
 namespace LMS.Application.Services
@@ -52,17 +55,8 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted = false)
-        {
-            var result = await _repository.GetAsync(wasDeleted);
-
-            var serviceResponse = new ServiceResponse<IEnumerable<GetAuthorDto>>()
-            {
-                ResponseData = result.Adapt<IEnumerable<GetAuthorDto>>()
-            };
-
-            return serviceResponse;
-        }
+        public async Task<PagedList<GetAuthorsResponse>> GetAsync(GetAuthorsRequest request) 
+            => await _repository.GetAsync(request);
 
         public async Task<ServiceResponse<GetAuthorDto>> GetByAsync(int id)
         {

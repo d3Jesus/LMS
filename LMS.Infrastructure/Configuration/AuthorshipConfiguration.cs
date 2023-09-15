@@ -12,8 +12,6 @@ namespace LMS.Infrastructure.Configuration
             builder.HasKey(p => new { p.AuthorId, p.BookId});
             builder.Property(p => p.AuthorId).IsRequired().HasMaxLength(50);
             builder.Property(p => p.BookId).IsRequired().HasMaxLength(50);
-            builder.Ignore(p => p.Book);
-            builder.Ignore(p => p.Author);
         }
     }
 }

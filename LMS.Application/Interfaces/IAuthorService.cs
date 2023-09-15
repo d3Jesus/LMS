@@ -1,5 +1,8 @@
 ﻿using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Author;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 
 namespace LMS.Application.Interfaces
 {
@@ -27,11 +30,11 @@ namespace LMS.Application.Interfaces
         Task<ServiceResponse<bool>> DeleteAsync(int id);
 
         /// <summary>
-        /// Retrieve all authors.
+        /// Retrieve authors with pagination and sort functionalities.
         /// </summary>
-        /// <param name="wasDeleted">Specifies if should retrive deleted authors or not. </param>
+        /// <param name="request">Request paramenters</param>
         /// <returns>List of authors</returns>
-        Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetAsync(bool wasDeleted = false);
+        Task<PagedList<GetAuthorsResponse>> GetAsync(GetAuthorsRequest request);
 
         /// <summary>
         /// Get author by the given ID

@@ -2,13 +2,7 @@
 {
     public class Author : Person
     {
-        private string _nationality;
-
-        public string Nationality
-        {
-            get { return _nationality; }
-            set { _nationality = value; }
-        }
+        public string Nationality { get; set; }
         
         public virtual ICollection<Authorship> Authorships { get; set; }
     }

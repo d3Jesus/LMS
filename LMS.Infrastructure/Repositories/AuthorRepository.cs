@@ -1,8 +1,13 @@
 ﻿using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
+using LMS.CoreBusiness.Responses.Book;
 using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Linq.Expressions;
 
 namespace LMS.Infrastructure.Repositories
 {
@@ -48,8 +53,43 @@ namespace LMS.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Author>> GetAsync(bool wasDeleted) 
-            => await _context.Authors.Where(auth => auth.WasDeleted == wasDeleted).ToListAsync();
+        public async Task<PagedList<GetAuthorsResponse>> GetAsync(GetAuthorsRequest request)
+        {
+            IQueryable<GetAuthorsResponse> authorsQuery = _context.Authors
+                                                           .Where(prc => prc.WasDeleted == request.WasDeleted)
+                                                           .Include(prc => prc.Authorships)
+                                                           .ThenInclude(authorship => authorship.Book)
+                                                           .Select(x => new GetAuthorsResponse()
+                                                           {
+                                                               Id = x.Id,
+                                                               FirstName = x.FirstName,
+                                                               LastName = x.LastName,
+                                                               Nationality = x.Nationality,
+                                                               Books = x.Authorships.Select(y => new GetBookResumeResponse
+                                                               { 
+                                                                   Id = y.Book.Id,
+                                                                   Title = y.Book.Title,
+                                                                   Description = y.Book.Description
+                                                               }).ToList()
+                                                           });
+
+            authorsQuery = request.SortOrder.ToLower().Equals("desc") ?
+                                authorsQuery.OrderByDescending(GetSortProperty(request.SortColumn)) :
+                                authorsQuery.OrderBy(GetSortProperty(request.SortColumn));
+
+            int totalCount = await authorsQuery.CountAsync();
+            var authorsList = await authorsQuery
+                                                .Skip((request.CurrentPage - 1) * request.PageSize)
+                                                .Take(request.PageSize).ToListAsync();
+
+            var authorsPaged = PagedList<GetAuthorsResponse>.CreateAsync(authorsList,
+                                                                  request.CurrentPage,
+                                                                  request.PageSize,
+                                                                  totalCount);
+
+            return authorsPaged;
+
+        }
 
         public async Task<Author> GetByAsync(int id) 
             => await _context.Authors.FindAsync(id);
@@ -76,6 +116,17 @@ namespace LMS.Infrastructure.Repositories
                 return null;
             }
             
+        }
+
+        private static Expression<Func<GetAuthorsResponse, object>> GetSortProperty(string sortColumn)
+        {
+            return sortColumn.ToLower() switch
+            {
+                "first_name" => author => author.FirstName,
+                "last_name" => author => author.LastName,
+                "nationality" => author => author.Nationality,
+                _ => author => author.Id
+            };
         }
     }
 }

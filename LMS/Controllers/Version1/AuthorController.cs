@@ -1,5 +1,8 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels.Author;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +20,13 @@ namespace LMS.API.Controllers.Version1
         /// Retrieve all authors
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetAuthorDto>))]
-        public async Task<IActionResult> GetAll() 
-            => Ok(await _service.GetAsync(false));
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&deleted={wasDeleted}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
+        public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn, string sortOrder, bool wasDeleted)
+        {
+            GetAuthorsRequest request = new(currentPage, pageSize, sortColumn, sortOrder, wasDeleted);
+            return Ok(await _service.GetAsync(request));
+        }
 
         /// <summary>
         /// Get author by the given ID
