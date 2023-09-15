@@ -41,19 +41,5 @@ namespace LMS.CoreBusiness.Interfaces
         /// <param name="id">Author Id</param>
         /// <returns>Author with given ID</returns>
         Task<Author> GetByAsync(int id);
-
-        /// <summary>
-        /// Retrieve authors with the given name.
-        /// </summary>
-        /// <param name="name">Author name.</param>
-        /// <returns>List of authors with given name.</returns>
-        Task<IEnumerable<Author>> GetByAsync(string name);
-
-        /// <summary>
-        /// Retrieve authors with the given nationality.
-        /// </summary>
-        /// <param name="name">Author name.</param>
-        /// <returns>List of authors with given nationality.</returns>
-        Task<Author> GetByNationalityAsync(string nationality);
     }
 }

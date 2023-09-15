@@ -16,35 +16,11 @@ namespace LMS.API.Controllers.Version1
         private readonly IAuthorService _service;
         public AuthorController(IAuthorService service) => _service = service;
 
-        [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&deleted={wasDeleted}")]
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}/{searchTerm?}/{sortColumn?}/{sortOrder?}/{wasDeleted?}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
-        public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn, string sortOrder, bool wasDeleted)
+        public async Task<IActionResult> Get(int currentPage, int pageSize, string? searchTerm = "", string? sortColumn = "id", string? sortOrder = "desc", bool wasDeleted = false)
         {
-            GetAuthorsRequest request = new(currentPage, pageSize, sortColumn, sortOrder, wasDeleted);
-            return Ok(await _service.GetAsync(request));
-        }
-
-        [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
-        public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn, string sortOrder)
-        {
-            GetAuthorsRequest request = new(currentPage, pageSize, sortColumn, sortOrder);
-            return Ok(await _service.GetAsync(request));
-        }
-
-        [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
-        public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn)
-        {
-            GetAuthorsRequest request = new(currentPage, pageSize, sortColumn);
-            return Ok(await _service.GetAsync(request));
-        }
-
-        [HttpGet("currentPage={currentPage}&pageSize={pageSize}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
-        public async Task<IActionResult> Get(int currentPage, int pageSize)
-        {
-            GetAuthorsRequest request = new(currentPage, pageSize);
+            GetAuthorsRequest request = new(currentPage, pageSize, searchTerm, sortColumn, sortOrder, wasDeleted);
             return Ok(await _service.GetAsync(request));
         }
 
@@ -65,31 +41,6 @@ namespace LMS.API.Controllers.Version1
 
             return response.ResponseData is null ? NotFound() : Ok(response);
         }
-
-        /// <summary>
-        /// Retrieve authors with the given name.
-        /// </summary>
-        /// <param name="name">Author name.</param>
-        /// <returns></returns>
-        [HttpGet("getByName/{name:alpha}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetAuthorDto>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByName(string name)
-        {
-            var response = await _service.GetByAsync(name);
-
-            return response.ResponseData is null ? NotFound() : Ok(response);
-        }
-
-        /// <summary>
-        /// Retrieve authors with given nationality.
-        /// </summary>
-        /// <param name="nationality"></param>
-        /// <returns></returns>
-        [HttpGet("{nationality}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetAuthorDto>))]
-        public async Task<IActionResult> GetByNationality(string nationality) 
-            => Ok(await _service.GetByNationalityAsync(nationality));
 
         /// <summary>
         /// Create a new author

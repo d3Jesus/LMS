@@ -56,7 +56,9 @@ namespace LMS.Infrastructure.Repositories
         public async Task<PagedList<GetAuthorsResponse>> GetAsync(GetAuthorsRequest request)
         {
             IQueryable<GetAuthorsResponse> authorsQuery = _context.Authors
-                                                           .Where(prc => prc.WasDeleted == request.WasDeleted)
+                                                           .Where(prc => prc.WasDeleted == request.WasDeleted && 
+                                                                (prc.FirstName.Contains(request.SearchTerm) || prc.LastName.Contains(request.SearchTerm) ||
+                                                                prc.Nationality.Contains(request.SearchTerm)))
                                                            .Include(prc => prc.Authorships)
                                                            .ThenInclude(authorship => authorship.Book)
                                                            .Select(x => new GetAuthorsResponse()
@@ -93,12 +95,6 @@ namespace LMS.Infrastructure.Repositories
 
         public async Task<Author> GetByAsync(int id) 
             => await _context.Authors.FindAsync(id);
-
-        public async Task<IEnumerable<Author>> GetByAsync(string name)
-            => await _context.Authors.Where(c => c.FirstName == name || c.LastName == name).ToListAsync();
-
-        public async Task<Author> GetByNationalityAsync(string nationality)
-            => await _context.Authors.Where(c => c.Nationality == nationality).FirstOrDefaultAsync();
 
         public async Task<Author> UpdateAsync(Author author)
         {

@@ -42,20 +42,6 @@ namespace LMS.Application.Interfaces
         /// <param name="id">Author Id</param>
         /// <returns>Author with given ID</returns>
         Task<ServiceResponse<GetAuthorDto>> GetByAsync(int id);
-
-        /// <summary>
-        /// Retrieve authors with the given name.
-        /// </summary>
-        /// <param name="name">Author name.</param>
-        /// <returns>List of authors with given name.</returns>
-        Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetByAsync(string name);
-
-        /// <summary>
-        /// Retrieve authors with the given nationality.
-        /// </summary>
-        /// <param name="name">Author name.</param>
-        /// <returns>List of authors with given nationality.</returns>
-        Task<ServiceResponse<GetAuthorDto>> GetByNationalityAsync(string nationality);
                 
     }
 }

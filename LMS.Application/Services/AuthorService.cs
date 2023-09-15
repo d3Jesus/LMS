@@ -74,38 +74,6 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetAuthorDto>>> GetByAsync(string name)
-        {
-            var result = await _repository.GetByAsync(name);
-
-            var serviceResponse = new ServiceResponse<IEnumerable<GetAuthorDto>>();
-            if (result is null)
-            {
-                serviceResponse.Message = $"Author with name {name} not found!";
-                serviceResponse.Succeeded = false;
-            }
-
-            serviceResponse.ResponseData = result.Adapt<IEnumerable<GetAuthorDto>>();
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetAuthorDto>> GetByNationalityAsync(string nationality)
-        {
-            var result = await _repository.GetByAsync(nationality);
-
-            var serviceResponse = new ServiceResponse<GetAuthorDto>();
-            if (result is null)
-            {
-                serviceResponse.Message = $"Authors with nationality {nationality} not found!";
-                serviceResponse.Succeeded = false;
-            }
-
-            serviceResponse.ResponseData = result.Adapt<GetAuthorDto>();
-
-            return serviceResponse;
-        }
-
         public async Task<ServiceResponse<GetAuthorDto>> UpdateAsync(UpdateAuthorDto model)
         {
             var serviceResponse = new ServiceResponse<GetAuthorDto>();
