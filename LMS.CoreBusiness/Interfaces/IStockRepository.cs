@@ -6,7 +6,7 @@ namespace LMS.CoreBusiness.Interfaces
     {
         Task AddOrUpdateAsync(Stock stock);
 
-        void Outbound(Stock stock);
+        Task Outbound(Stock stock);
 
         Task<Stock> GetAsync(int bookId);
 
