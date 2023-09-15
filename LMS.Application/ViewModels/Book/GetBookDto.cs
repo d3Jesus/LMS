@@ -1,68 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using LMS.Application.ViewModels.Author;
+﻿using LMS.Application.ViewModels.Author;
 using LMS.Application.ViewModels.Category;
 
 namespace LMS.Application.ViewModels.Book
 {
     public class GetBookDto
     {
-        private int _id;
-        private string _title;
-        private string _description;
-        private int _edition;
-        private string _isbn;
-        private int _categoryId;
-        private string _imageUrl;
-        private DateTime _dateCreated;
         public virtual GetCategoryDto Category { get; set; }
         public virtual List<GetAuthorDto> ListOfAuthors { get; set; }
 
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public int Id { get; set; }
 
-        public string Title
-        {
-            get { return _title; }
-            set { _title = value; }
-        }
+        public string Title { get; set; }
 
-        public string Description
-        {
-            get { return _description; }
-            set { _description = value; }
-        }
+        public string Description { get; set; }
 
-        public int Edition
-        {
-            get { return _edition; }
-            set { _edition = value; }
-        }
+        public int Edition { get; set; }
 
-        public string ISBN
-        {
-            get { return _isbn; }
-            set { _isbn = value; }
-        }
+        public string ISBN { get; set; }
 
-        public int CategoryId
-        {
-            get { return _categoryId; }
-            set { _categoryId = value; }
-        }
+        public int CategoryId { get; set; }
 
-        public string ImageUrl
-        {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
-        }
+        public string ImageUrl { get; set; }
 
-        public DateTime DateCreated
-        {
-            get { return _dateCreated; }
-            set { _dateCreated = value; }
-        }
+        public DateTime DateCreated { get; set; }
     }
 }
