@@ -1,4 +1,7 @@
 ﻿using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 
 namespace LMS.CoreBusiness.Interfaces
 {
@@ -29,7 +32,7 @@ namespace LMS.CoreBusiness.Interfaces
         /// Get category by the given ID
         /// </summary>
         /// <returns>Category with given ID</returns>
-        Task<IEnumerable<Category>> GetAsync();
+        Task<PagedList<GetCategoryResponse>> GetAsync(ResourceRequest request);
 
         /// <summary>
         /// Retrieve categorys with the given name.

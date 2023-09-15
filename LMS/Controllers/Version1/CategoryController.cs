@@ -1,5 +1,6 @@
 ﻿using LMS.Application.Interfaces;
 using LMS.Application.ViewModels.Category;
+using LMS.CoreBusiness.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,13 @@ namespace LMS.API.Controllers.Version1
 
         public CategoryController(ICategoryService categoryService) => _service = categoryService;
 
-        [HttpGet]
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}/{searchTerm?}/{sortColumn?}/{sortOrder?}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetCategoryDto>))]
-        public async Task<IActionResult> GetAll() 
-            => Ok(await _service.GetAsync());
+        public async Task<IActionResult> Get(int currentPage, int pageSize, string? searchTerm = "", string? sortColumn = "id", string? sortOrder = "desc")
+        {
+            ResourceRequest request = new(currentPage, pageSize, searchTerm, sortColumn, sortOrder);
+            return Ok(await _service.GetAsync(request));
+        }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(GetCategoryDto))]

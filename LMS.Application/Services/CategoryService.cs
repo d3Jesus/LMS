@@ -2,7 +2,10 @@
 using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Category;
 using LMS.CoreBusiness.Entities;
+using LMS.CoreBusiness.Helpers;
 using LMS.CoreBusiness.Interfaces;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 using Mapster;
 
 namespace LMS.Application.Services
@@ -54,17 +57,8 @@ namespace LMS.Application.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<GetCategoryDto>>> GetAsync()
-        {
-            var result = await _repository.GetAsync();
-
-            var serviceResponse = new ServiceResponse<IEnumerable<GetCategoryDto>>()
-            {
-                ResponseData = result.Adapt<IEnumerable<GetCategoryDto>>()
-            };
-
-            return serviceResponse;
-        }
+        public async Task<PagedList<GetCategoryResponse>> GetAsync(ResourceRequest request) 
+            => await _repository.GetAsync(request);
 
         public async Task<ServiceResponse<GetCategoryDto>> GetByAsync(int id)
         {

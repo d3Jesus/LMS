@@ -1,5 +1,8 @@
 ﻿using LMS.Application.ViewModels;
 using LMS.Application.ViewModels.Category;
+using LMS.CoreBusiness.Helpers;
+using LMS.CoreBusiness.Requests;
+using LMS.CoreBusiness.Responses;
 
 namespace LMS.Application.Interfaces
 {
@@ -30,7 +33,7 @@ namespace LMS.Application.Interfaces
         /// Get category by the given ID
         /// </summary>
         /// <returns>Category with given ID</returns>
-        Task<ServiceResponse<IEnumerable<GetCategoryDto>>> GetAsync();
+        Task<PagedList<GetCategoryResponse>> GetAsync(ResourceRequest request);
 
         /// <summary>
         /// Retrieve categorys with the given name.
