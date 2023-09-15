@@ -65,6 +65,7 @@ namespace LMS.Infrastructure.Extensions
         public static IServiceCollection AddUnitsOfWork(this IServiceCollection services)
         {
             services.AddScoped<IAcquisitionUnitOfWork, AcquisitionUnitOfWork>();
+            services.AddScoped<IPurchaseUnitOfWork, PurchaseUnitOfWork>();
             return services;
         }
 
