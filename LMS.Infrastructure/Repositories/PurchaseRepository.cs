@@ -48,16 +48,17 @@ namespace LMS.Infrastructure.Repositories
                                                                LibrarianId = x.LibrarianId,
                                                                DatePurchased = x.DatePurchased,
                                                                TotalPayed = x.TotalPayed
-                                                           })
-                                                          .Skip((request.CurrentPage - 1) * request.PageSize)
-                                                          .Take(request.PageSize);
+                                                           });
 
             purchasesQuery = request.SortOrder.ToLower().Equals("desc") ?
                                 purchasesQuery.OrderByDescending(GetSortProperty(request.SortColumn)) :
                                 purchasesQuery.OrderBy(GetSortProperty(request.SortColumn));
 
             int totalCount = await purchasesQuery.CountAsync();
-            var purchaseList = await purchasesQuery.ToListAsync();
+            var purchaseList = await purchasesQuery
+                                                   .Skip((request.CurrentPage - 1) * request.PageSize)
+                                                   .Take(request.PageSize)
+                                                   .ToListAsync();
 
             var purchasesPaged = PagedList<GetPurchaseResponse>.CreateAsync(purchaseList,
                                                                   request.CurrentPage,
