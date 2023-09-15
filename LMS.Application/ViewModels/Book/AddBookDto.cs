@@ -25,9 +25,4 @@ public record AddBookDto
     [Required(ErrorMessage = "The book's title is required.")]
     [StringLength(50, ErrorMessage = "This field only allows {1} characters.")]
     public string ImageUrl { get; set; }
-
-    [Required(ErrorMessage = "The book's price is required.")]
-    public decimal Price { get; set; }
-
-    public int CopiesAvailable { get; set; } = 0;
 }

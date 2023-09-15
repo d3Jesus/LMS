@@ -20,12 +20,6 @@ public class Book
 
     public DateTime DateCreated { get; set; }
 
-    public decimal Price { get; set; }
-
-    public string Status { get; set; } = "Available";
-
-    public int CopiesAvailable { get; set; }
-
     public virtual ICollection<Authorship> Authorships { get; set; }
     public virtual ICollection<PurchaseItems> PurchaseItems { get; set; }
 }

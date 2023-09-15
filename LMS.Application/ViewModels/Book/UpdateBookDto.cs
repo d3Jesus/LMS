@@ -27,12 +27,4 @@ public class UpdateBookDto
     [Required(ErrorMessage = "The book's title is required.")]
     [StringLength(50, ErrorMessage = "This field only allows {1} characters.")]
     public string ImageUrl { get; set; }
-
-    [Required(ErrorMessage = "The book's price is required.")]
-    public decimal Price { get; set; }
-
-    [Required(ErrorMessage = "The book's status is required.")]
-    public string Status { get; set; }
-
-    public int CopiesAvailable { get; set; } = 0;
 }

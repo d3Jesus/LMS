@@ -44,9 +44,6 @@ namespace LMS.Infrastructure.Repositories
                 existingBook.ISBN = book.ISBN;
                 existingBook.CategoryId = book.CategoryId;
                 existingBook.ImageUrl = book.ImageUrl;
-                existingBook.Price = book.Price;
-                existingBook.Status = book.Status;
-                existingBook.CopiesAvailable = book.CopiesAvailable;
 
                 _context.Entry(existingBook).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -75,8 +72,7 @@ namespace LMS.Infrastructure.Repositories
                 Log.Error(ex, ex.Message);
 
                 return false;
-            }
-            
+            }            
         }
 
         public async Task<Book> GetByAsync(int id)
