@@ -16,15 +16,35 @@ namespace LMS.API.Controllers.Version1
         private readonly IAuthorService _service;
         public AuthorController(IAuthorService service) => _service = service;
 
-        /// <summary>
-        /// Retrieve all authors
-        /// </summary>
-        /// <returns></returns>
         [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}&deleted={wasDeleted}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
         public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn, string sortOrder, bool wasDeleted)
         {
             GetAuthorsRequest request = new(currentPage, pageSize, sortColumn, sortOrder, wasDeleted);
+            return Ok(await _service.GetAsync(request));
+        }
+
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}&sortOrder={sortOrder}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
+        public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn, string sortOrder)
+        {
+            GetAuthorsRequest request = new(currentPage, pageSize, sortColumn, sortOrder);
+            return Ok(await _service.GetAsync(request));
+        }
+
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}&sortColumn={sortColumn}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
+        public async Task<IActionResult> Get(int currentPage, int pageSize, string sortColumn)
+        {
+            GetAuthorsRequest request = new(currentPage, pageSize, sortColumn);
+            return Ok(await _service.GetAsync(request));
+        }
+
+        [HttpGet("currentPage={currentPage}&pageSize={pageSize}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<GetAuthorsResponse>))]
+        public async Task<IActionResult> Get(int currentPage, int pageSize)
+        {
+            GetAuthorsRequest request = new(currentPage, pageSize);
             return Ok(await _service.GetAsync(request));
         }
 
