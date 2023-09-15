@@ -72,7 +72,7 @@ namespace LMS.API.Controllers.Version1
 
             var response = await _service.AddAsync(Convert.ToInt32(librarianId), items);
 
-            return response.Succeeded ? CreatedAtAction(nameof(Get), new { purchaseId = response.ResponseData.Id }) : BadRequest(response.Message);
+            return response.Succeeded ? CreatedAtAction(nameof(Get), new { purchaseId = response.ResponseData.Id }, response.ResponseData) : BadRequest(response.Message);
         }
     }
 }
