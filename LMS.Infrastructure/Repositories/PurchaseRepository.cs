@@ -27,7 +27,6 @@ namespace LMS.Infrastructure.Repositories
                 };
 
                 await _context.Purchases.AddAsync(purchase);
-                // await _context.SaveChangesAsync();
 
                 return purchase;
             }

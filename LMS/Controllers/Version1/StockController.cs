@@ -2,7 +2,7 @@
 using LMS.Application.ViewModels.Stock;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LMS.API.Controllers
+namespace LMS.API.Controllers.Version1
 {
     [Route("api/v1/stocks")]
     [ApiController]
