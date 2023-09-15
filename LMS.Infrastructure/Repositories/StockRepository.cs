@@ -40,7 +40,7 @@ namespace LMS.Infrastructure.Repositories
         public async Task<IEnumerable<Stock>> GetAsync() 
             => await _context.Stocks.Include(st => st.Book).ToListAsync();
 
-        public void Outbound(Stock stock)
+        public async Task Outbound(Stock stock)
         {
             try
             {
